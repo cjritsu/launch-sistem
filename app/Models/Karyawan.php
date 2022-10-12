@@ -11,7 +11,7 @@ class Karyawan extends Model
     use HasFactory;
     public function User()
     {
-        return $this->hasMany('App\Models\User');
+        return $this->belongsTo('App\Models\User');
     }
 
     public function Pengajuan_Cuti()

@@ -40,7 +40,7 @@
                                     </span>
                                 @endif
                             </div>
-                            <div class="input-group{{ $errors->has('password') ? ' has-danger' : '' }} col-md-4">
+                            {{-- <div class="input-group{{ $errors->has('password') ? ' has-danger' : '' }} col-md-4">
                                 <input name="password" type="password" class="form-control" placeholder="Password" required value="{{ $user->password }}">
                                 @if ($errors->has('password'))
                                     <span class="invalid-feedback" style="display: block;" role="alert">
@@ -55,7 +55,7 @@
                                         <strong>{{ $errors->first('password_confirmation') }}</strong>
                                     </span>
                                 @endif
-                            </div>
+                            </div> --}}
                             <div class="input-group col-md-4">
                                 {!! Form::select('roles', $roles, $user->roles ?? old('roles'), ['class'=>'form-control']) !!}
                             </div>

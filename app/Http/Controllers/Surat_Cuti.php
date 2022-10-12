@@ -10,8 +10,8 @@ use App\Models\User;
 use App\Models\Karyawan;
 use App\Models\status_cuti;
 use lluminate\Auth\SessionGuard;
-use Carbon\Carbon;
 use DB;
+use Haruncpi\LaravelIdGenerator\IdGenerator;
 
 class Surat_Cuti extends Controller
 {
@@ -41,8 +41,13 @@ class Surat_Cuti extends Controller
         return redirect()->route('surat_cuti.index')->with('success', 'Pengajuan Cuti Berhasil');
     }
 
-    public function show(Pengajuan_Cuti $pengajuan_cuti) {
-        return view('surat_cuti.show', compact('pengajuan_cuti'));
+    public function show(Pengajuan_Cuti $pengajuan_cuti, $id) {
+        $pengajuan_cuti = DB::select('select * from pengajuan__cutis where id = ?', [$id]);
+        $data['user_name'] = User::find(auth()->user()->id);
+        $data['user_id'] = User::pluck('name', 'id')->prepend('Silakan Pilih Pegawai');
+        $data['jenis_cuti_id'] = Jenis_cuti::pluck('name', 'id')->prepend('Silakan Pilih Jenis Cuti');
+        $data['status_id'] = status_cuti::pluck('name', 'id');
+        return view('surat_cuti.show', compact('pengajuan_cuti'), $data);
     }
 
     public function edit(Pengajuan_Cuti $pengajuan_cuti, $id) {

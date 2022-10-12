@@ -38,20 +38,19 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                        {{-- @foreach ($users as $users)
+                                        @foreach ($karyawans as $karyawans)
                                             <tr>
                                                 <td></td>
-                                                <td>{{ $users->nip }}</td>
-                                                <td>{{ $users->name }}</td>
-                                                <td>{{ $users->email }}</td>
-                                                <td>
-                                                    @if(!empty($users->getRoleNames()))
-                                                    @foreach($users->getRoleNames() as $v)
-                                                        <label class="badge badge-success">{{ $v }}</label>
-                                                    @endforeach
-                                                    @endif
-                                                </td>
-                                                <td>
+                                                <td>{{ $karyawans->User->nip }}</td>
+                                                <td>{{ $karyawans->User->name }}</td>
+                                                <td>{{ $karyawans->jenis_kelamin }}</td>
+                                                <td>{{ $karyawans->tanggal_lahir }}</td>
+                                                <td>{{ $karyawans->no_telp }}</td>
+                                                <td>{{ $karyawans->alamat }}</td>
+                                                <td>{{ $karyawans->Departemen->name }}</td>
+                                                <td>{{ $karyawans->Unit_Kerja->name }}</td>
+                                                <td>{{ $karyawans->status_karyawan->name }}</td>
+                                                {{-- <td>
                                                     <a href="user/{{ $users->id }}/edit" type="button" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i>Edit</a>
                                                     @component('partials.delete_form')
                                                         @slot('route')
@@ -61,9 +60,9 @@
                                                             {{ $users->id }}
                                                         @endslot
                                                     @endcomponent
-                                                </td>
+                                                </td> --}}
                                             </tr>
-                                        @endforeach --}}
+                                        @endforeach
                                 </tbody>
                             </table>
                         </div>

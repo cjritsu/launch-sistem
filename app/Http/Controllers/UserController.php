@@ -22,6 +22,7 @@ class UserController extends Controller
     public function index(User $model)
     {
         $users = User::all();
+
         return view('users.index', compact('users'));
     }
 
@@ -62,13 +63,13 @@ class UserController extends Controller
 
     public function update(UserRequest $request, $id)
     {
-        $request->validate ([
-            'nip' => ['required', 'string', 'unique:users'],
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', 'unique:users'],
-            'password' => ['same:confirm-password'],
-            'roles' => ['required'],
-        ]);
+        // $request->validate ([
+        //     'nip' => ['required', 'string', 'unique:users'],
+        //     'name' => ['required', 'string', 'max:255'],
+        //     'email' => ['required', 'email', 'unique:users'],
+        //     'password' => ['same:confirm-password'],
+        //     'roles' => ['required'],
+        // ]);
 
         $user = User::find($id);
         $user->update($request->all());

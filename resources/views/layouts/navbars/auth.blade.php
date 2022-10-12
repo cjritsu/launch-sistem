@@ -67,22 +67,16 @@
                     </ul>
                 </div>
             </li>
-            {{-- <li class="{{ $elementActive == 'icons' ? 'active' : '' }}">
-                <a href="{{ route('page.index', 'icons') }}">
-                    <i class="nc-icon nc-diamond"></i>
-                    <p>{{ __('Icons') }}</p>
+            {{-- <li class="{{ $elementActive == 'history' ? 'active' : '' }}">
+                <a href="{{ route('page.index', 'history') }}">
+                    <i class="nc-icon nc-bell-55"></i>
+                    <p>{{ __('History') }}</p>
                 </a>
-            </li>
-            <li class="{{ $elementActive == 'map' ? 'active' : '' }}">
+            </li> --}}
+            {{-- <li class="{{ $elementActive == 'map' ? 'active' : '' }}">
                 <a href="{{ route('page.index', 'map') }}">
                     <i class="nc-icon nc-pin-3"></i>
                     <p>{{ __('Maps') }}</p>
-                </a>
-            </li>
-            <li class="{{ $elementActive == 'notifications' ? 'active' : '' }}">
-                <a href="{{ route('page.index', 'notifications') }}">
-                    <i class="nc-icon nc-bell-55"></i>
-                    <p>{{ __('Notifications') }}</p>
                 </a>
             </li>
             <li class="{{ $elementActive == 'tables' ? 'active' : '' }}">

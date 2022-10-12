@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\QrCodeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,7 +28,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('profile', ['as' => 'profile.edit', 'uses' => 'App\Http\Controllers\ProfileController@edit']);
 	Route::put('profile', ['as' => 'profile.update', 'uses' => 'App\Http\Controllers\ProfileController@update']);
 	Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'App\Http\Controllers\ProfileController@password']);
-    Route::resource('surat_cuti', 'App\Http\Controllers\Surat_Cuti', ['except' => ['show']]);
+    Route::resource('surat_cuti', 'App\Http\Controllers\Surat_Cuti');
     Route::resource('karyawan', 'App\Http\Controllers\KaryawanController', ['except' => ['show']]);
 });
 

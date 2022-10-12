@@ -20,6 +20,7 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+
     public $timestamps = false;
     protected $fillable = [
         'name',
@@ -54,7 +55,7 @@ class User extends Authenticatable
 
     public function Karyawan()
     {
-        return $this->belongsTo('App\Models\Karyawan');
+        return $this->hasMany('App\Models\Karyawan');
     }
 
     public function Pengajuan_Cuti()

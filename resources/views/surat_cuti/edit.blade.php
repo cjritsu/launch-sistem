@@ -40,13 +40,13 @@
                             <div class="form-group">
                                 {{ Form::label('tanggal_mulai', 'Tanggal Mulai &nbsp;', ['class'=>'control-label col-md-2']) }}
                                 <div class="col-md-4">
-                                    {{ Form::text('tanggal_mulai', $pengajuan_cuti[0]->tanggal_mulai ?? null, ['class'=>'form-control']) }}
+                                    {{ Form::date('tanggal_mulai', $pengajuan_cuti[0]->tanggal_mulai ?? null, ['class'=>'form-control']) }}
                                 </div>
                             </div>
                             <div class="form-group">
                                 {{ Form::label('tanggal_akhir', 'Tanggal Selesai &nbsp;', ['class'=>'control-label col-md-2']) }}
                                 <div class="col-md-4">
-                                    {{ Form::text('tanggal_akhir', $pengajuan_cuti[0]->tanggal_akhir ?? null, ['class'=>'form-control']) }}
+                                    {{ Form::date('tanggal_akhir', $pengajuan_cuti[0]->tanggal_akhir ?? null, ['class'=>'form-control']) }}
                                 </div>
                             </div>
                             <div class="form-group">

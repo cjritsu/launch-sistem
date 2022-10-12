@@ -69,10 +69,8 @@ class RoleAndPermissionSeeder extends Seeder
         $hrdRole->givePermissionTo([
             'create-profile',
             'edit-profile',
-            'delete-profile',
             'create-surat',
             'edit-surat',
-            'delete-surat',
             'validasi-surat',
         ]);
     }
