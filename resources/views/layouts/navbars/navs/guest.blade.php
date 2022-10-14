@@ -8,7 +8,9 @@
                     <span class="navbar-toggler-bar bar3"></span>
                 </button>
             </div>
-            <a class="navbar-brand" href="#pablo">{{ __('Sistem Informasi Surat UBD') }}</a>
+            <a class="navbar-brand" href="#">
+                <img src="{{ asset('paper') }}/img/logo-small-ubd.png" width="83" height="84" class="d-inline-block" alt="">
+                {{ __('Sistem Informasi Surat UBD') }}</a>
         </div>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-bar navbar-kebab"></span>

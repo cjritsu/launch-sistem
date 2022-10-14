@@ -21,9 +21,11 @@ return new class extends Migration
             $table->date('tanggal_mulai');
             $table->date('tanggal_akhir');
             $table->string('keterangan');
+            $table->integer('valid_kp')->default('0');
+            $table->integer('valid_hrd')->default('0');
+            $table->integer('valid_rek')->default('0');
             $table->unsignedBigInteger('status_id')->default('1');
             $table->timestamps();
-
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('jenis_cuti_id')->references('id')->on('jenis_cutis')->onDelete('cascade');
             $table->foreign('status_id')->references('id')->on('status_cutis')->onDelete('cascade');

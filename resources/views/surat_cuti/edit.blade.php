@@ -16,18 +16,11 @@
                         <form method="POST" action="/surat_cuti/{{ $pengajuan_cuti[0]->id }}" class="form-horizontal">
                             @method('put')
                             @csrf
-                            @if (auth()->user()->roles_id == 1)
+                            @if (auth()->user()->HasRole('Admin'))
                             <div class="form-group">
                                 {{ Form::label('user_id', 'Nama Pegawai &nbsp;', ['class'=>'control-label col-md-2']) }}
                                 <div class="col-md-4">
                                         {!! Form::select('user_id', $user_id, $pengajuan_cuti[0]->user_id ?? old('user_id'), ['class'=>'form-control']) !!}
-                                </div>
-                            </div>
-                            @else
-                            <div class="form-group">
-                                {{ Form::label('user_id', 'Nama Pegawai &nbsp;', ['class'=>'control-label col-md-2', 'hidden']) }}
-                                <div class="col-md-4">
-                                        {!! Form::text('user_id', $pengajuan_cuti[0]->user_id, ['class' => 'form-control', 'readonly', 'hidden']) !!}
                                 </div>
                             </div>
                             @endif
@@ -55,18 +48,39 @@
                                     {{ Form::text('keterangan', $pengajuan_cuti[0]->keterangan ?? null, ['class'=>'form-control']) }}
                                 </div>
                             </div>
-                            <div class="form-group">
-                                {{ Form::label('status_cuti', 'Status Cuti &nbsp;', ['class'=>'control-label col-md-2']) }}
-                                @if (auth()->user()->roles_id == 1 || auth()->user()->roles_id == 3)
+                            @can('validasi-surat')
+                                <div class="form-group">
+                                    <label class="form-check-label col-md-2" style="font-size: 15px;">
+                                        <span class="form-check-sign"></span>
+                                            {{ __('Kepala Unit') }}
+                                    </label>
+                                    <input class="form-check-input col-md-2" name="valid_kp" type="checkbox" id="valid_kp" onclick="checkBoxEvent()">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-check-label col-md-2" style="font-size: 15px;">
+                                        <span class="form-check-sign"></span>
+                                            {{ __('HRD') }}
+                                    </label>
+                                    <input class="form-check-input col-md-2" name="valid_hrd" type="checkbox" id="valid_hrd" onclick="checkBoxEvent()">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-check-label col-md-2" style="font-size: 15px;">
+                                        <span class="form-check-sign"></span>
+                                            {{ __('Rektorat') }}
+                                    </label>
+                                    <input class="form-check-input col-md-2" name="valid_rektorat" type="checkbox" id="valid_rektorat" onclick="checkBoxEvent()">
+                                </div>
+                                <div class="form-group">
+                                    {{ Form::label('status_cuti', 'Status Cuti &nbsp;', ['class'=>'control-label col-md-2']) }}
+                                    @if ($pengajuan_cuti[0]->valid_kp == 1 && $pengajuan_cuti[0]->valid_hrd == 1 && $pengajuan_cuti[0]->valid_rek == 1)
+
+                                    @elseif ()
                                     <div class="col-md-4">
-                                        {!! Form::select('status_id', $status_id, $pengajuan_cuti[0]->status_id ?? old('status_id'), ['class'=>'form-control']) !!}
+                                        {!! Form::select('status_id', $status_id, $pengajuan_cuti[0]->status_id ?? old('status_id'), ['class'=>'form-control', 'disabled', 'id'=>'status_id']) !!}
                                     </div>
-                                @else
-                                    <div class="col-md-4">
-                                        {!! Form::select('status_id', $status_id, $pengajuan_cuti[0]->status_id ?? old('status_id'), ['class'=>'form-control', 'disabled' => 'true']) !!}
-                                    </div>
-                                @endif
-                            </div>
+
+                                </div>
+                            @endcan
                             @include('validation_error')
                             <div class="form-group">
                                 <div class="col-sm-offset-2 col-sm-10">
@@ -83,6 +97,17 @@
 
 @push('scripts')
     <script>
+        function checkBoxEvent() {
+            document.getElementById('status_id').setAttribute('disabled', 'disabled');
+            var kp = document.getElementById('valid_kp');
+            var hrd = document.getElementById('valid_hrd');
+            var rektor = document.getElementById('valid_rektorat');
+            if (kp.checked == true && hrd.checked == true && rektor.checked == true) {
+                document.getElementById('status_id').removeAttribute('disabled');
+            } else {
+
+            }
+        }
         function SelectText(element) {
             var doc = document,
                 text = element,

@@ -1,6 +1,6 @@
 @extends('layouts.app', [
     'class' => 'login-page',
-    'backgroundImagePath' => 'img/bg/universitas-buddhi-dharma.jpg'
+    'backgroundImagePath' => 'public/paper/img/bg/universitas-buddhi-dharma.jpg'
 ])
 
 @section('content')

@@ -35,12 +35,14 @@
         {{ Form::text('keterangan', $Pengajuan_Cuti->keterangan ?? null, ['placeholder'=>'Training','class'=>'form-control']) }}
     </div>
 </div>
-<div class="form-group">
-    {{ Form::label('status_cuti', 'Status Cuti &nbsp;', ['class'=>'control-label col-md-2']) }}
-    <div class="col-md-4">
-        {{ Form::select('status_id', $status_id, $Pengajuan_cuti->status_id ?? old('status_id'), ['class'=>'form-control', 'disabled' => 'true']) }}
+@can('validasi-surat')
+    <div class="form-group">
+        {{ Form::label('status_cuti', 'Status Cuti &nbsp;', ['class'=>'control-label col-md-2']) }}
+        <div class="col-md-4">
+            {{ Form::select('status_id', $status_id, $Pengajuan_cuti->status_id ?? old('status_id'), ['class'=>'form-control', 'disabled' => 'true']) }}
+        </div>
     </div>
-</div>
+@endcan
 <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
         {{ Form::submit('Save Data',['class'=>'btn btn-success']) }}
