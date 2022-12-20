@@ -16,34 +16,96 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm-6">
-                                <a href="{{ route('surat_cuti.create') }}" type="button" class="btn btn-success btn-sm"><i class="glyphicon glyphicon-plus"></i> Tambah Pengajuan Cuti</a>
+                                @if (auth()->user()->jatah_cuti == 0 || auth()->user()->jatah_cuti <= 0)
+
+                                @else
+                                    <a href="{{ route('surat_cuti.create') }}" type="button" class="btn btn-success btn-sm"><i class="glyphicon glyphicon-plus"></i> Tambah Pengajuan Cuti</a>
+                                @endif
                             </div>
                         </div>
                         <br/>
                         <table class="table table-striped table-hover">
-                            @if (auth()->user()->HasRole('Admin'))
+                            @if (auth()->user()->HasRole('Staff'))
                                 <thead>
                                     <tr>
-                                        <th>#</th>
-                                        <th>Nama Pegawai</th>
+                                        <th>Tanggal Pengajuan</th>
                                         <th>Jenis Cuti</th>
-                                        <th>Tanggal Mulai</th>
-                                        <th>Tanggal Selesai</th>
+                                        <th>Tanggal Pengambilan Cuti</th>
+                                        <th>Tanggal Masuk Kembali</th>
                                         <th>Keterangan</th>
+                                        <th>Hari Terpakai</th>
                                         <th>Status</th>
                                         <th colspan="2">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($pengajuanCutis as $pengajuanCutis)
+                                    @foreach ($pengajuanCuti as $pengajuanCutis)
+                                        @if (auth()->user()->id == $pengajuanCutis->user_id)
+                                            <tr>
+                                                <td>{{ $pengajuanCutis->created_at }}</td>
+                                                <td>{{ $pengajuanCutis->Jenis_cuti->name }}</td>
+                                                <td>{{ \Carbon\Carbon::parse($pengajuanCutis->tanggal_mulai)->isoFormat('D MMMM Y') }} {{' — '}} {{ \Carbon\Carbon::parse($pengajuanCutis->tanggal_akhir)->isoFormat('D MMMM Y') }}</td>
+                                                <td>{{ \Carbon\Carbon::parse($pengajuanCutis->tanggal_masuk)->isoFormat('D MMMM Y') }}</td>
+                                                <td>{{ $pengajuanCutis->keterangan }}</td>
+                                                <td class="text-center">{{ $pengajuanCutis->num_days }}</td>
+                                                @if ($pengajuanCutis->status_kp == '2' && $pengajuanCutis->status_hrd == '2' && $pengajuanCutis->status_rek == '2')
+                                                    <td><span class="badge badge-success">{{ 'Diterima' }}</span></td>
+                                                @elseif ($pengajuanCutis->status_kp == '3' || $pengajuanCutis->status_hrd == '3' || $pengajuanCutis->status_rek == '3')
+                                                    <td><span class="badge badge-danger">{{ 'Ditolak' }}</span></td>
+                                                @else
+                                                    <td><span class="badge badge-warning">{{ 'Pending' }}</span></td>
+                                                @endif
+                                                <td>
+                                                    <div class="btn-group btn-group-sm" role="group">
+                                                        <a href="surat_cuti/{{ $pengajuanCutis->id }}" type="button" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a> &nbsp;
+                                                        @can('edit-surat')
+                                                            @if ($pengajuanCutis->status_kp != '1')
+
+                                                            @else
+                                                                <a href="surat_cuti/{{ $pengajuanCutis->id }}/edit" type="button" class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o"></i></a> &nbsp;
+                                                            @endif
+                                                        @endcan
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @endif
+                                    @endforeach
+                                </tbody>
+                            @else
+                                <thead>
+                                    <tr>
+                                        <th>NIP</th>
+                                        <th>Nama Pegawai</th>
+                                        <th>Unit</th>
+                                        <th>Jenis Cuti</th>
+                                        <th>Tanggal Mulai</th>
+                                        <th>Tanggal Selesai</th>
+                                        <th>Tanggal Masuk Kembali</th>
+                                        <th>Keterangan</th>
+                                        <th>Days</th>
+                                        <th>Status</th>
+                                        <th colspan="2">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($pengajuanCuti as $pengajuanCutis)
                                         <tr>
                                             <td>{{ $pengajuanCutis->User->nip }}</td>
                                             <td>{{ $pengajuanCutis->User->name }}</td>
+                                            <td>{{ $pengajuanCutis->Unit_Kerja->name }}</td>
                                             <td>{{ $pengajuanCutis->Jenis_cuti->name }}</td>
-                                            <td>{{ $pengajuanCutis->tanggal_mulai }}</td>
-                                            <td>{{ $pengajuanCutis->tanggal_akhir }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($pengajuanCutis->tanggal_mulai)->isoFormat('D MMMM Y') }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($pengajuanCutis->tanggal_akhir)->isoFormat('D MMMM Y') }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($pengajuanCutis->tanggal_masuk)->isoFormat('D MMMM Y') }}</td>
                                             <td>{{ $pengajuanCutis->keterangan }}</td>
-                                            <td>{{ $pengajuanCutis->status_cuti->name}}</td>
+                                            <td>{{ $pengajuanCutis->num_days }}</td>
+                                            @if ($pengajuanCutis->status_kp == '2' && $pengajuanCutis->status_hrd == '2' && $pengajuanCutis->status_rek == '2')
+                                                    <td><span class="badge badge-success">{{ 'Diterima' }}</span></td>
+                                            @elseif ($pengajuanCutis->status_kp == '3' || $pengajuanCutis->status_hrd == '3' || $pengajuanCutis->status_rek == '3')
+                                                <td><span class="badge badge-danger">{{ 'Ditolak' }}</span></td>
+                                            @else
+                                                <td><span class="badge badge-warning">{{ 'Pending' }}</span></td>
+                                            @endif
                                             <td>
                                                 <div class="dropdown text-center">
                                                     <a class="dropdown-button" id="dropdown-menu-{{ $pengajuanCutis->id }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -63,36 +125,6 @@
                                         </tr>
                                     @endforeach
                                 </tbody>
-                            @else
-                                <thead>
-                                    <tr>
-                                        <th>Tanggal Pengajuan</th>
-                                        <th>Jenis Cuti</th>
-                                        <th>Tanggal Mulai</th>
-                                        <th>Tanggal Selesai</th>
-                                        <th>Keterangan</th>
-                                        <th>Status</th>
-                                        <th colspan="2">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($pengajuanCutis as $pengajuanCutis)
-                                        <tr>
-                                            <td>{{ $pengajuanCutis->created_at }}</td>
-                                            <td>{{ $pengajuanCutis->Jenis_cuti->name }}</td>
-                                            <td>{{ $pengajuanCutis->tanggal_mulai }}</td>
-                                            <td>{{ $pengajuanCutis->tanggal_akhir }}</td>
-                                            <td>{{ $pengajuanCutis->keterangan }}</td>
-                                            <td>{{ $pengajuanCutis->status_cuti->name}}</td>
-                                            <td>
-                                                <a href="surat_cuti/{{ $pengajuanCutis->id }}" type="button" class="btn btn-info"><i class="glyphicon glyphicon-plus"></i>View</a> &nbsp;
-                                                @can('edit-surat')
-                                                    <a href="surat_cuti/{{ $pengajuanCutis->id }}/edit" type="button" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i>Edit</a> &nbsp;
-                                                @endcan
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
                             @endif
                         </table>
                     </div>
@@ -104,9 +136,6 @@
 
 @push('scripts')
     <script>
-        $('#tanggal_mulai').datepicker({
-            uiLibrary: 'bootstrap4'
-        });
         function SelectText(element) {
             var doc = document,
                 text = element,

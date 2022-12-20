@@ -29,12 +29,12 @@ class UserRequest extends FormRequest
             'name' => [
                 'required', 'min:3'
             ],
-            'email' => [
-                'required', 'email', Rule::unique((new User)->getTable())->ignore($this->route()->user->id ?? null)
-            ],
-            'nip' => [
-                'required', Rule::unique((new User)->getTable())->ignore($this->route()->user->id ?? null)
-            ],
+            // 'email' => [
+            //     'required', 'email', Rule::unique((new User)->getTable())->ignore($this->route()->user->id ?? null)
+            // ],
+            // 'nip' => [
+            //     'required', 'string', Rule::unique((new User)->getTable())->ignore($this->route()->user->id ?? null)
+            // ],
             'password' => [
                 $this->route()->user ? 'nullable' : 'required', 'confirmed', 'min:3'
             ]

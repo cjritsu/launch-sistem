@@ -16,7 +16,7 @@ class StatusKaryawanSeeder extends Seeder
     public function run()
     {
         DB::table('status_karyawans')->insert([
-            'name'=>'Karyawan Biasa'
+            'name'=>'Karyawan Kontrak'
         ]);
 
         DB::table('status_karyawans')->insert([
@@ -24,7 +24,7 @@ class StatusKaryawanSeeder extends Seeder
         ]);
 
         DB::table('status_karyawans')->insert([
-            'name'=>'Inactive'
+            'name'=>'Keluar'
         ]);
     }
 }

@@ -15,13 +15,13 @@ class StatusCutiSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('status_cutis')->insert([
+        DB::table('status_surat')->insert([
             'name' => 'Pending',
         ]);
-        DB::table('status_cutis')->insert([
+        DB::table('status_surat')->insert([
             'name' => 'Diterima',
         ]);
-        DB::table('status_cutis')->insert([
+        DB::table('status_surat')->insert([
             'name' => 'Ditolak',
         ]);
     }

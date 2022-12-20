@@ -30,15 +30,15 @@
                         </div>
                         <p class="description text-center">
                             NIP : {{ __(auth()->user()->nip) }}
-                            @foreach ($Karyawans as $Karyawans)
-                                <br>Departemen : {{ __($Karyawans->Departemen->name)}}
-                                <br>Unit Kerja : {{ __($Karyawans->Unit_Kerja->name)}}
-                                <br>Sisa Jatah Cuti : {{ __('12')}}
+                            @foreach ($karyawans as $karyawans)
+                                <br>Unit Kerja : {{ __($karyawans->Unit_Kerja->name)}}
+                                <br>Sisa Jatah Cuti : {{ __(auth()->user()->jatah_cuti)}}
                             @endforeach
                         </p>
                     </div>
                 </div>
             </div>
+
             <div class="col-md-8 text-center">
                 <form class="col-md-12" action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
                     @csrf
@@ -48,19 +48,6 @@
                             <h5 class="title">{{ __('Edit Profile') }}</h5>
                         </div>
                         <div class="card-body">
-                            <div class="row">
-                                <label class="col-md-3 col-form-label">{{ __('Name') }}</label>
-                                <div class="col-md-9">
-                                    <div class="form-group">
-                                        <input type="text" name="name" class="form-control" placeholder="Name" value="{{ auth()->user()->name }}" required>
-                                    </div>
-                                    @if ($errors->has('name'))
-                                        <span class="invalid-feedback" style="display: block;" role="alert">
-                                            <strong>{{ $errors->first('name') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
-                            </div>
                             <div class="row">
                                 <label class="col-md-3 col-form-label">{{ __('NIP') }}</label>
                                 <div class="col-md-9">
@@ -72,6 +59,67 @@
                                             <strong>{{ $errors->first('nip') }}</strong>
                                         </span>
                                     @endif
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-md-3 col-form-label">{{ __('Name') }}</label>
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <input type="text" name="name" class="form-control" placeholder="Name" value="{{ auth()->user()->name }}">
+                                    </div>
+                                    @if ($errors->has('name'))
+                                        <span class="invalid-feedback" style="display: block;" role="alert">
+                                            <strong>{{ $errors->first('name') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-md-3 col-form-label">{{ __('Email') }}</label>
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <input type="email" name="email" class="form-control" placeholder="Email" value="{{ auth()->user()->email }}">
+                                    </div>
+                                    @if ($errors->has('email'))
+                                        <span class="invalid-feedback" style="display: block;" role="alert">
+                                            <strong>{{ $errors->first('email') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-md-3 col-form-label">{{ __('Agama') }}</label>
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <input type="text" name="agama" class="form-control" placeholder="Agama" value="{{ $karyawans->agama }}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-md-3 col-form-label">{{ __('Tempat, Tanggal Lahir') }}</label>
+                                <div class="form-row col-md-9">
+                                    <div class="col-md-4">
+                                        <input type="text" name="tmpt_l" class="form-control" placeholder="Tempat Lahir" value="{{ $karyawans->tempat_lahir }}">
+                                    </div>
+                                    <div class="col-md-5">
+                                        <input type="date" name="tgl_l" class="form-control" placeholder="Tanggal Lahir" value="{{ $karyawans->tanggal_lahir }}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-md-3 col-form-label">{{ __('No. Telepon') }}</label>
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <input type="text" name="no_hp" class="form-control" placeholder="No.Telp/No.HP" value="{{ $karyawans->no_telp }}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-md-3 col-form-label">{{ __('Alamat') }}</label>
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <input type="text" name="alamat" class="form-control" placeholder="Alamat" value="{{ $karyawans->alamat }}">
+                                    </div>
                                 </div>
                             </div>
                         </div>

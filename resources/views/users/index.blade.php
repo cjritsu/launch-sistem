@@ -159,18 +159,22 @@ The above copyright notice and this permission notice shall be included in all c
                                                 <span class="sidebar-normal">{{ __(' User Profile ') }}</span>
                                             </a>
                                         </li>
-                                        <li class="active">
-                                            <a href="{{ route('page.index', 'user') }}">
-                                                <span class="sidebar-mini-icon">{{ __('U') }}</span>
-                                                <span class="sidebar-normal">{{ __(' User Management ') }}</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="{{ route('page.index', 'karyawan') }}">
-                                                <span class="sidebar-mini-icon">{{ __('P') }}</span>
-                                                <span class="sidebar-normal">{{ __(' Profile Management ') }}</span>
-                                            </a>
-                                        </li>
+                                        @can('create-users')
+                                            <li class="active">
+                                                <a href="{{ route('page.index', 'user') }}">
+                                                    <span class="sidebar-mini-icon">{{ __('U') }}</span>
+                                                    <span class="sidebar-normal">{{ __(' User Management ') }}</span>
+                                                </a>
+                                            </li>
+                                        @endcan
+                                        @can('create-profile')
+                                            <li>
+                                                <a href="{{ route('page.index', 'karyawan') }}">
+                                                    <span class="sidebar-mini-icon">{{ __('P') }}</span>
+                                                    <span class="sidebar-normal">{{ __(' Profile Management ') }}</span>
+                                                </a>
+                                            </li>
+                                        @endcan
                                     </ul>
                                 </div>
                             </li>
@@ -184,45 +188,84 @@ The above copyright notice and this permission notice shall be included in all c
                                 </a>
                                 <div class="collapse" id="PengajuanSurat">
                                     <ul class="nav">
+                                        <li>
+                                            @can('validasi-surat')
+                                                <a href="{{ route('page.index', 'history') }}">
+                                                    <span class="sidebar-mini-icon nc-icon nc-paper"></span>
+                                                    <span class="sidebar-normal">{{ __(' Riwayat Surat ') }}</span>
+                                                </a>
+                                            @endcan
+                                        </li>
                                         <li >
                                             <a href="{{ route('page.index', 'surat_cuti') }}">
                                                 <span class="sidebar-mini-icon nc-icon nc-paper"></span>
                                                 <span class="sidebar-normal">{{ __(' Surat Cuti ') }}</span>
                                             </a>
                                         </li>
+                                        <li>
+                                            <a href="{{ route('page.index', 'surat_izin') }}">
+                                                <span class="sidebar-mini-icon nc-icon nc-paper"></span>
+                                                <span class="sidebar-normal">{{ __(' Surat Izin ') }}</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('page.index', 'surat_absen') }}">
+                                                <span class="sidebar-mini-icon nc-icon nc-paper"></span>
+                                                <span class="sidebar-normal">{{ __(' Surat Absen ') }}</span>
+                                            </a>
+                                        </li>
                                     </ul>
                                 </div>
                             </li>
-                            {{-- <li >
-                                <a href="{{ route('page.index', 'icons') }}">
-                                    <i class="nc-icon nc-diamond"></i>
-                                    <p>{{ __('Icons') }}</p>
-                                </a>
-                            </li>
-                            <li >
-                                <a href="{{ route('page.index', 'map') }}">
-                                    <i class="nc-icon nc-pin-3"></i>
-                                    <p>{{ __('Maps') }}</p>
-                                </a>
-                            </li>
-                            <li >
-                                <a href="{{ route('page.index', 'notifications') }}">
-                                    <i class="nc-icon nc-bell-55"></i>
-                                    <p>{{ __('Notifications') }}</p>
-                                </a>
-                            </li>
-                            <li >
-                                <a href="{{ route('page.index', 'tables') }}">
-                                    <i class="nc-icon nc-tile-56"></i>
-                                    <p>{{ __('Table List') }}</p>
-                                </a>
-                            </li>
-                            <li >
-                                <a href="{{ route('page.index', 'typography') }}">
-                                    <i class="nc-icon nc-caps-small"></i>
-                                    <p>{{ __('Typography') }}</p>
-                                </a>
-                            </li> --}}
+                            @can('full-access')
+                                <li>
+                                    <a data-toggle="collapse" aria-expanded="false" href="#SistemAdmin">
+                                        <i class="nc-icon nc-bell-55"></i>
+                                        <p>{{ __('Sistem Admin') }}</p>
+                                        <b class="caret"></b>
+                                    </a>
+                                    <div class="collapse" id="SistemAdmin">
+                                        <ul class="nav">
+                                            <li>
+                                                <a href="{{ route('page.index', 'jenis_cuti') }}">
+                                                    <span class="sidebar-mini-icon nc-icon nc-settings-gear-65"></span>
+                                                    <span class="sidebar-normal">{{ __(' Jenis Cuti ') }}</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="{{ route('page.index', 'jenis_izin') }}">
+                                                    <span class="sidebar-mini-icon nc-icon nc-settings-gear-65"></span>
+                                                    <span class="sidebar-normal">{{ __(' Jenis Izin ') }}</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="{{ route('page.index', 'unit') }}">
+                                                    <span class="sidebar-mini-icon nc-icon nc-settings-gear-65"></span>
+                                                    <span class="sidebar-normal">{{ __(' Unit Kerja ') }}</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="{{ route('page.index', 'jabatan') }}">
+                                                    <span class="sidebar-mini-icon nc-icon nc-settings-gear-65"></span>
+                                                    <span class="sidebar-normal">{{ __(' Jabatan ') }}</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="{{ route('page.index', 'status_karyawan') }}">
+                                                    <span class="sidebar-mini-icon nc-icon nc-settings-gear-65"></span>
+                                                    <span class="sidebar-normal">{{ __(' Status Karyawan ') }}</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="{{ route('page.index', 'roles_and_permission') }}">
+                                                    <span class="sidebar-mini-icon nc-icon nc-settings-gear-65"></span>
+                                                    <span class="sidebar-normal">{{ __(' Roles and Permission ') }}</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            @endcan
                         </ul>
                     </div>
                 </div>
@@ -246,39 +289,20 @@ The above copyright notice and this permission notice shall be included in all c
                     <span class="navbar-toggler-bar navbar-kebab"></span>
                 </button>
                 <div class="collapse navbar-collapse justify-content-end" id="navigation">
-                    <form>
-                        <div class="input-group no-border">
-                            <input type="text" value="" class="form-control" placeholder="Search...">
-                            <div class="input-group-append">
-                                <div class="input-group-text">
-                                    <i class="nc-icon nc-zoom-split"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
                     <ul class="navbar-nav">
-                        <li class="nav-item">
-                            {{-- <a class="nav-link btn-magnify" href="#pablo">
-                                <i class="nc-icon nc-layout-11"></i>
-                                <p>
-                                    <span class="d-lg-none d-md-block">{{ __('Stats') }}</span>
-                                </p>
-                            </a> --}}
-                        </li>
                         <li class="nav-item btn-rotate dropdown">
-                            {{-- <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink"
+                            <a class="nav-link dropdown-toggle" href="#notif" id="navbarDropdownMenuLink2"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="nc-icon nc-bell-55"></i>
-                                <p>
-                                    <span class="d-lg-none d-md-block">{{ __('Some Actions') }}</span>
-                                </p>
+                                <i class="nc-icon nc-bell-55"></i><span class="badge badge-light">{{ auth()->user()->unreadNotifications->count() }}</span>
                             </a>
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                                <a class="dropdown-item" href="#">{{ __('Action') }}</a>
-                                <a class="dropdown-item" href="#">{{ __('Another action') }}</a>
-                                <a class="dropdown-item" href="#">{{ __('Something else here') }}</a>
-                            </div> --}}
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink2">
+                                @foreach (auth()->user()->unreadNotifications as $notification)
+                                <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="surat_izin/{{ $notification->data['id'] }}">{{ 'Pengajuan izin ' }}<b class="text-uppercase">{{ $notification->data['surat'] }}</b> {{ ' telah diperbarui!'}}</a>
+                                @endforeach
+                            </div>
                         </li>
+                    <ul class="navbar-nav">
                         <li class="nav-item btn-rotate dropdown">
                             <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink2"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -301,7 +325,7 @@ The above copyright notice and this permission notice shall be included in all c
                 </div>
             </div>
         </nav>
-        <div class="content">
+    <div class="content">
         <div class="container-fluid mt--7">
             <div class="row">
                 <div class="col">
@@ -332,27 +356,27 @@ The above copyright notice and this permission notice shall be included in all c
                                     </tr>
                                 </thead>
                                 <tbody>
-                                        @foreach ($users as $users)
+                                        @foreach ($users as $user)
                                             <tr>
                                                 <td></td>
-                                                <td>{{ $users->nip }}</td>
-                                                <td>{{ $users->name }}</td>
-                                                <td>{{ $users->email }}</td>
+                                                <td>{{ $user->nip }}</td>
+                                                <td>{{ $user->name }}</td>
+                                                <td>{{ $user->email }}</td>
                                                 <td>
-                                                    @if(!empty($users->getRoleNames()))
-                                                      @foreach($users->getRoleNames() as $v)
+                                                    @if(!empty($user->getRoleNames()))
+                                                      @foreach($user->getRoleNames() as $v)
                                                          <label class="badge badge-success">{{ $v }}</label>
                                                       @endforeach
                                                     @endif
                                                   </td>
                                                 <td>
-                                                    <a href="user/{{ $users->id }}/edit" type="button" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i>Edit</a>
+                                                    <a href="user/{{ $user->id }}/edit" type="button" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i>Edit</a>
                                                     @component('partials.delete_form')
                                                         @slot('route')
-                                                            {{ route('user.destroy', $users,  ['id' => $users->id]) }}
+                                                            {{ route('user.destroy', $user,  ['id' => $user->id]) }}
                                                         @endslot
                                                         @slot('id')
-                                                            {{ $users->id }}
+                                                            {{ $user->id }}
                                                         @endslot
                                                     @endcomponent
                                                 </td>
@@ -360,6 +384,10 @@ The above copyright notice and this permission notice shall be included in all c
                                         @endforeach
                                 </tbody>
                             </table>
+
+                            <div class="d-flex justify-content-center">
+                                {{ $users->links() }}
+                            </div>
                         </div>
                         <div class="card-footer py-4">
                             <nav class="d-flex justify-content-end" aria-label="...">
@@ -374,28 +402,12 @@ The above copyright notice and this permission notice shall be included in all c
         <footer class="footer footer-black  footer-white ">
     <div class="container-fluid">
         <div class="row">
-            <nav class="footer-nav">
-                <ul>
-                    <li>
-                        <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a>
-                    </li>
-                    <li>
-                        <a href="https://updivision.com" target="_blank">UpDivision</a>
-                    </li>
-                    <li>
-                        <a href="http://blog.creative-tim.com/" target="_blank">Blog</a>
-                    </li>
-                    <li>
-                        <a href="https://www.creative-tim.com/license" target="_blank">Licenses</a>
-                    </li>
-                </ul>
-            </nav>
             <div class="credits ml-auto">
                 <span class="copyright">
                     ©
                     <script>
                         document.write(new Date().getFullYear())
-                    </script>2020, made with <i class="fa fa-heart heart"></i> by <a class="" href="https://www.creative-tim.com" target="_blank">Creative Tim</a> and <a class="" target="_blank" href="https://updivision.com">UPDIVISION</a>
+                    </script>{{ __(', made with ') }}<i class="fa fa-heart heart"></i>{{ __(' by BSTI ') }}
                 </span>
             </div>
         </div>
@@ -403,61 +415,6 @@ The above copyright notice and this permission notice shall be included in all c
 </footer>
 </div>
 </div>
-{{-- <div class="fixed-plugin">
-    <div class="dropdown show-dropdown">
-        <a href="#" data-toggle="dropdown">
-            <i class="fa fa-cog fa-2x"> </i>
-        </a>
-        <ul class="dropdown-menu">
-            <li class="header-title"> Sidebar Background</li>
-            <li class="adjustments-line">
-                <a href="javascript:void(0)" class="switch-trigger background-color">
-                    <div class="badge-colors text-center">
-                        <span class="badge filter badge-light active" data-color="white"></span>
-                        <span class="badge filter badge-dark" data-color="black"></span>
-                    </div>
-                    <div class="clearfix"></div>
-                </a>
-            </li>
-            <li class="header-title"> Sidebar Active Color</li>
-            <li class="adjustments-line text-center">
-                <a href="javascript:void(0)" class="switch-trigger active-color">
-                    <span class="badge filter badge-primary" data-color="primary"></span>
-                    <span class="badge filter badge-info" data-color="info"></span>
-                    <span class="badge filter badge-success" data-color="success"></span>
-                    <span class="badge filter badge-warning" data-color="warning"></span>
-                    <span class="badge filter badge-danger active" data-color="danger"></span>
-                </a>
-            </li>
-            <li class="button-container">
-                <a href="https://www.creative-tim.com/product/paper-dashboard-laravel" target="_blank" class="btn btn-primary btn-block btn-round">Download Now</a>
-            </li>
-            <li class="button-container">
-                <a href="https://paper-dashboard-laravel.creative-tim.com/docs/getting-started/laravel-setup.html" target="_blank" class="btn btn-outline-default btn-block btn-round">
-                    <i class="nc-icon nc-paper"></i> Documentation
-                </a>
-            </li>
-            <li class="header-title">
-                Want more components?
-            </li>
-            <li class="button-container">
-                <a href="https://www.creative-tim.com/product/paper-dashboard-pro-laravel" target="_blank" class="btn btn-danger btn-block btn-round">
-                    Get Pro Version
-                </a>
-            </li>
-            <li class="header-title">Thank you for 95 shares!</li>
-            <li class="button-container text-center">
-                <button id="twitter" class="btn btn-outline-default btn-round btn-sm sharrre"><i class="fa fa-twitter"></i>
-                    · 45</button>
-                <button id="facebook" class="btn btn-outline-default btn-round btn-sm sharrre"><i class="fa fa-facebook-f"></i>
-                    · 50</button>
-                <br>
-                <br>
-                <a class="github-button" href="https://github.com/creativetimofficial/paper-dashboard" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star ntkme/github-buttons on GitHub">Star</a>
-            </li>
-        </ul>
-    </div>
-</div> --}}
     <!--   Core JS Files   -->
     <script src="{{ asset('paper') }}/js/core/jquery.min.js"></script>
     {{-- <script src="{{ asset('paper') }}/js/core/popper.min.js"></script> --}}
@@ -472,7 +429,7 @@ The above copyright notice and this permission notice shall be included in all c
     <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
     <script src="{{ asset('paper') }}/js/paper-dashboard.min.js?v=2.0.0" type="text/javascript"></script>
     <!-- Paper Dashboard DEMO methods, don't include it in your project! -->
-    <script src="{{ asset('paper') }}/demo/demo.js"></script>
+    {{-- <script src="{{ asset('paper') }}/demo/demo.js"></script> --}}
     <!-- Sharrre libray -->
     <script src="{{ asset('paper') }}/demo/jquery.sharrre.js"></script>
 

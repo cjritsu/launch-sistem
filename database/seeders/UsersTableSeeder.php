@@ -4,6 +4,7 @@ namespace Database\Seeders;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use App\Models\User;
 
 class UsersTableSeeder extends Seeder
 {
@@ -14,33 +15,151 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('users')->insert([
-            'name' => 'Admin Admin',
-            'email' => 'admin@email.com',
-            'email_verified_at' => now(),
-            'nip' => 'admin',
-            'password' => Hash::make('admin'),
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-        DB::table('users')->insert([
-            'name' => 'Staff San',
-            'email' => 'staff@email.com',
-            'email_verified_at' => now(),
-            'nip' => 'staff',
-            'password' => Hash::make('staff'),
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-        DB::table('users')->insert([
-            'name' => 'HRD Sama',
-            'email' => 'hrd@email.com',
-            'email_verified_at' => now(),
-            'nip' => 'hrd',
-            'password' => Hash::make('hrd'),
-            'created_at' => now(),
-            'updated_at' => now(),
-
-        ]);
+        $user = new User(['name'=>'Admin Admin','nip'=>'admin','password'=>'admin','roles_id'=>'1','created_at'=>now()]);$user->assignRole('Admin');$user->save();
+        $user = new User(['name'=>'Amesanggeng Pataropura','nip'=>'150050','password'=>'150050','roles_id'=>'3','created_at'=>now()]);$user->assignRole('Kepala Unit');$user->save();
+        $user = new User(['name'=>'Suwitno','nip'=>'150054','password'=>'150054','roles_id'=>'3','created_at'=>now()]);$user->assignRole('Kepala Unit');$user->save();
+        $user = new User(['name'=>'Sevtian Ferdian','nip'=>'150058','password'=>'150058','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Caroline Noviany','nip'=>'200009','password'=>'200009','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Aryadewa Satyagraha','nip'=>'220001','password'=>'220001','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Giordio Rico Prasetya','nip'=>'220002','password'=>'220002','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Andika','nip'=>'220004','password'=>'220004','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Oliver Ignatius Tarunay','nip'=>'220005','password'=>'220005','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Margaretha Natalya','nip'=>'220009','password'=>'220009','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Lidya Lunardi','nip'=>'220011','password'=>'220011','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Johan Santoso','nip'=>'220016','password'=>'220016','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Christine','nip'=>'150003','password'=>'150003','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Junus Kamarga','nip'=>'170207','password'=>'170207','roles_id'=>'3','created_at'=>now()]);$user->assignRole('Kepala Unit', 'HRD');$user->save();
+        $user = new User(['name'=>'Tjong Se Fung','nip'=>'150002','password'=>'150002','roles_id'=>'5','created_at'=>now()]);$user->assignRole('HRD');$user->save();
+        $user = new User(['name'=>'Tandy Awang','nip'=>'150139','password'=>'150139','roles_id'=>'5','created_at'=>now()]);$user->assignRole('HRD');$user->save();
+        $user = new User(['name'=>'Er Lie','nip'=>'180007','password'=>'180007','roles_id'=>'5','created_at'=>now()]);$user->assignRole('HRD');$user->save();
+        $user = new User(['name'=>'Limajatini','nip'=>'150190','password'=>'150190','roles_id'=>'4','created_at'=>now()]);$user->assignRole('Rektorat');$user->save();
+        $user = new User(['name'=>'Fidellis Wato','nip'=>'150062','password'=>'150062','roles_id'=>'3','created_at'=>now()]);$user->assignRole('Kepala Unit');$user->save();
+        $user = new User(['name'=>'Suhendar Janamarta','nip'=>'150064','password'=>'150064','roles_id'=>'3','created_at'=>now()]);$user->assignRole('Kepala Unit');$user->save();
+        $user = new User(['name'=>'Devi Yanty','nip'=>'150070','password'=>'150070','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Sugandha','nip'=>'150071','password'=>'150071','roles_id'=>'3','created_at'=>now()]);$user->assignRole('Kepala Unit');$user->save();
+        $user = new User(['name'=>'Supriyadi','nip'=>'150072','password'=>'150072','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Hanafia','nip'=>'150074','password'=>'150074','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Sonny Santosa','nip'=>'150096','password'=>'150096','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Khelvin Mandala Putra','nip'=>'150115','password'=>'150115','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Susanti Aggraeni','nip'=>'150116','password'=>'150116','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Anik','nip'=>'150048','password'=>'150048','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Tracya Devi, A.','nip'=>'150075','password'=>'150075','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Hanny Pebriana','nip'=>'150078','password'=>'150078','roles_id'=>'3','created_at'=>now()]);$user->assignRole('Kepala Unit');$user->save();
+        $user = new User(['name'=>'Sima Eliana','nip'=>'150134','password'=>'150134','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Linah','nip'=>'150155','password'=>'150155','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Yuliawati Yohanda','nip'=>'150181','password'=>'150181','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Pintor Pangihutan Siahaan','nip'=>'190005','password'=>'190005','roles_id'=>'3','created_at'=>now()]);$user->assignRole('Kepala Unit');$user->save();
+        $user = new User(['name'=>'Ineh Liman','nip'=>'190012','password'=>'190012','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Sugyanto','nip'=>'150083','password'=>'150083','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Sudaddy Lawita','nip'=>'190006','password'=>'190006','roles_id'=>'3','created_at'=>now()]);$user->assignRole('Kepala Unit');$user->save();
+        $user = new User(['name'=>'Tedy','nip'=>'220013','password'=>'220013','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Agus Kusnawan','nip'=>'150025','password'=>'150025','roles_id'=>'3','created_at'=>now()]);$user->assignRole('Kepala Unit');$user->save();
+        $user = new User(['name'=>'Rr. Dian Aggraeni','nip'=>'150026','password'=>'150026','roles_id'=>'3','created_at'=>now()]);$user->assignRole('Kepala Unit');$user->save();
+        $user = new User(['name'=>'Eso Hernawan','nip'=>'150031','password'=>'150031','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Peng Wi','nip'=>'150032','password'=>'150032','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Andy','nip'=>'150033','password'=>'150033','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Susanto Wibowo','nip'=>'150036','password'=>'150036','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Rina Sulistiyowati','nip'=>'150037','password'=>'150037','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Metta Susanti','nip'=>'150038','password'=>'150038','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Triscna Juwita','nip'=>'150039','password'=>'150039','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Sutandi','nip'=>'150063','password'=>'150063','roles_id'=>'3','created_at'=>now()]);$user->assignRole('Kepala Unit');$user->save();
+        $user = new User(['name'=>'Eva Sainura','nip'=>'150066','password'=>'150066','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Selfiyan','nip'=>'150079','password'=>'150079','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Rinintha Parameswari','nip'=>'220003','password'=>'220003','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Adrallisman','nip'=>'150005','password'=>'150005','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Maria Magdalena Oy','nip'=>'150007','password'=>'150007','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Sonya Ayu Kumala','nip'=>'150008','password'=>'150008','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Riris Mutiara Paulina Simamora','nip'=>'150010','password'=>'150010','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Hot Saut Halomoan','nip'=>'150011','password'=>'150011','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Dhea Anastasia Kesmaningrum','nip'=>'150012','password'=>'150012','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Irpan Ali Rahman','nip'=>'150015','password'=>'150015','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Shenny Ayunuri Beata','nip'=>'150017','password'=>'150017','roles_id'=>'3','created_at'=>now()]);$user->assignRole('Kepala Unit');$user->save();
+        $user = new User(['name'=>'Dr Lilie Suratminto','nip'=>'150143','password'=>'150143','roles_id'=>'3','created_at'=>now()]);$user->assignRole('Kepala Unit');$user->save();
+        $user = new User(['name'=>'Frendy Dodo Chang','nip'=>'150152','password'=>'150152','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Irawati Megalita','nip'=>'150188','password'=>'150188','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Galuh Kusuma Hapsari','nip'=>'200003','password'=>'200003','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Rudy Arijanto','nip'=>'150040','password'=>'150040','roles_id'=>'3','created_at'=>now()]);$user->assignRole('Kepala Unit');$user->save();
+        $user = new User(['name'=>'Desiyana Lasut','nip'=>'150041','password'=>'150041','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Ramona Dyah Safitri','nip'=>'150042','password'=>'150042','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Edy','nip'=>'150043','password'=>'150043','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Budi Gunawan','nip'=>'150044','password'=>'150044','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Dram Renaldi','nip'=>'150049','password'=>'150049','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Rino','nip'=>'150056','password'=>'150056','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Jacob Febryadi Nithanel Dethan','nip'=>'150077','password'=>'150077','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Abidin','nip'=>'150081','password'=>'150081','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Benny Daniawan','nip'=>'150101','password'=>'150101','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Fenarly Junasan','nip'=>'150121','password'=>'150121','roles_id'=>'3','created_at'=>now()]);$user->assignRole('Kepala Unit');$user->save();
+        $user = new User(['name'=>'Yakub','nip'=>'150189','password'=>'150189','roles_id'=>'3','created_at'=>now()]);$user->assignRole('Kepala Unit');$user->save();
+        $user = new User(['name'=>'Milan Susanto','nip'=>'180001','password'=>'180001','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Hartana Wijaya','nip'=>'180014','password'=>'180014','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Ir. Amin Suyitno Dr. Eng','nip'=>'1900010','password'=>'1900010','roles_id'=>'3','created_at'=>now()]);$user->assignRole('Kepala Unit');$user->save();
+        $user = new User(['name'=>'Fajar Gumilang','nip'=>'220015','password'=>'220015','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Suhaeri','nip'=>'150118','password'=>'150118','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Mulyadi','nip'=>'150122','password'=>'150122','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Ayang','nip'=>'150133','password'=>'150133','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Rizky Komarullah','nip'=>'150129','password'=>'150129','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Eki Sukarta','nip'=>'150130','password'=>'150130','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Hendri Muldianto','nip'=>'150135','password'=>'150135','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Suhenda','nip'=>'150136','password'=>'150136','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Dika Priskiati','nip'=>'200004','password'=>'200004','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Lilis Suhaeni','nip'=>'200005','password'=>'200005','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Sabam Simbolon','nip'=>'150028','password'=>'150028','roles_id'=>'3','created_at'=>now()]);$user->assignRole('Kepala Unit');$user->save();
+        $user = new User(['name'=>'Etty Herijawati','nip'=>'150029','password'=>'150029','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Yusuf Kurnia','nip'=>'150057','password'=>'150057','roles_id'=>'3','created_at'=>now()]);$user->assignRole('Kepala Unit');$user->save();
+        $user = new User(['name'=>'Yo Ceng Giap','nip'=>'150051','password'=>'150051','roles_id'=>'3','created_at'=>now()]);$user->assignRole('Kepala Unit');$user->save();
+        $user = new User(['name'=>'Rina Aprilyanti','nip'=>'150073','password'=>'150073','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Lia Dama Yanti','nip'=>'150082','password'=>'150082','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Arolda Januar ','nip'=>'150111','password'=>'150111','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Virgin Nella','nip'=>'150113','password'=>'150113','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Iskandar','nip'=>'150086','password'=>'150086','roles_id'=>'3','created_at'=>now()]);$user->assignRole('Kepala Unit');$user->save();
+        $user = new User(['name'=>'Haryanto','nip'=>'150097','password'=>'150097','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Rohman Syaifudin','nip'=>'220008','password'=>'220008','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Fathan Zalkafi','nip'=>'220012','password'=>'220012','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Aditya Hermawan','nip'=>'150052','password'=>'150052','roles_id'=>'3','created_at'=>now()]);$user->assignRole('Kepala Unit');$user->save();
+        $user = new User(['name'=>'Ardiane Rossi Kurniawan Maranto','nip'=>'150182','password'=>'150182','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Junaedi','nip'=>'190004','password'=>'190004','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Suryadi Winata','nip'=>'150001','password'=>'150001','roles_id'=>'4','created_at'=>now()]);$user->assignRole('Rektorat');$user->save();
+        $user = new User(['name'=>'Pujiarti','nip'=>'150018','password'=>'150018','roles_id'=>'3','created_at'=>now()]);$user->assignRole('Kepala Unit');$user->save();
+        $user = new User(['name'=>'Sutrisna','nip'=>'150027','password'=>'150027','roles_id'=>'4','created_at'=>now()]);$user->assignRole('Rektorat');$user->save();
+        $user = new User(['name'=>'Ade Hadyantoro','nip'=>'150065','password'=>'150065','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Unif Riyanto','nip'=>'180011','password'=>'180011','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Mahpudin','nip'=>'150105','password'=>'150105','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Kodaryanto','nip'=>'150161','password'=>'150161','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Abdul Rahman','nip'=>'150162','password'=>'150162','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Encung','nip'=>'150164','password'=>'150164','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Edi Rochyadi','nip'=>'150165','password'=>'150165','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Alexander Kia Lerek','nip'=>'150166','password'=>'150166','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Narli Atang','nip'=>'150167','password'=>'150167','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Riswanto','nip'=>'150168','password'=>'150168','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Moh Surip','nip'=>'150169','password'=>'150169','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Saiful Ulum','nip'=>'150172','password'=>'150172','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Sri Dahlia','nip'=>'150173','password'=>'150173','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Septiyana','nip'=>'150174','password'=>'150174','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Romanus D.S.W Rewa','nip'=>'200007','password'=>'200007','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Agung Priatna','nip'=>'200010','password'=>'200010','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Riki','nip'=>'150061','password'=>'150061','roles_id'=>'3','created_at'=>now()]);$user->assignRole('Kepala Unit');$user->save();
+        $user = new User(['name'=>'Siprianus Wator','nip'=>'150085','password'=>'150085','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Hasan Daud','nip'=>'150088','password'=>'150088','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Rudy Kurnia','nip'=>'150089','password'=>'150089','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Tjin Liam','nip'=>'150090','password'=>'150090','roles_id'=>'3','created_at'=>now()]);$user->assignRole('Kepala Unit');$user->save();
+        $user = new User(['name'=>'Suryadinata','nip'=>'150093','password'=>'150093','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Tohari','nip'=>'150094','password'=>'150094','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Yanto','nip'=>'150098','password'=>'150098','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Sri Wahyuni','nip'=>'150099','password'=>'150099','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Anwar Iwan','nip'=>'150100','password'=>'150100','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Edi Wijaya','nip'=>'150102','password'=>'150102','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Siswo Marsudi','nip'=>'150103','password'=>'150103','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Marjuki','nip'=>'150104','password'=>'150104','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Alfonsius Santos N','nip'=>'150124','password'=>'150124','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Kin Siong','nip'=>'150156','password'=>'150156','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Komarudin','nip'=>'150157','password'=>'150157','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Maryanto Toto','nip'=>'150158','password'=>'150158','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Pohan Simanjuntak','nip'=>'150159','password'=>'150159','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Giandi','nip'=>'150160','password'=>'150160','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Uang Ali Rahman','nip'=>'150178','password'=>'150178','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Tohir','nip'=>'180009','password'=>'180009','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'G. Widiyanto','nip'=>'150020','password'=>'150020','roles_id'=>'3','created_at'=>now()]);$user->assignRole('Kepala Unit');$user->save();
+        $user = new User(['name'=>'Chatrine Goutama','nip'=>'150068','password'=>'150068','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Deki Sulistiyo','nip'=>'150112','password'=>'150112','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
     }
 }

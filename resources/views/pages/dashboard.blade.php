@@ -44,8 +44,8 @@
                             </div>
                             <div class="col-7 col-md-8">
                                 <div class="numbers">
-                                    <p class="card-category">Total Surat</p>
-                                    <p class="card-title">{{ $Cuti_Count }}
+                                    <p class="card-category">Pengajuan Surat</p>
+                                    <p class="card-title">{{ $Surat_Count }}
                                         <p>
                                 </div>
                             </div>
@@ -71,8 +71,7 @@
                             <div class="col-7 col-md-8">
                                 <div class="numbers">
                                     <p class="card-category">Surat Diterima</p>
-                                    <p class="card-title">{{ $Terima_Count }}
-                                        <p>
+                                    {{ $Terima_Count }}
                                 </div>
                             </div>
                         </div>
@@ -97,8 +96,7 @@
                             <div class="col-7 col-md-8">
                                 <div class="numbers">
                                     <p class="card-category">Surat Ditolak</p>
-                                    <p class="card-title">{{ $Tolak_Count }}
-                                        <p>
+                                    {{ $Tolak_Count }}
                                 </div>
                             </div>
                         </div>
@@ -116,11 +114,32 @@
             <div class="col-md-12">
                 <div class="card ">
                     <div class="card-header ">
-                        <h5 class="card-title">Users Behavior</h5>
-                        <p class="card-category">24 Hours performance</p>
+                        <h5 class="card-title">Rekapitulasi Jumlah Karyawan Cuti</h5>
+                        <div class="form-group">
+                            {!! Form::label('periode_tahun', 'Periode Tahun : ', ['class'=>'card-category']) !!}
+                            {!! Form::select('tahun', $bulan, '2022', ['class'=>'card-category']) !!}
+                        </div>
                     </div>
                     <div class="card-body ">
-                        <canvas id=chartHours width="400" height="100"></canvas>
+                        <table class="table table-hover" id="filterTable">
+                            <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">Bulan</th>
+                                <th scope="col">Tahunan</th>
+                                <th scope="col">Khusus</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($report as $month => $values)
+                                <tr>
+                                    <td>{{\Carbon\Carbon::parse($month)->format('F Y')}}</td>
+                                    @foreach ($jenis_cuti_id as $jenis_cuti_ide)
+                                        <td>{{ $report[$month][$jenis_cuti_ide]['count'] ?? '0' }}</td>
+                                    @endforeach
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                     <div class="card-footer ">
                         <hr>
@@ -181,9 +200,14 @@
 @endsection
 
 @push('scripts')
+    <script src="{{ asset('plugins/DataTables/datatables.min.js') }}"></script>
+    <script src="{{ asset('js/datatables.js') }}"></script>
     <script>
         $(document).ready(function() {
             // Javascript method's body can be found in assets/assets-for-demo/js/demo.js
+            $(document).ready( function () {
+                $('#filterTable').DataTable();
+            } );
             demo.initChartsPages();
         });
     </script>
