@@ -74,7 +74,7 @@ class KaryawanSeeder extends Seeder
         $karyawan = new Karyawan(['user_id'=>'57','unit_kerja_id'=>'9','jabatan_id'=>'38','status_karyawan_id'=>'2','created_at'=>now()]);$karyawan->save();
         $karyawan = new Karyawan(['user_id'=>'58','unit_kerja_id'=>'9','jabatan_id'=>'39','status_karyawan_id'=>'2','created_at'=>now()]);$karyawan->save();
         $karyawan = new Karyawan(['user_id'=>'59','unit_kerja_id'=>'9','jabatan_id'=>'40','status_karyawan_id'=>'2','created_at'=>now()]);$karyawan->save();
-        $karyawan = new Karyawan(['user_id'=>'60','unit_kerja_id'=>'9','jabatan_id'=>'94','status_karyawan_id'=>'2','created_at'=>now()]);$karyawan->save();
+        $karyawan = new Karyawan(['user_id'=>'60','unit_kerja_id'=>'9','jabatan_id'=>'92','status_karyawan_id'=>'2','created_at'=>now()]);$karyawan->save();
         $karyawan = new Karyawan(['user_id'=>'61','unit_kerja_id'=>'9','jabatan_id'=>'38','status_karyawan_id'=>'1','created_at'=>now()]);$karyawan->save();
         $karyawan = new Karyawan(['user_id'=>'62','unit_kerja_id'=>'9','jabatan_id'=>'35','status_karyawan_id'=>'2','created_at'=>now()]);$karyawan->save();
         $karyawan = new Karyawan(['user_id'=>'63','unit_kerja_id'=>'9','jabatan_id'=>'41','status_karyawan_id'=>'2','created_at'=>now()]);$karyawan->save();
@@ -89,7 +89,7 @@ class KaryawanSeeder extends Seeder
         $karyawan = new Karyawan(['user_id'=>'72','unit_kerja_id'=>'10','jabatan_id'=>'47','status_karyawan_id'=>'2','created_at'=>now()]);$karyawan->save();
         $karyawan = new Karyawan(['user_id'=>'73','unit_kerja_id'=>'10','jabatan_id'=>'48','status_karyawan_id'=>'2','created_at'=>now()]);$karyawan->save();
         $karyawan = new Karyawan(['user_id'=>'74','unit_kerja_id'=>'10','jabatan_id'=>'49','status_karyawan_id'=>'2','created_at'=>now()]);$karyawan->save();
-        $karyawan = new Karyawan(['user_id'=>'75','unit_kerja_id'=>'10','jabatan_id'=>'95','status_karyawan_id'=>'1','created_at'=>now()]);$karyawan->save();
+        $karyawan = new Karyawan(['user_id'=>'75','unit_kerja_id'=>'10','jabatan_id'=>'93','status_karyawan_id'=>'1','created_at'=>now()]);$karyawan->save();
         $karyawan = new Karyawan(['user_id'=>'76','unit_kerja_id'=>'10','jabatan_id'=>'43','status_karyawan_id'=>'2','created_at'=>now()]);$karyawan->save();
         $karyawan = new Karyawan(['user_id'=>'77','unit_kerja_id'=>'10','jabatan_id'=>'50','status_karyawan_id'=>'2','created_at'=>now()]);$karyawan->save();
         $karyawan = new Karyawan(['user_id'=>'78','unit_kerja_id'=>'10','jabatan_id'=>'51','status_karyawan_id'=>'1','created_at'=>now()]);$karyawan->save();

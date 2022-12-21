@@ -17,7 +17,7 @@ class UsersTableSeeder extends Seeder
     {
         $user = new User(['name'=>'Admin Admin','nip'=>'admin','password'=>'admin','roles_id'=>'1','created_at'=>now()]);$user->assignRole('Admin');$user->save();
         $user = new User(['name'=>'Amesanggeng Pataropura','nip'=>'150050','password'=>'150050','roles_id'=>'3','created_at'=>now()]);$user->assignRole('Kepala Unit');$user->save();
-        $user = new User(['name'=>'Suwitno','nip'=>'150054','password'=>'150054','roles_id'=>'3','created_at'=>now()]);$user->assignRole('Kepala Unit');$user->save();
+        $user = new User(['name'=>'Suwitno','nip'=>'150054','password'=>'150054','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
         $user = new User(['name'=>'Sevtian Ferdian','nip'=>'150058','password'=>'150058','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
         $user = new User(['name'=>'Caroline Noviany','nip'=>'200009','password'=>'200009','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
         $user = new User(['name'=>'Aryadewa Satyagraha','nip'=>'220001','password'=>'220001','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
@@ -27,16 +27,16 @@ class UsersTableSeeder extends Seeder
         $user = new User(['name'=>'Margaretha Natalya','nip'=>'220009','password'=>'220009','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
         $user = new User(['name'=>'Lidya Lunardi','nip'=>'220011','password'=>'220011','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
         $user = new User(['name'=>'Johan Santoso','nip'=>'220016','password'=>'220016','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
-        $user = new User(['name'=>'Christine','nip'=>'150003','password'=>'150003','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Christine','nip'=>'150003','password'=>'150003','roles_id'=>'5','created_at'=>now()]);$user->assignRole('HRD');$user->save();
         $user = new User(['name'=>'Junus Kamarga','nip'=>'170207','password'=>'170207','roles_id'=>'3','created_at'=>now()]);$user->assignRole('Kepala Unit', 'HRD');$user->save();
         $user = new User(['name'=>'Tjong Se Fung','nip'=>'150002','password'=>'150002','roles_id'=>'5','created_at'=>now()]);$user->assignRole('HRD');$user->save();
         $user = new User(['name'=>'Tandy Awang','nip'=>'150139','password'=>'150139','roles_id'=>'5','created_at'=>now()]);$user->assignRole('HRD');$user->save();
         $user = new User(['name'=>'Er Lie','nip'=>'180007','password'=>'180007','roles_id'=>'5','created_at'=>now()]);$user->assignRole('HRD');$user->save();
         $user = new User(['name'=>'Limajatini','nip'=>'150190','password'=>'150190','roles_id'=>'4','created_at'=>now()]);$user->assignRole('Rektorat');$user->save();
         $user = new User(['name'=>'Fidellis Wato','nip'=>'150062','password'=>'150062','roles_id'=>'3','created_at'=>now()]);$user->assignRole('Kepala Unit');$user->save();
-        $user = new User(['name'=>'Suhendar Janamarta','nip'=>'150064','password'=>'150064','roles_id'=>'3','created_at'=>now()]);$user->assignRole('Kepala Unit');$user->save();
+        $user = new User(['name'=>'Suhendar Janamarta','nip'=>'150064','password'=>'150064','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
         $user = new User(['name'=>'Devi Yanty','nip'=>'150070','password'=>'150070','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
-        $user = new User(['name'=>'Sugandha','nip'=>'150071','password'=>'150071','roles_id'=>'3','created_at'=>now()]);$user->assignRole('Kepala Unit');$user->save();
+        $user = new User(['name'=>'Sugandha','nip'=>'150071','password'=>'150071','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
         $user = new User(['name'=>'Supriyadi','nip'=>'150072','password'=>'150072','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
         $user = new User(['name'=>'Hanafia','nip'=>'150074','password'=>'150074','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
         $user = new User(['name'=>'Sonny Santosa','nip'=>'150096','password'=>'150096','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
@@ -44,7 +44,7 @@ class UsersTableSeeder extends Seeder
         $user = new User(['name'=>'Susanti Aggraeni','nip'=>'150116','password'=>'150116','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
         $user = new User(['name'=>'Anik','nip'=>'150048','password'=>'150048','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
         $user = new User(['name'=>'Tracya Devi, A.','nip'=>'150075','password'=>'150075','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
-        $user = new User(['name'=>'Hanny Pebriana','nip'=>'150078','password'=>'150078','roles_id'=>'3','created_at'=>now()]);$user->assignRole('Kepala Unit');$user->save();
+        $user = new User(['name'=>'Hanny Pebriana','nip'=>'150078','password'=>'150078','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
         $user = new User(['name'=>'Sima Eliana','nip'=>'150134','password'=>'150134','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
         $user = new User(['name'=>'Linah','nip'=>'150155','password'=>'150155','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
         $user = new User(['name'=>'Yuliawati Yohanda','nip'=>'150181','password'=>'150181','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
@@ -53,7 +53,7 @@ class UsersTableSeeder extends Seeder
         $user = new User(['name'=>'Sugyanto','nip'=>'150083','password'=>'150083','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
         $user = new User(['name'=>'Sudaddy Lawita','nip'=>'190006','password'=>'190006','roles_id'=>'3','created_at'=>now()]);$user->assignRole('Kepala Unit');$user->save();
         $user = new User(['name'=>'Tedy','nip'=>'220013','password'=>'220013','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
-        $user = new User(['name'=>'Agus Kusnawan','nip'=>'150025','password'=>'150025','roles_id'=>'3','created_at'=>now()]);$user->assignRole('Kepala Unit');$user->save();
+        $user = new User(['name'=>'Agus Kusnawan','nip'=>'150025','password'=>'150025','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
         $user = new User(['name'=>'Rr. Dian Aggraeni','nip'=>'150026','password'=>'150026','roles_id'=>'3','created_at'=>now()]);$user->assignRole('Kepala Unit');$user->save();
         $user = new User(['name'=>'Eso Hernawan','nip'=>'150031','password'=>'150031','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
         $user = new User(['name'=>'Peng Wi','nip'=>'150032','password'=>'150032','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
@@ -62,7 +62,7 @@ class UsersTableSeeder extends Seeder
         $user = new User(['name'=>'Rina Sulistiyowati','nip'=>'150037','password'=>'150037','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
         $user = new User(['name'=>'Metta Susanti','nip'=>'150038','password'=>'150038','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
         $user = new User(['name'=>'Triscna Juwita','nip'=>'150039','password'=>'150039','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
-        $user = new User(['name'=>'Sutandi','nip'=>'150063','password'=>'150063','roles_id'=>'3','created_at'=>now()]);$user->assignRole('Kepala Unit');$user->save();
+        $user = new User(['name'=>'Sutandi','nip'=>'150063','password'=>'150063','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
         $user = new User(['name'=>'Eva Sainura','nip'=>'150066','password'=>'150066','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
         $user = new User(['name'=>'Selfiyan','nip'=>'150079','password'=>'150079','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
         $user = new User(['name'=>'Rinintha Parameswari','nip'=>'220003','password'=>'220003','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
@@ -73,12 +73,12 @@ class UsersTableSeeder extends Seeder
         $user = new User(['name'=>'Hot Saut Halomoan','nip'=>'150011','password'=>'150011','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
         $user = new User(['name'=>'Dhea Anastasia Kesmaningrum','nip'=>'150012','password'=>'150012','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
         $user = new User(['name'=>'Irpan Ali Rahman','nip'=>'150015','password'=>'150015','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
-        $user = new User(['name'=>'Shenny Ayunuri Beata','nip'=>'150017','password'=>'150017','roles_id'=>'3','created_at'=>now()]);$user->assignRole('Kepala Unit');$user->save();
+        $user = new User(['name'=>'Shenny Ayunuri Beata','nip'=>'150017','password'=>'150017','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
         $user = new User(['name'=>'Dr Lilie Suratminto','nip'=>'150143','password'=>'150143','roles_id'=>'3','created_at'=>now()]);$user->assignRole('Kepala Unit');$user->save();
         $user = new User(['name'=>'Frendy Dodo Chang','nip'=>'150152','password'=>'150152','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
         $user = new User(['name'=>'Irawati Megalita','nip'=>'150188','password'=>'150188','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
         $user = new User(['name'=>'Galuh Kusuma Hapsari','nip'=>'200003','password'=>'200003','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
-        $user = new User(['name'=>'Rudy Arijanto','nip'=>'150040','password'=>'150040','roles_id'=>'3','created_at'=>now()]);$user->assignRole('Kepala Unit');$user->save();
+        $user = new User(['name'=>'Rudy Arijanto','nip'=>'150040','password'=>'150040','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
         $user = new User(['name'=>'Desiyana Lasut','nip'=>'150041','password'=>'150041','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
         $user = new User(['name'=>'Ramona Dyah Safitri','nip'=>'150042','password'=>'150042','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
         $user = new User(['name'=>'Edy','nip'=>'150043','password'=>'150043','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
@@ -88,8 +88,8 @@ class UsersTableSeeder extends Seeder
         $user = new User(['name'=>'Jacob Febryadi Nithanel Dethan','nip'=>'150077','password'=>'150077','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
         $user = new User(['name'=>'Abidin','nip'=>'150081','password'=>'150081','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
         $user = new User(['name'=>'Benny Daniawan','nip'=>'150101','password'=>'150101','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
-        $user = new User(['name'=>'Fenarly Junasan','nip'=>'150121','password'=>'150121','roles_id'=>'3','created_at'=>now()]);$user->assignRole('Kepala Unit');$user->save();
-        $user = new User(['name'=>'Yakub','nip'=>'150189','password'=>'150189','roles_id'=>'3','created_at'=>now()]);$user->assignRole('Kepala Unit');$user->save();
+        $user = new User(['name'=>'Fenarly Junasan','nip'=>'150121','password'=>'150121','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
+        $user = new User(['name'=>'Yakub','nip'=>'150189','password'=>'150189','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
         $user = new User(['name'=>'Milan Susanto','nip'=>'180001','password'=>'180001','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
         $user = new User(['name'=>'Hartana Wijaya','nip'=>'180014','password'=>'180014','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
         $user = new User(['name'=>'Ir. Amin Suyitno Dr. Eng','nip'=>'1900010','password'=>'1900010','roles_id'=>'3','created_at'=>now()]);$user->assignRole('Kepala Unit');$user->save();
@@ -105,7 +105,7 @@ class UsersTableSeeder extends Seeder
         $user = new User(['name'=>'Lilis Suhaeni','nip'=>'200005','password'=>'200005','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
         $user = new User(['name'=>'Sabam Simbolon','nip'=>'150028','password'=>'150028','roles_id'=>'3','created_at'=>now()]);$user->assignRole('Kepala Unit');$user->save();
         $user = new User(['name'=>'Etty Herijawati','nip'=>'150029','password'=>'150029','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
-        $user = new User(['name'=>'Yusuf Kurnia','nip'=>'150057','password'=>'150057','roles_id'=>'3','created_at'=>now()]);$user->assignRole('Kepala Unit');$user->save();
+        $user = new User(['name'=>'Yusuf Kurnia','nip'=>'150057','password'=>'150057','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
         $user = new User(['name'=>'Yo Ceng Giap','nip'=>'150051','password'=>'150051','roles_id'=>'3','created_at'=>now()]);$user->assignRole('Kepala Unit');$user->save();
         $user = new User(['name'=>'Rina Aprilyanti','nip'=>'150073','password'=>'150073','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
         $user = new User(['name'=>'Lia Dama Yanti','nip'=>'150082','password'=>'150082','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
@@ -118,9 +118,9 @@ class UsersTableSeeder extends Seeder
         $user = new User(['name'=>'Aditya Hermawan','nip'=>'150052','password'=>'150052','roles_id'=>'3','created_at'=>now()]);$user->assignRole('Kepala Unit');$user->save();
         $user = new User(['name'=>'Ardiane Rossi Kurniawan Maranto','nip'=>'150182','password'=>'150182','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
         $user = new User(['name'=>'Junaedi','nip'=>'190004','password'=>'190004','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
-        $user = new User(['name'=>'Suryadi Winata','nip'=>'150001','password'=>'150001','roles_id'=>'4','created_at'=>now()]);$user->assignRole('Rektorat');$user->save();
+        $user = new User(['name'=>'Suryadi Winata','nip'=>'150001','password'=>'150001','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
         $user = new User(['name'=>'Pujiarti','nip'=>'150018','password'=>'150018','roles_id'=>'3','created_at'=>now()]);$user->assignRole('Kepala Unit');$user->save();
-        $user = new User(['name'=>'Sutrisna','nip'=>'150027','password'=>'150027','roles_id'=>'4','created_at'=>now()]);$user->assignRole('Rektorat');$user->save();
+        $user = new User(['name'=>'Sutrisna','nip'=>'150027','password'=>'150027','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
         $user = new User(['name'=>'Ade Hadyantoro','nip'=>'150065','password'=>'150065','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
         $user = new User(['name'=>'Unif Riyanto','nip'=>'180011','password'=>'180011','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();
         $user = new User(['name'=>'Mahpudin','nip'=>'150105','password'=>'150105','roles_id'=>'2','created_at'=>now()]);$user->assignRole('Staff');$user->save();

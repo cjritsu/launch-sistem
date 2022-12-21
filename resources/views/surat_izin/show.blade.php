@@ -131,13 +131,13 @@
                             <tr>
                                 <th>Tanggal Izin</th>
                                 <td>
-                                    {{ \Carbon\Carbon::parse($suratizin->tanggal_izin_awal)->isoFormat('d MMMM Y') }} {{' sampai '}} {{ \Carbon\Carbon::parse($suratizin->tanggal_izin_akhir)->isoFormat('d MMMM Y') }}
+                                    {{ \Carbon\Carbon::parse($suratizin->tanggal_izin_awal)->isoFormat('D MMMM Y') }} {{' sampai '}} {{ \Carbon\Carbon::parse($suratizin->tanggal_izin_akhir)->isoFormat('D MMMM Y') }}
                                 </td>
                             </tr>
                             <tr>
                                 <th>Tanggal Masuk Kembali</th>
                                 <td>
-                                    {{ \Carbon\Carbon::parse($suratizin->tanggal_masuk)->isoFormat('d MMMM Y') }}
+                                    {{ \Carbon\Carbon::parse($suratizin->tanggal_masuk)->isoFormat('D MMMM Y') }}
                                 </td>
                             </tr>
                             <tr>

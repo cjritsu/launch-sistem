@@ -54,18 +54,18 @@ class Surat_Izin extends Controller
     public function store(Request $request) {
         $TglMulai = $request->input('tanggal_izin_awal');
         $TglAkhir = $request->input('tanggal_izin_akhir');
-        $limit = Carbon::parse($TglMulai)->addDays(3);
+        // $limit = Carbon::parse($TglMulai)->addDays(3);
         $request->validate ([
             'jenis_izin_id' => 'required',
             'tanggal_izin_awal' => 'required | date ',
-            'tanggal_izin_akhir' => 'required | date | after:tanggal_izin_awal | before:'.$limit->toDateString().'',
+            // 'tanggal_izin_akhir' => 'required | date | after:tanggal_izin_awal | before:'.$limit->toDateString().'',
             'tanggal_masuk' => 'required | date | after:tanggal_izin_akhir',
             'keterangan' => 'required',
         ],
         [
             'jenis_izin_id.required' => 'Mohon untuk dipilih!',
             'tanggal_izin_akhir.after' => 'Tanggal Akhir harus sesudah Tanggal Awal',
-            'tanggal_izin_akhir.before' => 'Maksimal izin hanya 3 hari',
+            // 'tanggal_izin_akhir.before' => 'Maksimal izin hanya 3 hari',
             'tanggal_masuk.after' => 'Tanggal Masuk harus sesudah Tanggal Akhir',
         ]);
         $user = $request->input('user_id');

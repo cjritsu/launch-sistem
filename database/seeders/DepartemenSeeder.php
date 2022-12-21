@@ -36,8 +36,8 @@ class DepartemenSeeder extends Seeder
         $jabatan = new Departemen(['name'=>'Kepala Badan Administrasi Akademik']);$jabatan->save();
         $jabatan = new Departemen(['name'=>'Supervisor Finance']);$jabatan->save();
         $jabatan = new Departemen(['name'=>'Sekretaris']);$jabatan->save();
-        $jabatan = new Departemen(['name'=>'Kepala Keuangan & Badan Pengurus Harian']);$jabatan->save();
-        $jabatan = new Departemen(['name'=>'Staff Badan Pengurus Harian']);$jabatan->save();
+        $jabatan = new Departemen(['name'=>'Kepala Keuangan & BPH & Kepala BPH']);$jabatan->save();
+        $jabatan = new Departemen(['name'=>'Staff BPH']);$jabatan->save();
         $jabatan = new Departemen(['name'=>'Wakil Dekan Fakultas Bisnis']);$jabatan->save();
         $jabatan = new Departemen(['name'=>'Dekan Fakultas Bisnis']);$jabatan->save();
         $jabatan = new Departemen(['name'=>'Ketua Jurusan Manajemen']);$jabatan->save();
@@ -85,15 +85,13 @@ class DepartemenSeeder extends Seeder
         $jabatan = new Departemen(['name'=>'Kepala Biro Rektorat']);$jabatan->save();
         $jabatan = new Departemen(['name'=>'Wakil Rektor III']);$jabatan->save();
         $jabatan = new Departemen(['name'=>'Staff Administrasi Keuangan Rektorat']);$jabatan->save();
-        $jabatan = new Departemen(['name'=>'Rektor']);$jabatan->save();
-        $jabatan = new Departemen(['name'=>'Wakil Rektor II']);$jabatan->save();
+        $jabatan = new Departemen(['name'=>'Rektor & Wakil Rektor II']);$jabatan->save();
         $jabatan = new Departemen(['name'=>'Staff Administrasi dan IT Rektorat']);$jabatan->save();
         $jabatan = new Departemen(['name'=>'Wakil Kepala Biro SDM Tenaga Pendidik']);$jabatan->save();
         $jabatan = new Departemen(['name'=>'Staff Payroll']);$jabatan->save();
         $jabatan = new Departemen(['name'=>'Satpam']);$jabatan->save();
         $jabatan = new Departemen(['name'=>'Kepala Training Center']);$jabatan->save();
-        $jabatan = new Departemen(['name'=>'Kepala Perpustakaan Perguruan']);$jabatan->save();
-        $jabatan = new Departemen(['name'=>'Wakil Kepala Biro SDM PPS']);$jabatan->save();
+        $jabatan = new Departemen(['name'=>'Kepala Perpustakaan Perguruan & Wakil Kepala Biro SDM PPS']);$jabatan->save();
         $jabatan = new Departemen(['name'=>'Kepala Pembelian']);$jabatan->save();
         $jabatan = new Departemen(['name'=>'Kepala Gudang']);$jabatan->save();
         $jabatan = new Departemen(['name'=>'Kepala Bagian Umum']);$jabatan->save();

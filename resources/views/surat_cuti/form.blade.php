@@ -18,7 +18,7 @@
             {{ Form::select('unit_kerja', $unit_kerja, $Pengajuan_cuti->unit_kerja_id ?? old('unit_kerja_id'), ['class'=>'form-control']) }}
         @else
             @foreach ($karyawan as $karyawans)
-                {{ Form::text('unit_kerja', $Pengajuan_cuti->unit_kerja_id ?? $karyawans->unit_kerja_id, ['readonly','class'=>'form-control', 'hidden']) }}
+                {{ Form::text('unit_kerja', $Pengajuan_cuti->unit_kerja_id ?? $karyawans->unit_kerja_id, ['hidden', 'readonly','class'=>'form-control']) }}
                 {!! Form::text('unit', $karyawans->Unit_Kerja->name, ['readonly', 'class' => 'form-control']) !!}
             @endforeach
         @endif

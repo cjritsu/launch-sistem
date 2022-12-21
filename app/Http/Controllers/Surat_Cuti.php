@@ -11,10 +11,13 @@ use App\Models\Karyawan;
 use App\Models\Unit_Kerja;
 use App\Models\status_cuti;
 use lluminate\Auth\SessionGuard;
-use DB;
+use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use DateTime;
 use Spatie\Activitylog\Models\Activity;
+use App\Notifications\IncomingCuti;
+use Illuminate\Notifications\DatabaseNotification;
+use Notification;
 
 class Surat_Cuti extends Controller
 {
@@ -80,12 +83,12 @@ class Surat_Cuti extends Controller
 
         }
         else {
-            $request->validate([
-                'tanggal_akhir' => 'required|date|after:tanggal_izin_awal|before:'.$limit->toDateString().'',
-            ],
-            [
-                'tanggal_akhir.before' => 'Melebihi Jatah Cuti',
-            ]);
+            // $request->validate([
+            //     'tanggal_akhir' => 'required|date|after:tanggal_izin_awal|before:'.$limit->toDateString().'',
+            // ],
+            // [
+            //     'tanggal_akhir.before' => 'Melebihi Jatah Cuti',
+            // ]);
         }
         DB::insert('insert into pengajuan__cutis (user_id, unit_kerja_id, jenis_cuti_id, tanggal_mulai, tanggal_akhir, tanggal_masuk, keterangan, num_days, status_kp, status_rek, status_hrd, created_at) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [$user, $unit_kerja, $request->input('jenis_cuti_id'), $TglMulai, $TglAkhir, $TglMasuk, $request->input('keterangan'), $num_days, $StatusKP, $StatusREK, $StatusHRD, $create]);
         return redirect()->route('surat_cuti.index')->with('success', 'Pengajuan Cuti Berhasil');
@@ -158,7 +161,7 @@ class Surat_Cuti extends Controller
             if($StatusHRD == 3) {
                 $notify_cuti = Pengajuan_Cuti::find($id);
                 $user = User::all()->where('id', $notify_cuti->user_id);
-                Notification::send($user, new IncomingReport($notify_cuti));
+                Notification::send($user, new IncomingCuti($notify_cuti));
             }
         }
         if (auth()->user()->HasRole('Rektorat')){
@@ -171,7 +174,7 @@ class Surat_Cuti extends Controller
             if(auth()->user()) {
                 $notify_cuti = Pengajuan_Cuti::find($id);
                 $user = User::all()->where('id', $notify_cuti->user_id);
-                Notification::send($user, new IncomingReport($notify_cuti));
+                Notification::send($user, new IncomingCuti($notify_cuti));
             }
         }
         if (auth()->user()->HasRole('Admin')){

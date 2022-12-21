@@ -24,6 +24,7 @@ return new class extends Migration
             $table->date('tanggal_izin_awal');
             $table->date('tanggal_izin_akhir');
             $table->date('tanggal_masuk');
+            $table->integer('num_days')->default('0');
             $table->string('keterangan');
             $table->unsignedBigInteger('status_kp')->default('1');
             $table->unsignedBigInteger('status_hrd')->default('1');
