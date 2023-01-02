@@ -28,14 +28,21 @@ Route::resource('/history', 'App\Http\Controllers\HistoryController');
 
 Route::group(['middleware' => 'auth'], function () {
 	Route::resource('user', 'App\Http\Controllers\UserController', ['except' => ['show']]);
+    Route::get('/user_search', 'App\Http\Controllers\UserController@search')->name('user_search');
 	Route::get('profile', ['as' => 'profile.edit', 'uses' => 'App\Http\Controllers\ProfileController@edit']);
 	Route::put('profile', ['as' => 'profile.update', 'uses' => 'App\Http\Controllers\ProfileController@update']);
 	Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'App\Http\Controllers\ProfileController@password']);
     Route::resource('surat_cuti', 'App\Http\Controllers\Surat_Cuti');
     Route::resource('karyawan', 'App\Http\Controllers\KaryawanController', ['except' => ['show']]);
+    Route::put('karyawan/{id}/edit', 'App\Http\Controllers\KaryawanController@update')->name('karyawan.update');
+    Route::put('/karyawan_reset', 'App\Http\Controllers\KaryawanController@reset')->name('karyawan_reset');
+    Route::get('/karyawan_search', 'App\Http\Controllers\KaryawanController@search')->name('karyawan_search');
     Route::resource('surat_izin', 'App\Http\Controllers\Surat_Izin');
     Route::put('surat_absen/{id}/edit', 'App\Http\Controllers\PengajuanAbsenController@update')->name('surat_absen.update');
     Route::resource('surat_absen', 'App\Http\Controllers\PengajuanAbsenController');
+    Route::get('/absen_search', 'App\Http\Controllers\PengajuanAbsenController@search')->name('absen_search');
+    Route::get('/cuti_search', 'App\Http\Controllers\Surat_Cuti@search')->name('cuti_search');
+    Route::get('/izin_search', 'App\Http\Controllers\Surat_Izin@search')->name('izin_search');
 });
 
 Route::resource('/jenis_cuti', 'App\Http\Controllers\AdminController');

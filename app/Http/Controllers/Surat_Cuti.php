@@ -22,22 +22,22 @@ use Notification;
 class Surat_Cuti extends Controller
 {
     public function index(){
-        $pengajuanCuti = Pengajuan_Cuti::latest()->paginate(10);
+        $pengajuanCuti = Pengajuan_Cuti::orderBy('created_at', 'DESC')->paginate(10);
         $data['pengajuanCuti'] = Pengajuan_Cuti::with('User', 'Karyawan', 'Unit_Kerja', 'Jenis_cuti', 'status_cuti')->get();
         $Cuti = Pengajuan_Cuti::first();
         $Karyawan = Karyawan::where('user_id', auth()->user()->id)->first();
 
         // Kelompok Kepala Unit
         if(auth()->user()->HasRole('Kepala Unit') && $Karyawan->unit_kerja_id == $Karyawan->unit_kerja_id ){
-            $pengajuanCuti = Pengajuan_Cuti::with('User', 'Karyawan', 'Unit_Kerja', 'Jenis_cuti', 'status_cuti')->where('unit_kerja_id', $Karyawan->unit_kerja_id)->get();
+            $data['pengajuanCuti'] = Pengajuan_Cuti::with('User', 'Karyawan', 'Unit_Kerja', 'Jenis_cuti', 'status_cuti')->where('unit_kerja_id', $Karyawan->unit_kerja_id)->get();
         }
 
         // Send Kepala Unit -> HRD -> WaRek
         if (auth()->user()->HasRole('HRD')) {
-            $pengajuanCuti = Pengajuan_Cuti::with('User', 'Karyawan', 'Unit_Kerja', 'Jenis_cuti', 'status_cuti')->where('status_kp', 2)->get();
+            $data['pengajuanCuti'] = Pengajuan_Cuti::with('User', 'Karyawan', 'Unit_Kerja', 'Jenis_cuti', 'status_cuti')->where('status_kp', 2)->get();
         }
         if (auth()->user()->HasRole('Rektorat')) {
-            $pengajuanCuti = Pengajuan_Cuti::with('User', 'Karyawan', 'Unit_Kerja', 'Jenis_cuti', 'status_cuti')->where('status_kp', 2)->where('status_hrd', 2)->get();
+            $data['pengajuanCuti'] = Pengajuan_Cuti::with('User', 'Karyawan', 'Unit_Kerja', 'Jenis_cuti', 'status_cuti')->where('status_kp', 2)->where('status_hrd', 2)->get();
         }
         return view('surat_cuti.index', compact('pengajuanCuti'), $data);
     }
@@ -91,24 +91,32 @@ class Surat_Cuti extends Controller
             // ]);
         }
         DB::insert('insert into pengajuan__cutis (user_id, unit_kerja_id, jenis_cuti_id, tanggal_mulai, tanggal_akhir, tanggal_masuk, keterangan, num_days, status_kp, status_rek, status_hrd, created_at) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [$user, $unit_kerja, $request->input('jenis_cuti_id'), $TglMulai, $TglAkhir, $TglMasuk, $request->input('keterangan'), $num_days, $StatusKP, $StatusREK, $StatusHRD, $create]);
+
+        if(auth()->user()->HasRole('Staff')){
+            $notify_cuti = Pengajuan_Cuti::latest()->first();
+            $karyawan = Karyawan::all()->where('unit_kerja_id', $notify_cuti->unit_kerja_id)->pluck('user_id');
+            $user = User::all()->where('roles_id', 3)->whereIn('id', $karyawan);
+            Notification::send($user, new IncomingCuti($notify_cuti));
+        }
         return redirect()->route('surat_cuti.index')->with('success', 'Pengajuan Cuti Berhasil');
     }
 
     public function show(Pengajuan_Cuti $pengajuan_cuti, $id) {
-        $pengajuan_cuti = DB::select('select * from pengajuan__cutis where id = ?', [$id]);
+        $pengajuan_cuti = Pengajuan_Cuti::find($id);
         $data['karyawan'] = Karyawan::with('User', 'Unit_Kerja')->where('user_id', auth()->user()->id)->get();
         $data['pengajuanCuti'] = Pengajuan_Cuti::with('User', 'Jenis_cuti', 'Unit_Kerja')->where('id', $id)->get();
 
         $data['lastKP'] = Activity::all()->where('subject_type', 'App\Models\Pengajuan_Cuti')->where('subject_id', $id)->where('description', 'Kepala Unit')->last();
         $data['lastHRD'] = Activity::all()->where('subject_type', 'App\Models\Pengajuan_Cuti')->where('subject_id', $id)->where('description', 'HRD')->last();
         $data['lastRek'] = Activity::all()->where('subject_type', 'App\Models\Pengajuan_Cuti')->where('subject_id', $id)->where('description', 'Wakil Rektorat')->last();
-        return view('surat_cuti.show', compact('pengajuan_cuti'), $data);
 
-        if (auth()->user()->unreadNotifications == null) {
-            $activity = auth()->user()->unreadNotifications->first();
-            $unreadNotif = $activity->where('id', $activity->id)->first();
-            $unreadNotif->markAsRead();
+        $notification = auth()->user()->notifications()->where('data->id', $id)->where('type', 'App\Notifications\IncomingCuti')->first();
+
+        if($notification){
+            $notification->markAsRead();
         }
+
+        return view('surat_cuti.show', compact('pengajuan_cuti'), $data);
     }
 
     public function edit(Pengajuan_Cuti $pengajuan_cuti, $id) {
@@ -151,7 +159,12 @@ class Surat_Cuti extends Controller
             if($StatusKP == 3) {
                 $notify_cuti = Pengajuan_Cuti::find($id);
                 $user = User::all()->where('id', $notify_cuti->user_id);
-                Notification::send($user, new IncomingReport($notify_cuti));
+                Notification::send($user, new IncomingCuti($notify_cuti));
+            }
+            elseif ($StatusKP == 2) {
+                $notify_cuti = Pengajuan_Cuti::find($id);
+                $user = User::all()->where('roles_id', 5);
+                Notification::send($user, new IncomingCuti($notify_cuti));
             }
         }
         if (auth()->user()->HasRole('HRD')){
@@ -161,6 +174,11 @@ class Surat_Cuti extends Controller
             if($StatusHRD == 3) {
                 $notify_cuti = Pengajuan_Cuti::find($id);
                 $user = User::all()->where('id', $notify_cuti->user_id);
+                Notification::send($user, new IncomingCuti($notify_cuti));
+            }
+            elseif ($StatusHRD == 2) {
+                $notify_cuti = Pengajuan_Cuti::find($id);
+                $user = User::all()->where('roles_id', 4);
                 Notification::send($user, new IncomingCuti($notify_cuti));
             }
         }
@@ -205,5 +223,17 @@ class Surat_Cuti extends Controller
         }
         DB::delete('delete from pengajuan__cutis where id = ?', [$id]);
         return redirect()->route('surat_cuti.index')->with('success', 'Telah Berhasil Dihapus');
+    }
+
+    public function search(Request $request) {
+        $search = $request->search;
+        $pengajuanCuti = Pengajuan_Cuti::whereHas('User', function($q) use($search) {
+            $q->where('name', 'like', "%".$search."%")->orWhere('nip', 'like', "%".$search."%");
+        })->orwhereHas('Unit_Kerja', function($u) use($search) {
+            $u->where('name', 'like', "%".$search."%");
+        })->orwhereHas('Jenis_cuti', function($t) use($search) {
+            $t->where('name', 'like', "%".$search."%");
+        })->paginate();
+        return view('surat_cuti.index', compact('pengajuanCuti'))->with('i', (request()->input('page', 1) - 1) * 5);
     }
 }

@@ -11,6 +11,7 @@ use App\Models\Jenis_cuti;
 use App\Models\SuratIzin;
 use App\Models\Pengajuan_Absen;
 use App\Notifications\IncomingReport;
+use DateTime;
 
 class HomeController extends Controller
 {
@@ -38,9 +39,9 @@ class HomeController extends Controller
         $surat_absen = Pengajuan_Absen::select('id')->count();
         $data['Surat_Count'] = $surat_cuti + $surat_izin + $surat_absen;
 
-        $cuti = Pengajuan_Cuti::select('id')->where('status_kp', '=', '2')->where('status_hrd', '=', '2')->where('status_rek', '=', '2')->count();
-        $izin = SuratIzin::select('id')->where('status_kp', '=', '2')->where('status_hrd', '=', '2')->where('status_rek', '=', '2')->count();
-        $absen = Pengajuan_Absen::select('id')->where('status_kp', '=', '2')->where('status_hrd', '=', '2')->where('status_rek', '=', '2')->count();
+        $cuti = Pengajuan_Cuti::select('id')->where('status_rek', '=', '2')->count();
+        $izin = SuratIzin::select('id')->where('status_rek', '=', '2')->count();
+        $absen = Pengajuan_Absen::select('id')->where('status_rek', '=', '2')->count();
         $data['Terima_Count'] = $cuti + $izin + $absen;
 
         $cutis = Pengajuan_Cuti::select('id')->where('status_kp', '=', '3')->orWhere('status_hrd', '=', '3')->orWhere('status_rek', '=', '3')->count();
@@ -57,6 +58,11 @@ class HomeController extends Controller
         });
         $jenis_cuti_id = $cuti_bulanan->pluck('jenis_cuti_id', 'jenis_cuti_id')->sortBy('jenis_cuti_id')->unique();
         $data['bulan'] = $cuti_bulanan->pluck('year', 'year');
+
+        $data['updated_user'] = User::first();
+        $data['updated_cuti'] = Pengajuan_Cuti::first();
+        $data['updated_absen'] = Pengajuan_Absen::select('created_at')->where('status_rek', '=', '2')->first();
+        $data['updated_izin'] = SuratIzin::select('created_at')->where('status_kp', '=', '3')->orWhere('status_hrd', '=', '3')->orWhere('status_rek', '=', '3')->first();
         return view('pages.dashboard', compact('pengajuan_cuti', 'report', 'jenis_cuti_id'), $data);
     }
 

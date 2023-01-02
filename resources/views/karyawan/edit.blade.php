@@ -36,9 +36,9 @@
             </div>
 
             <div class="col-md-8 text-center">
-                <form class="col-md-12" action="/karyawan/{{$karyawans->id}}" method="POST" enctype="multipart/form-data">
-                    @csrf
+                <form class="col-md-12" action="{{route('karyawan.edit', $karyawans->id)}}" method="POST" enctype="multipart/form-data">
                     @method('PUT')
+                    @csrf
                     <div class="card">
                         <div class="card-header">
                             <h5 class="title">{{ __('Edit Profile') }}</h5>
@@ -136,7 +136,7 @@
                                 <label class="col-md-3 col-form-label">{{ __('Jabatan') }}</label>
                                 <div class="col-md-9">
                                     <div class="form-group">
-                                        {{ Form::select('jabatan_id', $jabatan_id, $karyawans->jabatan_id ?? old('jabatan_id'), ['class'=>'form-control']) }}
+                                        {!! Form::select('jabatan_id', $jabatan_id, $karyawans->jabatan_id ?? old('jabatan_id'), ['class'=>'form-control jabatan_id']) !!}
 
                                         @if ($errors->has('jabatan_id'))
                                             <span class="invalid-feedback" style="display: block;" role="alert">
@@ -147,10 +147,18 @@
                                 </div>
                             </div>
                             <div class="row">
+                                <label class="col-md-3 col-form-label">{{ __('Jatah Cuti') }}</label>
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <input type="text" name="jatah_cuti" class="form-control" placeholder="Jatah Cuti" value="{{ $user->jatah_cuti }}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
                                 <label class="col-md-3 col-form-label">{{ __('Status Karyawan') }}</label>
                                 <div class="col-md-9">
                                     <div class="form-group">
-                                        {{ Form::select('status_karyawan', $status_karyawan, $karyawans->status_karyawan ?? old('status_karyawan'), ['class'=>'form-control']) }}
+                                        {{ Form::select('status_karyawan', $status_karyawan, $karyawans->status_karyawan_id ?? old('status_karyawan'), ['class'=>'form-control']) }}
 
                                         @if ($errors->has('status_karyawan'))
                                             <span class="invalid-feedback" style="display: block;" role="alert">
@@ -231,3 +239,13 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script>
+        $(document).ready(function(){
+            $(".jabatan_id").select2({
+                width: 'resolve'
+            });
+        });
+    </script>
+@endpush

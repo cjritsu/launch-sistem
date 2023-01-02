@@ -21,22 +21,22 @@ use Notification;
 class Surat_Izin extends Controller
 {
     public function index(){
-        $pengajuanSurats = SuratIzin::latest()->paginate(10);
+        $pengajuanSurats = SuratIzin::orderBy('created_at', 'DESC')->paginate(10);
         $data['pengajuanSurats'] = SuratIzin::with('User', 'Karyawan', 'Unit_Kerja', 'Jenis_Izin', 'status_cuti')->get();
         $Izin = SuratIzin::first();
         $Karyawan = Karyawan::where('user_id', auth()->user()->id)->first();
 
         // Kelompok Kepala Unit
         if(auth()->user()->HasRole('Kepala Unit') && $Karyawan->unit_kerja_id == $Karyawan->unit_kerja_id ){
-            $pengajuanSurats = SuratIzin::with('User', 'Karyawan', 'Jenis_Izin', 'status_cuti')->where('unit_kerja_id', $Karyawan->unit_kerja_id)->get();
+            $data['pengajuanSurats'] = SuratIzin::with('User', 'Karyawan', 'Jenis_Izin', 'status_cuti')->where('unit_kerja_id', $Karyawan->unit_kerja_id)->get();
         }
 
         // Send Kepala Unit -> HRD -> WaRek
         if (auth()->user()->HasRole('HRD')) {
-            $pengajuanSurats = SuratIzin::with('User', 'Karyawan', 'Jenis_Izin', 'status_cuti')->where('status_kp', 2)->get();
+            $data['pengajuanSurats'] = SuratIzin::with('User', 'Karyawan', 'Jenis_Izin', 'status_cuti')->where('status_kp', 2)->get();
         }
         if (auth()->user()->HasRole('Rektorat')) {
-            $pengajuanSurats = SuratIzin::with('User', 'Karyawan', 'Jenis_Izin', 'status_cuti')->where('status_kp', 2)->where('status_hrd', 2)->get();
+            $data['pengajuanSurats'] = SuratIzin::with('User', 'Karyawan', 'Jenis_Izin', 'status_cuti')->where('status_kp', 2)->where('status_hrd', 2)->get();
         }
         return view('surat_izin.index', compact('pengajuanSurats', 'Karyawan'), $data);
     }
@@ -77,7 +77,11 @@ class Surat_Izin extends Controller
         $StatusHRD = $request->input('status_hrd') ?: 1;
         $StatusREK = $request->input('status_rek') ?: 1;
         $create = $request->input('created_at') ?: now();
-        DB::insert('insert into pengajuan_izins (user_id, unit_kerja_id, jenis_izin_id, tanggal_izin_awal, tanggal_izin_akhir, tanggal_masuk, keterangan, status_kp, status_rek, status_hrd, created_at) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [$user, $unit_kerja, $jenis_izin, $TglMulai, $TglAkhir, $TglMasuk, $Ket, $StatusKP, $StatusHRD, $StatusREK, $create]);
+        $DF = new DateTime($TglMulai);
+        $DT = new DateTime($TglAkhir);
+        $diff = date_diff($DF, $DT);
+        $num_days = (1 + $diff->format("%a"));
+        DB::insert('insert into pengajuan_izins (user_id, unit_kerja_id, jenis_izin_id, tanggal_izin_awal, tanggal_izin_akhir, tanggal_masuk, num_days, keterangan, status_kp, status_rek, status_hrd, created_at) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [$user, $unit_kerja, $jenis_izin, $TglMulai, $TglAkhir, $TglMasuk, $num_days, $Ket, $StatusKP, $StatusHRD, $StatusREK, $create]);
 
         if (auth()->user()->HasRole('Kepala Unit')){
             DB::update('update pengajuan_izins set status_kp = ? where user_id = ?', [2, $user]);
@@ -101,17 +105,17 @@ class Surat_Izin extends Controller
     public function show(SuratIzin $suratizin, $id) {
         $suratizin = SuratIzin::find($id);
         $user = User::where('id', $suratizin->user_id)->first();
-        $data['karyawan'] = Karyawan::with('User', 'Unit_Kerja')->where('user_id', auth()->user()->id)->get();
+        $data['karyawan'] = Karyawan::with('User', 'Unit_Kerja')->where('user_id', $user)->get();
         $data['pengajuanIzin'] = SuratIzin::with('User', 'Jenis_Izin')->where('id', $id)->get();
 
         $data['lastKP'] = Activity::all()->where('subject_type', 'App\Models\SuratIzin')->where('subject_id', $id)->where('description', 'Kepala Unit')->last();
         $data['lastHRD'] = Activity::all()->where('subject_type', 'App\Models\SuratIzin')->where('subject_id', $id)->where('description', 'HRD')->last();
         $data['lastRek'] = Activity::all()->where('subject_type', 'App\Models\SuratIzin')->where('subject_id', $id)->where('description', 'Wakil Rektorat')->last();
 
-        if (auth()->user()->unreadNotifications == null) {
-            $activity = auth()->user()->unreadNotifications->first();
-            $unreadNotif = $activity->where('id', $activity->id)->first();
-            $unreadNotif->markAsRead();
+        $notification = auth()->user()->notifications()->where('data->id', $id)->where('type', 'App\Notifications\IncomingReport')->first();
+
+        if($notification){
+            $notification->markAsRead();
         }
         return view('surat_izin.show', compact('suratizin'), $data);
     }
@@ -151,7 +155,11 @@ class Surat_Izin extends Controller
         $StatusHRD = $request->input('status_hrd') ?: old('status_hrd');
         $StatusREK = $request->input('status_rek') ?: old('status_rek');
         $update = $request->input('updated_at') ?: now();
-        DB::update('update pengajuan_izins set user_id = ?, jenis_izin_id = ?, tanggal_izin_awal = ?, tanggal_izin_akhir = ?, tanggal_masuk = ?, keterangan = ?, updated_at = ? where id = ?', [$user->id, $jenis_izin, $TglMulai, $TglAkhir, $TglMasuk, $Ket, $update, $id]);
+        $DF = new DateTime($TglMulai);
+        $DT = new DateTime($TglAkhir);
+        $diff = date_diff($DF, $DT);
+        $num_days = (1 + $diff->format("%a"));
+        DB::update('update pengajuan_izins set user_id = ?, jenis_izin_id = ?, tanggal_izin_awal = ?, tanggal_izin_akhir = ?, tanggal_masuk = ?, num_days = ?, keterangan = ?, updated_at = ? where id = ?', [$user->id, $jenis_izin, $TglMulai, $TglAkhir, $TglMasuk, $num_days, $Ket, $update, $id]);
 
         if (auth()->user()->HasRole('Kepala Unit')){
             DB::update('update pengajuan_izins set status_kp = ? where id = ?', [$StatusKP, $id]);
@@ -160,6 +168,11 @@ class Surat_Izin extends Controller
             if($StatusKP == 3) {
                 $notify_izin = SuratIzin::find($id);
                 $user = User::all()->where('id', $notify_izin->user_id);
+                Notification::send($user, new IncomingReport($notify_izin));
+            }
+            elseif ($StatusKP == 2) {
+                $notify_izin = SuratIzin::find($id);
+                $user = User::all()->where('roles_id', 5);
                 Notification::send($user, new IncomingReport($notify_izin));
             }
         }
@@ -171,6 +184,11 @@ class Surat_Izin extends Controller
                 $notify_izin = SuratIzin::with('User', 'Jenis_Izin')->first();
                 $user = User::where('id', $notify_izin->user_id)->first();
                 $user->notify(new IncomingReport($notify_izin));
+            }
+            elseif ($StatusHRD == 2) {
+                $notify_izin = SuratIzin::find($id);
+                $user = User::all()->where('roles_id', 4);
+                Notification::send($user, new IncomingReport($notify_izin));
             }
         }
         if (auth()->user()->HasRole('Rektorat')){
@@ -195,15 +213,14 @@ class Surat_Izin extends Controller
         return redirect()->route('surat_izin.index')->with('success', 'Telah Berhasil Dihapus');
     }
 
-    public function notify()
+    public function search()
     {
-        // if(auth()->user()) {
-            $notify_izin = SuratIzin::first();
-            $karyawan = Karyawan::all()->where('unit_kerja_id', $notify_izin->unit_kerja_id)->pluck('user_id');
-            $users = User::all()->where('roles_id', 3)->whereIn('id', $karyawan);
-            // Notification::send($user, new IncomingReport($notify_izin));
-            // auth()->user()->notify(new IncomingReport($notify_izin));
-        // }
-        return $users;
+        $search = $request->search;
+        $pengajuanSurats = SuratIzin::whereHas('User', function($q) use($search) {
+            $q->where('name', 'like', "%".$search."%")->orWhere('nip', 'like', "%".$search."%");
+        })->orwhereHas('Unit_Kerja', function($u) use($search) {
+            $u->where('name', 'like', "%".$search."%");
+        })->paginate();
+        return view('surat_izin.index', compact('pengajuanSurats'))->with('i', (request()->input('page', 1) - 1) * 5);
     }
 }

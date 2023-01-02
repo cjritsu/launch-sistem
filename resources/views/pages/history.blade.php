@@ -49,7 +49,11 @@
                                             <td>
                                                 <div class="btn-group btn-group-sm" role="group">
                                                     <a href="surat_cuti/{{ $pengajuanCutis->id }}" type="button" class="btn btn-info"><i class="fa fa-eye"></i></a> &nbsp;
-                                                    <a href="surat_cuti/{{ $pengajuanCutis->id }}/edit" type="button" class="btn btn-primary"><i class="fa fa-pencil-square-o"></i></a> &nbsp;
+                                                    @if ($pengajuanCutis->status_hrd !== 1 || $pengajuanCutis->status_rek !== 1)
+
+                                                    @else
+                                                        <a href="surat_cuti/{{ $pengajuanCutis->id }}/edit" type="button" class="btn btn-primary"><i class="fa fa-pencil-square-o"></i></a> &nbsp;
+                                                    @endif
                                                 </div>
                                             </td>
                                         </tr>
@@ -107,7 +111,11 @@
                                             <td>
                                                 <div class="btn-group btn-group-sm" role="group">
                                                     <a href="surat_absen/{{ $pengajuanAbsens->id }}" type="button" class="btn btn-info"><i class="fa fa-eye"></i></a> &nbsp;
-                                                    <a href="surat_absen/{{ $pengajuanAbsens->id }}/edit" type="button" class="btn btn-primary"><i class="fa fa-pencil-square-o"></i></a> &nbsp;
+                                                    @if ($pengajuanAbsens->status_hrd !== 1 || $pengajuanAbsens->status_rek !== 1)
+
+                                                    @else
+                                                        <a href="surat_absen/{{ $pengajuanAbsens->id }}/edit" type="button" class="btn btn-primary"><i class="fa fa-pencil-square-o"></i></a> &nbsp;
+                                                    @endif
                                                 </div>
                                             </td>
                                         </tr>

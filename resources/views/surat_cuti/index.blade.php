@@ -16,11 +16,20 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm-6">
-                                @if (auth()->user()->jatah_cuti == 0 || auth()->user()->jatah_cuti <= 0)
-
-                                @else
-                                    <a href="{{ route('surat_cuti.create') }}" type="button" class="btn btn-success btn-sm"><i class="glyphicon glyphicon-plus"></i> Tambah Pengajuan Cuti</a>
-                                @endif
+                                <a href="{{ route('surat_cuti.create') }}" type="button" class="btn btn-success btn-sm"><i class="glyphicon glyphicon-plus"></i> Tambah Pengajuan Cuti</a>
+                            </div>
+                            <div class="col-6 text-right">
+                                <form action="{{ route('cuti_search') }}" method="GET">
+                                @csrf
+                                    <div class="input-group no-border">
+                                        <input type="text" value="{{ old('search') }}" class="form-control" placeholder="Search..." name="search">
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <i class="nc-icon nc-zoom-split"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                         <br/>
@@ -127,6 +136,10 @@
                                 </tbody>
                             @endif
                         </table>
+
+                        <div class="d-flex justify-content-center">
+                            {{ $pengajuanCuti->links() }}
+                        </div>
                     </div>
                 </div>
             </div>

@@ -18,6 +18,19 @@
                             <div class="col-sm-6">
                                 <a href="{{ route('surat_absen.create') }}" type="button" class="btn btn-success btn-sm"><i class="glyphicon glyphicon-plus"></i> Tambah Formulir</a>
                             </div>
+                            <div class="col-6 text-right">
+                                <form action="{{ route('absen_search') }}" method="GET">
+                                @csrf
+                                    <div class="input-group no-border">
+                                        <input type="text" value="{{ old('search') }}" class="form-control" placeholder="Search..." name="search">
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <i class="nc-icon nc-zoom-split"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                         <br/>
                         <table class="table table-striped table-hover">
@@ -44,7 +57,7 @@
                                                 <br><b>{{'Kepada/Melalui: '}}</b>{{$pengajuanAbsens->tinggalin_absen}}</td>
                                                 <td>{{ \Carbon\Carbon::parse($pengajuanAbsens->tanggal_masuk)->isoFormat('D MMMM Y') }}</td>
                                                 <td>{{ $pengajuanAbsens->keterangan }}</td>
-                                                @if ($pengajuanAbsens->image !== null && $pengajuanAbsens->surat_dokter == "Ada")
+                                                @if ($pengajuanAbsens->image !== null && $pengajuanAbsens->surat_dokter == "Tersedia Surat Dokter")
                                                     <td><i class="nc-icon nc-check-2"></i></td>
                                                 @else
                                                     <td>{{'—'}}</td>
@@ -60,7 +73,7 @@
                                                     <div class="btn-group btn-group-sm" role="group">
                                                         <a href="surat_absen/{{ $pengajuanAbsens->id }}" type="button" class="btn btn-info"><i class="fa fa-eye"></i></a> &nbsp;
                                                         @can('edit-surat')
-                                                            @if ($pengajuanAbsens->status_kp !== '1')
+                                                            @if ($pengajuanAbsens->status_kp != '1')
 
                                                             @else
                                                                 <a href="surat_absen/{{ $pengajuanAbsens->id }}/edit" type="button" class="btn btn-primary"><i class="fa fa-pencil-square-o"></i></a> &nbsp;
@@ -98,7 +111,7 @@
                                             <b>{{'Kepada/Melalui: '}}</b> {{$pengajuanAbsens->tinggalin_absen}}</td>
                                             <td>{{ \Carbon\Carbon::parse($pengajuanAbsens->tanggal_masuk)->isoFormat('D MMMM Y') }}</td>
                                             <td>{{ $pengajuanAbsens->keterangan }}</td>
-                                            @if ($pengajuanAbsens->image !== null && $pengajuanAbsens->surat_dokter == "Ada")
+                                            @if ($pengajuanAbsens->image !== null && $pengajuanAbsens->surat_dokter == "Tersedia Surat Dokter")
                                                 <td><i class="nc-icon nc-check-2"></i></td>
                                             @else
                                                 <td>{{'—'}}</td>
@@ -117,12 +130,16 @@
                                                     </a>
                                                     <div class="dropdown-menu" aria-labelledby="dropdown-menu-{{ $pengajuanAbsens->id }}">
                                                         <a href="surat_absen/{{ $pengajuanAbsens->id }}" class="dropdown-item"><i class="glyphicon glyphicon-plus"></i>View</a>
-                                                        <a href="surat_absen/{{ $pengajuanAbsens->id }}/edit" class="dropdown-item"><i class="glyphicon glyphicon-plus"></i>Edit</a>
-                                                        {{ link_to('', 'Delete', ['class'=>'dropdown-item', 'onclick'=>"event.preventDefault();document.getElementById('delete-form-$pengajuanAbsens->id').submit();"]) }}
-                                                        <form id="delete-form-{{ $pengajuanAbsens->id }}" action="{{ route('surat_absen.destroy', $pengajuanAbsens,  ['id' => $pengajuanAbsens->id]) }}" method="POST" style="display: none;">
-                                                            @method('DELETE')
-                                                            @csrf
-                                                        </form>
+                                                        @if ($pengajuanAbsens->status_kp == 3 || $pengajuanAbsens->status_hrd == 3 || $pengajuanAbsens->status_rek == 3)
+
+                                                        @else
+                                                            <a href="surat_absen/{{ $pengajuanAbsens->id }}/edit" class="dropdown-item"><i class="glyphicon glyphicon-plus"></i>Edit</a>
+                                                            {{ link_to('', 'Delete', ['class'=>'dropdown-item', 'onclick'=>"event.preventDefault();document.getElementById('delete-form-$pengajuanAbsens->id').submit();"]) }}
+                                                            <form id="delete-form-{{ $pengajuanAbsens->id }}" action="{{ route('surat_absen.destroy', $pengajuanAbsens,  ['id' => $pengajuanAbsens->id]) }}" method="POST" style="display: none;">
+                                                                @method('DELETE')
+                                                                @csrf
+                                                            </form>
+                                                        @endif
                                                     </div>
                                                 </div>
                                             </td>
@@ -131,6 +148,10 @@
                                 </tbody>
                             @endif
                         </table>
+
+                        <div class="d-flex justify-content-center">
+                            {{ $pengajuanAbsen->links() }}
+                        </div>
                     </div>
                 </div>
             </div>

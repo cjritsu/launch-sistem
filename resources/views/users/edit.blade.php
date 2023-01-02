@@ -41,7 +41,7 @@
                                 @endif
                             </div>
                             <div class="input-group{{ $errors->has('password') ? ' has-danger' : '' }} col-md-4">
-                                <input name="password" type="password" class="form-control" placeholder="Password" value="{{ $user->password }}">
+                                <input name="password" type="password" class="form-control" placeholder="Password">
                                 @if ($errors->has('password'))
                                     <span class="invalid-feedback" style="display: block;" role="alert">
                                         <strong>{{ $errors->first('password') }}</strong>
@@ -49,7 +49,7 @@
                                 @endif
                             </div>
                             <div class="input-group col-md-4">
-                                <input name="password_confirmation" type="password" class="form-control" placeholder="Password confirmation" value="{{ $user->password }}">
+                                <input name="password_confirmation" type="password" class="form-control" placeholder="Password confirmation">
                                 @if ($errors->has('password_confirmation'))
                                     <span class="invalid-feedback" style="display: block;" role="alert">
                                         <strong>{{ $errors->first('password_confirmation') }}</strong>

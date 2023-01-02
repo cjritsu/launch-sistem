@@ -28,7 +28,7 @@
                     <div class="card-footer ">
                         <hr>
                         <div class="stats">
-                            <i class="fa fa-refresh"></i> <a href="{{ route('page.index', 'user') }}">Update Now</a>
+                            <i class="fa fa-refresh"></i> <a href="{{ route('page.index', 'user') }}">{{'Updated '}}{{ Carbon\Carbon::parse($updated_user->created_at)->diffForHumans() }}</a>
                         </div>
                     </div>
                 </div>
@@ -54,7 +54,7 @@
                     <div class="card-footer ">
                         <hr>
                         <div class="stats">
-                            <i class="fa fa-calendar-o"></i> Last day
+                            <i class="fa fa-calendar-o"></i>{{'Updated '}}{{ Carbon\Carbon::parse($updated_cuti->created_at)->diffForHumans() }}
                         </div>
                     </div>
                 </div>
@@ -79,7 +79,7 @@
                     <div class="card-footer ">
                         <hr>
                         <div class="stats">
-                            <i class="fa fa-refresh"></i> Update now
+                            <i class="fa fa-calendar-o"></i> {{'Updated '}}{{ Carbon\Carbon::parse($updated_absen)->diffForHumans() }}
                         </div>
                     </div>
                 </div>
@@ -104,7 +104,7 @@
                     <div class="card-footer ">
                         <hr>
                         <div class="stats">
-                            <i class="fa fa-refresh"></i> Update now
+                            <i class="fa fa-calendar-o"></i> {{'Updated '}}{{ Carbon\Carbon::parse($updated_izin)->diffForHumans() }}
                         </div>
                     </div>
                 </div>
@@ -144,53 +144,7 @@
                     <div class="card-footer ">
                         <hr>
                         <div class="stats">
-                            <i class="fa fa-history"></i> Updated 3 minutes ago
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-4">
-                <div class="card ">
-                    <div class="card-header ">
-                        <h5 class="card-title">Email Statistics</h5>
-                        <p class="card-category">Last Campaign Performance</p>
-                    </div>
-                    <div class="card-body ">
-                        <canvas id="chartEmail"></canvas>
-                    </div>
-                    <div class="card-footer ">
-                        <div class="legend">
-                            <i class="fa fa-circle text-primary"></i> Opened
-                            <i class="fa fa-circle text-warning"></i> Read
-                            <i class="fa fa-circle text-danger"></i> Deleted
-                            <i class="fa fa-circle text-gray"></i> Unopened
-                        </div>
-                        <hr>
-                        <div class="stats">
-                            <i class="fa fa-calendar"></i> Number of emails sent
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-8">
-                <div class="card card-chart">
-                    <div class="card-header">
-                        <h5 class="card-title">NASDAQ: AAPL</h5>
-                        <p class="card-category">Line Chart with Points</p>
-                    </div>
-                    <div class="card-body">
-                        <canvas id="speedChart" width="400" height="100"></canvas>
-                    </div>
-                    <div class="card-footer">
-                        <div class="chart-legend">
-                            <i class="fa fa-circle text-info"></i> Tesla Model S
-                            <i class="fa fa-circle text-warning"></i> BMW 5 Series
-                        </div>
-                        <hr />
-                        <div class="card-stats">
-                            <i class="fa fa-check"></i> Data information certified
+                            <i class="fa fa-history"></i>{{'Updated '}}{{ Carbon\Carbon::parse($updated_cuti->created_at)->diffForHumans() }}
                         </div>
                     </div>
                 </div>
@@ -205,10 +159,10 @@
     <script>
         $(document).ready(function() {
             // Javascript method's body can be found in assets/assets-for-demo/js/demo.js
-            $(document).ready( function () {
-                $('#filterTable').DataTable();
-            } );
-            demo.initChartsPages();
+            // $(document).ready( function () {
+            //     $('#filterTable').DataTable();
+            // } );
+            // demo.initChartsPages();
         });
     </script>
 @endpush

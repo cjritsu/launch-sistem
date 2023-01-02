@@ -76,17 +76,17 @@
                                 {{ Form::label('surat_dokter', 'Jika Sakit, Surat Dokter &nbsp;', ['class'=>'control-label col-md-2']) }}
                                 <div class="col-md-4" onchange="showHide()">
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="surat_dokter" id="radio_ada" value="Ada" {{$Pengajuan_Absen->surat_dokter == 'Ada' ? 'checked' : ''}}>
+                                        <input class="form-check-input" type="radio" name="surat_dokter" id="radio_ada" value="Tersedia Surat Dokter" {{$Pengajuan_Absen->surat_dokter == 'Tersedia Surat Dokter' ? 'checked' : ''}}>
                                         <label class="form-check-label" for="radio_ada">{{'Ada'}}</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="surat_dokter" id="radio_tdkada" value="Tidak Ada" {{$Pengajuan_Absen->surat_dokter == 'Tidak Ada' ? 'checked' : ''}}>
+                                        <input class="form-check-input" type="radio" name="surat_dokter" id="radio_tdkada" value="Tidak Ada Surat Dokter" {{$Pengajuan_Absen->surat_dokter == 'Tidak Ada Surat Dokter' ? 'checked' : ''}}>
                                         <label class="form-check-label" for="radio_tidakada">{{'Tidak Ada'}}</label>
                                     </div>
                                 </div>
                                 <div class="custom-file col-md-4" style="margin-left: 15px; display: none;" id="surat_bukti">
                                     {!! Form::file('surat_bukti', ['class' => 'custom-file-input', 'id' => 'customFile']) !!}
-                                    {!! Form::label('customFile', old('customFile', $Pengajuan_Absen->image), ['class' => 'custom-file-label']) !!}
+                                    {!! Form::label('surat_bukti', old('customFile', $Pengajuan_Absen->image), ['class' => 'custom-file-label']) !!}
                                 </div>
                             </div>
                             <div class="form-row" style="padding-left: 15px">

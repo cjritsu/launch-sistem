@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Http\Requests\UserRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\SessionGuard;
 use App\Models\Departemen;
@@ -83,5 +84,11 @@ class UserController extends Controller
         DB::delete('delete from karyawans where user_id = ?', [$user->id]);
         DB::delete('delete from users where id = ?', [$id]);
         return redirect()->route('user.index')->with('success', 'Telah Berhasil Dihapus');
+    }
+
+    public function search(Request $request) {
+        $search = $request->search;
+        $users = User::where('name', 'like', "%" . $search . "%")->orWhere('nip', 'like', "%".$search."%")->paginate();
+        return view('users.index', compact('users'))->with('i', (request()->input('page', 1) - 1) * 5);
     }
 }

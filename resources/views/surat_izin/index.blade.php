@@ -18,6 +18,19 @@
                             <div class="col-sm-6">
                                 <a href="{{ route('surat_izin.create') }}" type="button" class="btn btn-success btn-sm"><i class="glyphicon glyphicon-plus"></i> Tambah Pengajuan Surat</a>
                             </div>
+                            <div class="col-6 text-right">
+                                <form action="{{ route('izin_search') }}" method="GET">
+                                @csrf
+                                    <div class="input-group no-border">
+                                        <input type="text" value="{{ old('search') }}" class="form-control" placeholder="Search..." name="search">
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <i class="nc-icon nc-zoom-split"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                         <br/>
                         <table class="table table-striped table-hover">
@@ -28,6 +41,7 @@
                                         <th>Jenis Izin</th>
                                         <th>Tanggal Yang Dimohon</th>
                                         <th>Tanggal Masuk Kembali</th>
+                                        <th>Hari yang Diambil</th>
                                         <th>Keterangan</th>
                                         <th>Status</th>
                                         <th colspan="2">Action</th>
@@ -41,6 +55,7 @@
                                                 <td>{{ $pengajuanSurat->Jenis_Izin->name }}</td>
                                                 <td>{{ \Carbon\Carbon::parse($pengajuanSurat->tanggal_izin_awal)->isoFormat('D MMMM Y') }} {{ '—' }} {{ \Carbon\Carbon::parse($pengajuanSurat->tanggal_izin_akhir)->isoFormat('D MMMM Y') }}</td>
                                                 <td>{{ \Carbon\Carbon::parse($pengajuanSurat->tanggal_masuk)->isoFormat('D MMMM Y') }}</td>
+                                                <td>{{ $pengajuanSurat->num_days }}</td>
                                                 <td>{{ $pengajuanSurat->keterangan }}</td>
                                                 @if ($pengajuanSurat->status_kp == '2' && $pengajuanSurat->status_hrd == '2' && $pengajuanSurat->status_rek == '2')
                                                     <td><span class="badge badge-success">{{ 'Diterima' }}</span></td>
@@ -74,6 +89,7 @@
                                         <th>Jenis Izin</th>
                                         <th>Permintaan Izin</th>
                                         <th>Tanggal Masuk Kembali</th>
+                                        <th>Hari yang Diambil</th>
                                         <th>Keterangan</th>
                                         <th>Status</th>
                                         <th colspan="2">Action</th>
@@ -88,6 +104,7 @@
                                             <td>{{ $pengajuanSurat->Jenis_Izin->name }}</td>
                                             <td>{{ \Carbon\Carbon::parse($pengajuanSurat->tanggal_izin_awal)->isoFormat('D MMMM Y') }} {{ '—' }} {{ \Carbon\Carbon::parse($pengajuanSurat->tanggal_izin_akhir)->isoFormat('D MMMM Y') }}</td>
                                             <td>{{ \Carbon\Carbon::parse($pengajuanSurat->tanggal_masuk)->isoFormat('D MMMM Y') }}</td>
+                                            <td>{{ $pengajuanSurat->num_days }}</td>
                                             <td>{{ $pengajuanSurat->keterangan }}</td>
                                             @if ($pengajuanSurat->status_kp == '2' && $pengajuanSurat->status_hrd == '2' && $pengajuanSurat->status_rek == '2')
                                                     <td><span class="badge badge-success">{{ 'Diterima' }}</span></td>

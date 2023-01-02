@@ -31,6 +31,15 @@
                                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#SuratDetail">
                                             Details
                                         </button>
+                                        @can('edit-surat')
+                                            @if (auth()->user()->HasRole('Staff') && $suratizin->status_kp != '1')
+
+                                            @elseif ($suratizin->status_kp == 3 || $suratizin->status_hrd == 3 || $suratizin->status_rek == 3)
+
+                                            @else
+                                            <a href="{{ $suratizin->id }}/edit" type="button" class="btn btn-success">Edit</a>
+                                            @endif
+                                        @endcan
                                     </h4>
                                 </div>
                             </div>
@@ -54,11 +63,11 @@
                                             <th></th>
                                             <td>
                                                 @if ($suratizin->status_rek == '2')
-                                                    <h4><span class="badge badge-success">{{ 'Diterima' }}</span>
+                                                    <h4><span class="badge badge-success">{{ 'Diterima' }}</span></h4>
                                                 @elseif ($suratizin->status_rek == '3')
-                                                    <h4><span class="badge badge-danger">{{ 'Ditolak' }}</span>
+                                                    <h4><span class="badge badge-danger">{{ 'Ditolak' }}</span></h4>
                                                 @else
-                                                    <h4><span class="badge badge-warning">{{ 'Pending' }}</span>
+                                                    <h4><span class="badge badge-warning">{{ 'Pending' }}</span></h4>
                                                 @endif
                                                 <p class="text-muted"><small><b>{{$lastRek->updated_at ?? ''}}</b></small></p>
                                             </td>

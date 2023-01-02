@@ -9,7 +9,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h5 class="card-title">UBD/SDM/FM-012-{{ $pengajuan_cuti[0]->id }}</h5>
+                        <h5 class="card-title">UBD/SDM/FM-012-{{ $pengajuan_cuti->id }}</h5>
                         <p class="card-category">Keterangan Validasi Surat Cuti</p>
                         <div class="col-sm-6">
                             <a href="{{ route('surat_cuti.index') }}" type="button" class="btn btn-success btn-sm"><i class="glyphicon glyphicon-plus"></i> Return</a>
@@ -31,6 +31,15 @@
                                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#SuratDetail">
                                             Details
                                         </button>
+                                        @can('edit-surat')
+                                            @if (auth()->user()->HasRole('Staff') && $pengajuan_cuti->status_kp != '1')
+
+                                            @elseif ($pengajuan_cuti->status_kp == 3 || $pengajuan_cuti->status_hrd == 3 || $pengajuan_cuti->status_rek == 3)
+
+                                            @else
+                                            <a href="{{ $pengajuan_cuti->id }}/edit" type="button" class="btn btn-success">Edit</a>
+                                            @endif
+                                        @endcan
                                     </h4>
                                 </div>
                             </div>
@@ -53,9 +62,9 @@
                                             <th></th>
                                             <th></th>
                                             <td>
-                                                @if ($pengajuan_cuti[0]->status_rek == '2')
+                                                @if ($pengajuan_cuti->status_rek == '2')
                                                     <h4><span class="badge badge-success">{{ 'Diterima' }}</span></h4>
-                                                @elseif ($pengajuan_cuti[0]->status_rek == '3')
+                                                @elseif ($pengajuan_cuti->status_rek == '3')
                                                     <h4><span class="badge badge-danger">{{ 'Ditolak' }}</span></h4>
                                                 @else
                                                     <h4><span class="badge badge-warning">{{ 'Pending' }}</span></h4>
@@ -63,9 +72,9 @@
                                                 <p class="text-muted"><small><b>{{$lastRek->updated_at ?? ''}}</b></small></p>
                                             </td>
                                             <td>
-                                                @if ($pengajuan_cuti[0]->status_hrd == '2')
+                                                @if ($pengajuan_cuti->status_hrd == '2')
                                                     <h4><span class="badge badge-success">{{ 'Diterima' }}</span></h4>
-                                                @elseif ($pengajuan_cuti[0]->status_hrd == '3')
+                                                @elseif ($pengajuan_cuti->status_hrd == '3')
                                                     <h4><span class="badge badge-danger">{{ 'Ditolak' }}</span></h4>
                                                 @else
                                                     <h4><span class="badge badge-warning">{{ 'Pending' }}</span></h4>
@@ -73,9 +82,9 @@
                                                 <p class="text-muted"><small><b>{{$lastHRD->updated_at ?? ''}}</b></small></p>
                                             </td>
                                             <td>
-                                                @if ($pengajuan_cuti[0]->status_kp == '2')
+                                                @if ($pengajuan_cuti->status_kp == '2')
                                                     <h4><span class="badge badge-success">{{ 'Diterima' }}</span></h4>
-                                                @elseif ($pengajuan_cuti[0]->status_kp == '3')
+                                                @elseif ($pengajuan_cuti->status_kp == '3')
                                                     <h4><span class="badge badge-danger">{{ 'Ditolak' }}</span></h4>
                                                 @else
                                                     <h4><span class="badge badge-warning">{{ 'Pending' }}</span></h4>
@@ -95,7 +104,7 @@
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="JudulDetail">Surat Cuti - UBD/SDM/FM-012-{{ $pengajuan_cuti[0]->id }}</h5>
+                        <h5 class="modal-title" id="JudulDetail">Surat Cuti - UBD/SDM/FM-012-{{ $pengajuan_cuti->id }}</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -131,19 +140,19 @@
                             <tr>
                                 <th>Tanggal Permintaan Cuti</th>
                                 <td>
-                                    {{ \Carbon\Carbon::parse($pengajuan_cuti[0]->tanggal_mulai)->isoFormat('D MMMM Y') }} {{' sampai '}} {{ \Carbon\Carbon::parse($pengajuan_cuti[0]->tanggal_akhir)->isoFormat('D MMMM Y') }}
+                                    {{ \Carbon\Carbon::parse($pengajuan_cuti->tanggal_mulai)->isoFormat('D MMMM Y') }} {{' sampai '}} {{ \Carbon\Carbon::parse($pengajuan_cuti->tanggal_akhir)->isoFormat('D MMMM Y') }}
                                 </td>
                             </tr>
                             <tr>
                                 <th>Tanggal Masuk Kembali</th>
                                 <td>
-                                    {{ \Carbon\Carbon::parse($pengajuan_cuti[0]->tanggal_masuk)->isoFormat('D MMMM Y') }}
+                                    {{ \Carbon\Carbon::parse($pengajuan_cuti->tanggal_masuk)->isoFormat('D MMMM Y') }}
                                 </td>
                             </tr>
                             <tr>
                                 <th>Alasan Permohonan Cuti</th>
                                 <td>
-                                    {{ $pengajuan_cuti[0]->keterangan }}
+                                    {{ $pengajuan_cuti->keterangan }}
                                 </td>
                             </tr>
                         </table>
@@ -160,27 +169,27 @@
                             <tbody>
                                 <tr>
                                     <td>
-                                        @if ($pengajuan_cuti[0]->status_rek == '2')
+                                        @if ($pengajuan_cuti->status_rek == '2')
                                             <h4 class="text-center"><span class="badge badge-success">{{ 'Diterima' }}</span>
-                                        @elseif ($pengajuan_cuti[0]->status_rek == '3')
+                                        @elseif ($pengajuan_cuti->status_rek == '3')
                                             <h4 class="text-center"><span class="badge badge-danger">{{ 'Ditolak' }}</span>
                                         @else
                                             <h4 class="text-center"><span class="badge badge-warning">{{ 'Pending' }}</span>
                                         @endif
                                     </td>
                                     <td>
-                                        @if ($pengajuan_cuti[0]->status_hrd == '2')
+                                        @if ($pengajuan_cuti->status_hrd == '2')
                                             <h4 class="text-center"><span class="badge badge-success">{{ 'Diterima' }}</span></h4>
-                                        @elseif ($pengajuan_cuti[0]->status_hrd == '3')
+                                        @elseif ($pengajuan_cuti->status_hrd == '3')
                                             <h4 class="text-center"><span class="badge badge-danger">{{ 'Ditolak' }}</span></h4>
                                         @else
                                             <h4 class="text-center"><span class="badge badge-warning">{{ 'Pending' }}</span></h4>
                                         @endif
                                     </td>
                                     <td>
-                                        @if ($pengajuan_cuti[0]->status_kp == '2')
+                                        @if ($pengajuan_cuti->status_kp == '2')
                                             <h4 class="text-center"><span class="badge badge-success">{{ 'Diterima' }}</span></h4>
-                                        @elseif ($pengajuan_cuti[0]->status_kp == '3')
+                                        @elseif ($pengajuan_cuti->status_kp == '3')
                                             <h4 class="text-center"><span class="badge badge-danger">{{ 'Ditolak' }}</span></h4>
                                         @else
                                             <h4 class="text-center"><span class="badge badge-warning">{{ 'Pending' }}</span></h4>
@@ -188,6 +197,9 @@
                                     </td>
                                     <td>
                                         <h4 class="text-center"><span class="badge badge-primary">{{ 'Terkirim' }}</span></h4>
+                                        @foreach ($pengajuanCuti as $pengajuanCutis)
+                                            <p class="text-muted text-center"><small><b>{{$pengajuanCutis->created_at ?? ''}}</b></small></p>
+                                        @endforeach
                                     </td>
                                 </tr>
                             </tbody>
@@ -234,7 +246,7 @@
                                         {{':'}}
                                     </td>
                                     <td>
-                                        {{$pengajuan_cuti[0]->num_days}}{{' Hari Kerja'}}
+                                        {{$pengajuan_cuti->num_days}}{{' Hari Kerja'}}
                                     </td>
                                 </tr>
                                 <tr>
@@ -245,13 +257,14 @@
                                         {{':'}}
                                     </td>
                                     <td>
-                                        {{$pengajuan_cuti[0]->updated_at}}
+                                        {{$pengajuan_cuti->updated_at}}
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                     <div class="modal-footer">
+                        <a href="{{ $pengajuan_cuti->id }}/edit" type="button" class="btn btn-primary">Edit</a>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
                 </div>

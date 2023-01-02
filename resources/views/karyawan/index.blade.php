@@ -15,6 +15,30 @@
                                     <h3 class="mb-0">Profile Management</h3>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-3">
+                                    <form action="{{ route('karyawan_search') }}" method="GET">
+                                    @csrf
+                                        <div class="input-group no-border">
+                                            <input type="text" value="{{ old('search') }}" class="form-control" placeholder="Search..." name="search">
+                                            <div class="input-group-append">
+                                                <div class="input-group-text">
+                                                    <i class="nc-icon nc-zoom-split"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                @can('reset_jatah_cuti')
+                                    <div class="col-3">
+                                        <form action="{{ route('karyawan_reset') }}" method="POST">
+                                            @method('PUT')
+                                            @csrf
+                                            <button type="submit" class="btn btn-warning">Reset Jatah Cuti</button>
+                                        </form>
+                                    </div>
+                                @endcan
+                            </div>
                         </div>
                         <div class="table-responsive">
                             <table class="table align-items-center table-flush">

@@ -342,6 +342,20 @@ The above copyright notice and this permission notice shall be included in all c
                                     </div>
                                 @endcan
                             </div>
+                            <div class="row">
+                                <div class="col-3">
+                                    <form action="{{ route('user_search') }}" method="GET">
+                                        <div class="input-group no-border">
+                                            <input type="text" value="{{ old('search') }}" class="form-control" placeholder="Search..." name="search">
+                                            <div class="input-group-append">
+                                                <div class="input-group-text">
+                                                    <i class="nc-icon nc-zoom-split"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                         <div class="table-responsive">
                             <table class="table align-items-center table-flush">

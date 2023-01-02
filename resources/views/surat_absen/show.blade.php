@@ -9,7 +9,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h5 class="card-title">UBD/SDM/FM-015-{{ $Pengajuan_Absen[0]->id }}</h5>
+                        <h5 class="card-title">UBD/SDM/FM-015-{{ $Pengajuan_Absen->id }}</h5>
                         <p class="card-category">Keterangan Formulir Tidak Masuk Kerja</p>
                         <div class="col-sm-6">
                             <a href="{{ route('surat_absen.index') }}" type="button" class="btn btn-success btn-sm"><i class="glyphicon glyphicon-plus"></i> Return</a>
@@ -31,6 +31,15 @@
                                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#SuratDetail">
                                             Details
                                         </button>
+                                        @can('edit-surat')
+                                            @if (auth()->user()->HasRole('Staff') && $Pengajuan_Absen->status_kp != '1')
+
+                                            @elseif ($Pengajuan_Absen->status_kp == 3 || $Pengajuan_Absen->status_hrd == 3 || $Pengajuan_Absen->status_rek == 3)
+
+                                            @else
+                                            <a href="{{ $Pengajuan_Absen->id }}/edit" type="button" class="btn btn-success">Edit</a>
+                                            @endif
+                                        @endcan
                                     </h4>
                                 </div>
                             </div>
@@ -53,19 +62,19 @@
                                             <th></th>
                                             <th></th>
                                             <td>
-                                                @if ($Pengajuan_Absen[0]->status_rek == '2')
-                                                    <h4><span class="badge badge-success">{{ 'Diterima' }}</span>
-                                                @elseif ($Pengajuan_Absen[0]->status_rek == '3')
-                                                    <h4><span class="badge badge-danger">{{ 'Ditolak' }}</span>
+                                                @if ($Pengajuan_Absen->status_rek == '2')
+                                                    <h4><span class="badge badge-success">{{ 'Diterima' }}</span></h4>
+                                                @elseif ($Pengajuan_Absen->status_rek == '3')
+                                                    <h4><span class="badge badge-danger">{{ 'Ditolak' }}</span></h4>
                                                 @else
-                                                    <h4><span class="badge badge-warning">{{ 'Pending' }}</span>
+                                                    <h4><span class="badge badge-warning">{{ 'Pending' }}</span></h4>
                                                 @endif
                                                 <p class="text-muted"><small><b>{{$lastRek->updated_at ?? ''}}</b></small></p>
                                             </td>
                                             <td>
-                                                @if ($Pengajuan_Absen[0]->status_hrd == '2')
+                                                @if ($Pengajuan_Absen->status_hrd == '2')
                                                     <h4><span class="badge badge-success">{{ 'Diterima' }}</span></h4>
-                                                @elseif ($Pengajuan_Absen[0]->status_hrd == '3')
+                                                @elseif ($Pengajuan_Absen->status_hrd == '3')
                                                     <h4><span class="badge badge-danger">{{ 'Ditolak' }}</span></h4>
                                                 @else
                                                     <h4><span class="badge badge-warning">{{ 'Pending' }}</span></h4>
@@ -73,9 +82,9 @@
                                                 <p class="text-muted"><small><b>{{$lastHRD->updated_at ?? ''}}</b></small></p>
                                             </td>
                                             <td>
-                                                @if ($Pengajuan_Absen[0]->status_kp == '2')
+                                                @if ($Pengajuan_Absen->status_kp == '2')
                                                     <h4><span class="badge badge-success">{{ 'Diterima' }}</span></h4>
-                                                @elseif ($Pengajuan_Absen[0]->status_kp == '3')
+                                                @elseif ($Pengajuan_Absen->status_kp == '3')
                                                     <h4><span class="badge badge-danger">{{ 'Ditolak' }}</span></h4>
                                                 @else
                                                     <h4><span class="badge badge-warning">{{ 'Pending' }}</span></h4>
@@ -95,37 +104,33 @@
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="JudulDetail">Surat Izin - UBD/SDM/FM-015-{{ $Pengajuan_Absen[0]->id }}</h5>
+                        <h5 class="modal-title" id="JudulDetail">Surat Izin - UBD/SDM/FM-015-{{ $Pengajuan_Absen->id }}</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
                         <table class="table table-bordered">
+                            @foreach ($pengajuanAbsen as $Pengajuan_Absens)
                             <tr>
                                 <th>NIP</th>
                                 <td colspan="3">
-                                    @foreach ($karyawan as $karyawans)
-                                        {{ $karyawans->User->nip }}
-                                    @endforeach
+                                    {{ $Pengajuan_Absens->User->nip }}
                                 </td>
                             </tr>
                             <tr>
                                 <th>Name</th>
                                 <td colspan="3">
-                                    @foreach ($karyawan as $karyawans)
-                                        {{ $karyawans->User->name }}
-                                    @endforeach
+                                    {{ $Pengajuan_Absens->User->name }}
                                 </td>
                             </tr>
                             <tr>
                                 <th>Unit</th>
                                 <td colspan="3">
-                                    @foreach ($karyawan as $karyawans)
-                                        {{ $karyawans->Unit_Kerja->name }}
-                                    @endforeach
+                                    {{ $Pengajuan_Absens->Unit_Kerja->name }}
                                 </td>
                             </tr>
+                            @endforeach
                             <tr>
                                 <th>Bagian</th>
                                 <td colspan="3">
@@ -137,40 +142,40 @@
                             <tr>
                                 <th>Tanggal Tidak Masuk Kerja</th>
                                 <td colspan="3">
-                                    {{ \Carbon\Carbon::parse($Pengajuan_Absen[0]->tanggal_absen_awal)->isoFormat('D MMMM Y') }} {{' sampai '}} {{ \Carbon\Carbon::parse($Pengajuan_Absen[0]->tanggal_absen_akhir)->isoFormat('D MMMM Y') }}
+                                    {{ \Carbon\Carbon::parse($Pengajuan_Absen->tanggal_absen_awal)->isoFormat('D MMMM Y') }} {{' sampai '}} {{ \Carbon\Carbon::parse($Pengajuan_Absen->tanggal_absen_akhir)->isoFormat('D MMMM Y') }}
                                 </td>
                             </tr>
                             <tr>
                                 <th>Pemberitahuan Tidak Masuk</th>
                                 <td>
-                                    {{ \Carbon\Carbon::parse($Pengajuan_Absen[0]->tanggal_berita)->isoFormat('D MMMM Y') }}
+                                    {{ \Carbon\Carbon::parse($Pengajuan_Absen->tanggal_berita)->isoFormat('D MMMM Y') }}
                                 </td>
                                 <th>Kepada/Melalui</th>
                                 <td>
-                                    {{$Pengajuan_Absen[0]->tinggalin_absen}}
+                                    {{$Pengajuan_Absen->tinggalin_absen}}
                                 </td>
                             </tr>
                             <tr>
                                 <th>Tanggal Masuk Kembali</th>
                                 <td colspan="3">
-                                    {{ \Carbon\Carbon::parse($Pengajuan_Absen[0]->tanggal_masuk)->isoFormat('D MMMM Y') }}
+                                    {{ \Carbon\Carbon::parse($Pengajuan_Absen->tanggal_masuk)->isoFormat('D MMMM Y') }}
                                 </td>
                             </tr>
                             <tr>
                                 <th>Alasan</th>
                                 <td colspan="3">
-                                    {{ $Pengajuan_Absen[0]->keterangan }}
+                                    {{ $Pengajuan_Absen->keterangan }}
                                 </td>
                             </tr>
                             <tr>
                                 <th>Jika Sakit, Surat Dokter</th>
-                                @if ($Pengajuan_Absen[0]->image !== null)
+                                @if ($Pengajuan_Absen->image !== null)
                                     <td colspan="3">
-                                        <a href="{{asset('storage/surat_bukti/'.$Pengajuan_Absen[0]->image)}}">{{$Pengajuan_Absen[0]->surat_dokter}}</a>
+                                        <a href="{{asset('surat_bukti/' . $Pengajuan_Absen->User->name.'/'.$Pengajuan_Absen->image)}}">{{$Pengajuan_Absen->surat_dokter}}</a>
                                     </td>
                                 @else
                                     <td colspan="3">
-                                        {{$Pengajuan_Absen[0]->surat_dokter}}
+                                        {{$Pengajuan_Absen->surat_dokter}}
                                     </td>
                                 @endif
                                 </td>
@@ -189,27 +194,27 @@
                             <tbody>
                                 <tr>
                                     <td>
-                                        @if ($Pengajuan_Absen[0]->status_rek == '2')
+                                        @if ($Pengajuan_Absen->status_rek == '2')
                                             <h4 class="text-center"><span class="badge badge-success">{{ 'Diterima' }}</span>
-                                        @elseif ($Pengajuan_Absen[0]->status_rek == '3')
+                                        @elseif ($Pengajuan_Absen->status_rek == '3')
                                             <h4 class="text-center"><span class="badge badge-danger">{{ 'Ditolak' }}</span>
                                         @else
                                             <h4 class="text-center"><span class="badge badge-warning">{{ 'Pending' }}</span>
                                         @endif
                                     </td>
                                     <td>
-                                        @if ($Pengajuan_Absen[0]->status_hrd == '2')
+                                        @if ($Pengajuan_Absen->status_hrd == '2')
                                             <h4 class="text-center"><span class="badge badge-success">{{ 'Diterima' }}</span></h4>
-                                        @elseif ($Pengajuan_Absen[0]->status_hrd == '3')
+                                        @elseif ($Pengajuan_Absen->status_hrd == '3')
                                             <h4 class="text-center"><span class="badge badge-danger">{{ 'Ditolak' }}</span></h4>
                                         @else
                                             <h4 class="text-center"><span class="badge badge-warning">{{ 'Pending' }}</span></h4>
                                         @endif
                                     </td>
                                     <td>
-                                        @if ($Pengajuan_Absen[0]->status_kp == '2')
+                                        @if ($Pengajuan_Absen->status_kp == '2')
                                             <h4 class="text-center"><span class="badge badge-success">{{ 'Diterima' }}</span></h4>
-                                        @elseif ($Pengajuan_Absen[0]->status_kp == '3')
+                                        @elseif ($Pengajuan_Absen->status_kp == '3')
                                             <h4 class="text-center"><span class="badge badge-danger">{{ 'Ditolak' }}</span></h4>
                                         @else
                                             <h4 class="text-center"><span class="badge badge-warning">{{ 'Pending' }}</span></h4>

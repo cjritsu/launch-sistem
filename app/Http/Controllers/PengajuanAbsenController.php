@@ -19,22 +19,22 @@ use Notification;
 class PengajuanAbsenController extends Controller
 {
     public function index() {
-        $pengajuanAbsen = Pengajuan_Absen::orderBy('created_at', 'ASC')->paginate(10);
+        $pengajuanAbsen = Pengajuan_Absen::orderBy('created_at', 'DESC')->paginate(10);
         $data['pengajuanAbsen'] = Pengajuan_Absen::with('User', 'Karyawan', 'Unit_Kerja', 'status_cuti')->get();
         $Absen = Pengajuan_Absen::first();
         $Karyawan = Karyawan::where('user_id', auth()->user()->id)->first();
 
         // Kelompok Kepala Unit
         if(auth()->user()->HasRole('Kepala Unit') && $Karyawan->unit_kerja_id == $Karyawan->unit_kerja_id ){
-            $pengajuanAbsen = Pengajuan_Absen::with('User', 'Karyawan', 'Unit_Kerja', 'status_cuti')->where('unit_kerja_id', $Karyawan->unit_kerja_id)->get();
+            $data['pengajuanAbsen'] = Pengajuan_Absen::with('User', 'Karyawan', 'Unit_Kerja', 'status_cuti')->where('unit_kerja_id', $Karyawan->unit_kerja_id)->get();
         }
 
         // Send Kepala Unit -> HRD -> WaRek
         if (auth()->user()->HasRole('HRD')) {
-            $pengajuanAbsen = Pengajuan_Absen::with('User', 'Karyawan', 'Unit_Kerja', 'status_cuti')->where('status_kp', 2)->get();
+            $data['pengajuanAbsen'] = Pengajuan_Absen::with('User', 'Karyawan', 'Unit_Kerja', 'status_cuti')->where('status_kp', 2)->get();
         }
         if (auth()->user()->HasRole('Rektorat')) {
-            $pengajuanAbsen = Pengajuan_Absen::with('User', 'Karyawan', 'Unit_Kerja', 'status_cuti')->where('status_kp', 2)->where('status_hrd', 2)->get();
+            $data['pengajuanAbsen'] = Pengajuan_Absen::with('User', 'Karyawan', 'Unit_Kerja', 'status_cuti')->where('status_kp', 2)->where('status_hrd', 2)->get();
         }
         return view('surat_absen.index', compact('pengajuanAbsen', 'Karyawan'), $data);
     }
@@ -57,11 +57,14 @@ class PengajuanAbsenController extends Controller
             'keterangan' => 'required',
             'surat_bukti' => 'image|mimes:jpeg, PNG, jpg, svg, webp, png|max:2048',
         ]);
+        $name = User::where('id', $request->input('user_id'))->first();
         $image = $request->file('surat_bukti');
         $Pengajuan_Absen = new Pengajuan_Absen;
         if($request->has('surat_bukti')) {
-            $imageName = $image->getClientOriginalName();
+            $imageName = str_replace($image->getClientOriginalName(), date('d_m_Y_H_i_'). $image->getClientOriginalName(), $image->getClientOriginalName());
             $image->storeAs('public/surat_bukti', $imageName);
+            $image_path = public_path(). '/surat_bukti/'. $name->name;
+            $request->file('surat_bukti')->move($image_path, $imageName);
             $Pengajuan_Absen->create([
                 'user_id' => $request->input('user_id'),
                 'unit_kerja_id' => $request->input('unit_kerja'),
@@ -71,7 +74,7 @@ class PengajuanAbsenController extends Controller
                 'tinggalin_absen' => $request->input('kepada_id'),
                 'tanggal_masuk' => $request->input('tanggal_masuk'),
                 'keterangan' => $request->input('keterangan'),
-                'image' => $image->getClientOriginalName(),
+                'image' => $imageName,
                 'surat_dokter' => $request->input('surat_dokter')
             ]);
         } else {
@@ -98,29 +101,20 @@ class PengajuanAbsenController extends Controller
     }
 
     public function show(Pengajuan_Absen $Pengajuan_Absen, $id) {
-        $Pengajuan_Absen = DB::select('select * from pengajuan__absens where id = ?', [$id]);
-        $data['karyawan'] = Karyawan::with('User', 'Unit_Kerja', 'Departemen')->where('user_id', auth()->user()->id)->get();
+        $Pengajuan_Absen = Pengajuan_Absen::with('User')->find($id);
+        $user = User::where('id', $Pengajuan_Absen->user_id)->first();
+        $data['karyawan'] = Karyawan::with('User', 'Unit_Kerja', 'Departemen')->where('user_id', $user->id)->get();
         $data['pengajuanAbsen'] = Pengajuan_Absen::with('User', 'Karyawan', 'status_cuti')->where('id', $id)->get();
 
         $data['lastKP'] = Activity::all()->where('subject_type', 'App\Models\Pengajuan_Absen')->where('subject_id', $id)->where('description', 'Kepala Unit')->last();
         $data['lastHRD'] = Activity::all()->where('subject_type', 'App\Models\Pengajuan_Absen')->where('subject_id', $id)->where('description', 'HRD')->last();
         $data['lastRek'] = Activity::all()->where('subject_type', 'App\Models\Pengajuan_Absen')->where('subject_id', $id)->where('description', 'Wakil Rektorat')->last();
 
-        if (auth()->user()->unreadNotifications == null) {
+        $notification = auth()->user()->notifications()->where('data->id', $id)->where('type', 'App\Notifications\IncomingAbsen')->first();
 
-        } else {
-            $activity = auth()->user()->unreadNotifications->first();
-            $unreadNotif = $activity->where('id', $activity->id)->first();
-            $unreadNotif->markAsRead();
-        };
-
-        if (auth()->user()->readNotifications == null) {
-            $activity = auth()->user()->unreadNotifications->first();
-            $unreadNotif = $activity->where('id', $activity->id)->first();
-            $unreadNotif->markAsRead();
-        } else {
-
-        };
+        if($notification){
+            $notification->markAsRead();
+        }
         return view('surat_absen.show', compact('Pengajuan_Absen'), $data);
     }
 
@@ -134,7 +128,7 @@ class PengajuanAbsenController extends Controller
     }
 
     public function update(Request $request, Pengajuan_Absen $Pengajuan_Absen, $id) {
-        $Pengajuan_Absen = Pengajuan_Absen::find($id);
+        $Pengajuan_Absen = Pengajuan_Absen::with('User')->find($id);
         $user_id = Pengajuan_Absen::where('id', $id)->first();
         $UserID = $request->input('user_id');
         $user = User::where('id', $user_id->user_id)->first();
@@ -148,22 +142,33 @@ class PengajuanAbsenController extends Controller
         $StatusKP = $request->input('status_kp') ?: old('status_kp');
         $StatusREK = $request->input('status_rek') ?: old('status_rek');
         $StatusHRD = $request->input('status_hrd') ?: old('status_hrd');
-        $image = $request->file('surat_bukti');
+        $image = $request->file('surat_bukti') ?: $Pengajuan_Absen->image;
         $update = $request->input('updated_at') ?: now();
         if($request->has('surat_bukti')) {
-            $imageName = $image->getClientOriginalName();
+            $imageName = str_replace($image->getClientOriginalName(), date('d_m_Y_H_i_'). $image->getClientOriginalName(), $image->getClientOriginalName());
             $image_path = storage_path(). '/app/public/surat_bukti/'.$Pengajuan_Absen->image;
-            unlink($image_path);
-            Storage::delete($image_path);
+
+            $name = $Pengajuan_Absen->User->name;
+            $second_image = public_path(). '/surat_bukti/'. $name . '/' . $Pengajuan_Absen->image;
+
             $image->storeAs('public/surat_bukti', $imageName);
-            DB::update('update pengajuan__absens set user_id = ?, tanggal_absen_awal = ?, tanggal_absen_akhir = ?, tanggal_berita = ?, tinggalin_absen = ?, tanggal_masuk = ?, keterangan = ?, image = ?, surat_dokter = ?, updated_at = ? where id = ?', [$UserID, $TglAwal, $TglAk, $TglBerita, $tinggalin_absen, $tanggal_masuk, $keterangan, $image->getClientOriginalName(), $surat_dokter, $update, $id]);
+
+            $image_move = public_path(). '/surat_bukti/'. $name;
+            $request->file('surat_bukti')->move($image_move, $imageName);
+
+            DB::update('update pengajuan__absens set user_id = ?, tanggal_absen_awal = ?, tanggal_absen_akhir = ?, tanggal_berita = ?, tinggalin_absen = ?, tanggal_masuk = ?, keterangan = ?, image = ?, surat_dokter = ?, updated_at = ? where id = ?', [$UserID, $TglAwal, $TglAk, $TglBerita, $tinggalin_absen, $tanggal_masuk, $keterangan, $request->has('surat_bukti')? $imageName : $Pengajuan_Absen->image, $surat_dokter, $update, $id]);
         } else {
-            if ($Pengajuan_Absen->image !== null) {
+            if ($surat_dokter == 'Tidak Ada Surat Dokter' && $Pengajuan_Absen->image !== null) {
                 $image_path = storage_path(). '/app/public/surat_bukti/'. $Pengajuan_Absen->image;
                 unlink($image_path);
                 Storage::delete($image_path);
+
+                $name = $Pengajuan_Absen->User->name;
+                $image_move = public_path(). '/surat_bukti/'. $name . '/' . $Pengajuan_Absen->image;
+                unlink($image_move);
+                Storage::delete($image_move);
             }
-            DB::update('update pengajuan__absens set user_id = ?, tanggal_absen_awal = ?, tanggal_absen_akhir = ?, tanggal_berita = ?, tinggalin_absen = ?, tanggal_masuk = ?, keterangan = ?, image = ?, surat_dokter = ?, updated_at = ? where id = ?', [$UserID, $TglAwal, $TglAk, $TglBerita, $tinggalin_absen, $tanggal_masuk, $keterangan, $image, $surat_dokter, $update, $id]);
+            DB::update('update pengajuan__absens set user_id = ?, tanggal_absen_awal = ?, tanggal_absen_akhir = ?, tanggal_berita = ?, tinggalin_absen = ?, tanggal_masuk = ?, keterangan = ?, image = ?, surat_dokter = ?, updated_at = ? where id = ?', [$UserID, $TglAwal, $TglAk, $TglBerita, $tinggalin_absen, $tanggal_masuk, $keterangan, null, $surat_dokter, $update, $id]);
         }
 
         if (auth()->user()->HasRole('Kepala Unit')){
@@ -175,6 +180,11 @@ class PengajuanAbsenController extends Controller
                 $user = User::all()->where('id', $notify_absen->user_id);
                 Notification::send($user, new IncomingAbsen($notify_absen));
             }
+            elseif ($StatusKP == 2) {
+                $notify_absen = Pengajuan_Absen::find($id);
+                $user = User::all()->where('roles_id', 5);
+                Notification::send($user, new IncomingAbsen($notify_absen));
+            }
         }
         if (auth()->user()->HasRole('HRD')){
             DB::update('update pengajuan__absens set status_hrd = ? where id = ?', [$StatusHRD, $id]);
@@ -183,6 +193,11 @@ class PengajuanAbsenController extends Controller
             if($StatusHRD == 3) {
                 $notify_absen = Pengajuan_Absen::find($id);
                 $user = User::all()->where('id', $notify_absen->user_id);
+                Notification::send($user, new IncomingAbsen($notify_absen));
+            }
+            elseif ($StatusHRD == 2) {
+                $notify_absen = Pengajuan_Absen::find($id);
+                $user = User::all()->where('roles_id', 4);
                 Notification::send($user, new IncomingAbsen($notify_absen));
             }
         }
@@ -199,18 +214,39 @@ class PengajuanAbsenController extends Controller
         if (auth()->user()->HasRole('Admin')){
             DB::update('update pengajuan__absens set status_kp = ?, status_hrd = ?, status_rek = ? where id = ?', [$StatusKP, $StatusHRD, $StatusREK, $id]);
             activity()->performedOn($Pengajuan_Absen)->causedBy(auth()->user()->id)->withProperties(['customProperty' => 'customValue'])->log('Admin');
+
+            if(auth()->user()) {
+                $notify_absen = Pengajuan_Absen::find($id);
+                $user = User::all()->where('id', $notify_absen->user_id);
+                Notification::send($user, new IncomingAbsen($notify_absen));
+            }
         }
         return redirect()->route('surat_absen.index')->with('success', 'Telah Berhasil Diupdate');
     }
 
     public function destroy(Pengajuan_Absen $Pengajuan_Absen, $id) {
-        $Pengajuan_Absen = Pengajuan_Absen::find($id);
+        $Pengajuan_Absen = Pengajuan_Absen::with('User')->find($id);
         if ($Pengajuan_Absen->image !== null) {
-            $image_path = storage_path(). '/app/public/surat_bukti/' .$Pengajuan_Absen->image;
+            $name = $Pengajuan_Absen->User->name;
+            $image_path = storage_path(). '/app/public/surat_bukti/'.$Pengajuan_Absen->image;
             unlink($image_path);
             Storage::delete($image_path);
+
+            $image_move = public_path(). '/surat_bukti/'. $name . '/' . $Pengajuan_Absen->image;
+            unlink($image_move);
+            Storage::delete($image_move);
         }
         $Pengajuan_Absen->delete();
         return redirect()->route('surat_absen.index')->with('success', 'Telah Berhasil Dihapus');
+    }
+
+    public function search(Request $request) {
+        $search = $request->search;
+        $pengajuanAbsen = Pengajuan_Absen::whereHas('User', function($q) use($search) {
+            $q->where('name', 'like', "%".$search."%")->orWhere('nip', 'like', "%".$search."%");
+        })->orwhereHas('Unit_Kerja', function($u) use($search) {
+            $u->where('name', 'like', "%".$search."%");
+        })->paginate();
+        return view('surat_absen.index', compact('pengajuanAbsen'))->with('i', (request()->input('page', 1) - 1) * 5);
     }
 }
