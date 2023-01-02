@@ -44,10 +44,21 @@ class HomeController extends Controller
         $absen = Pengajuan_Absen::select('id')->where('status_rek', '=', '2')->count();
         $data['Terima_Count'] = $cuti + $izin + $absen;
 
+        $kar_cuti = Pengajuan_Cuti::select('id')->where('status_rek', '=', '2')->where('user_id', auth()->user()->id)->count();
+        $kar_izin = SuratIzin::select('id')->where('status_rek', '=', '2')->where('user_id', auth()->user()->id)->count();
+        $kar_absen = Pengajuan_Absen::select('id')->where('status_rek', '=', '2')->where('user_id', auth()->user()->id)->count();
+        $data['self_terima'] = $kar_cuti + $kar_izin + $kar_absen;
+
         $cutis = Pengajuan_Cuti::select('id')->where('status_kp', '=', '3')->orWhere('status_hrd', '=', '3')->orWhere('status_rek', '=', '3')->count();
         $izins = SuratIzin::select('id')->where('status_kp', '=', '3')->orWhere('status_hrd', '=', '3')->orWhere('status_rek', '=', '3')->count();
         $absens = Pengajuan_Absen::select('id')->where('status_kp', '=', '3')->orWhere('status_hrd', '=', '3')->orWhere('status_rek', '=', '3')->count();
         $data['Tolak_Count'] = $cutis + $izins + $absens;
+
+        $kar_cutis = Pengajuan_Cuti::select('id')->where('user_id', auth()->user()->id)->where('status_kp', '=', '3')->orWhere('status_hrd', '=', '3')->orWhere('status_rek', '=', '3')->count();
+        $kar_izins = SuratIzin::select('id')->where('user_id', auth()->user()->id)->where('status_kp', '=', '3')->orWhere('status_hrd', '=', '3')->orWhere('status_rek', '=', '3')->count();
+        $kar_absens = Pengajuan_Absen::select('id')->where('user_id', auth()->user()->id)->where('status_kp', '=', '3')->orWhere('status_hrd', '=', '3')->orWhere('status_rek', '=', '3')->count();
+        $data['self_tolak'] = $kar_cutis + $kar_izins + $kar_absens;
+
 
         $report = [];
         $cuti_bulanan = Pengajuan_Cuti::select('jenis_cuti_id', \DB::raw('DATE_FORMAT(tanggal_mulai, "%Y-%m") as month'), \DB::raw('DATE_FORMAT(tanggal_mulai, "%Y") as year'), \DB::raw('count(id) as count'))->groupBy('jenis_cuti_id')->groupBy('month')->groupBy('year')->get();
@@ -60,9 +71,13 @@ class HomeController extends Controller
         $data['bulan'] = $cuti_bulanan->pluck('year', 'year');
 
         $data['updated_user'] = User::first();
-        $data['updated_cuti'] = Pengajuan_Cuti::first();
-        $data['updated_absen'] = Pengajuan_Absen::select('created_at')->where('status_rek', '=', '2')->first();
-        $data['updated_izin'] = SuratIzin::select('created_at')->where('status_kp', '=', '3')->orWhere('status_hrd', '=', '3')->orWhere('status_rek', '=', '3')->first();
+
+        $data['updated_cuti'] = Pengajuan_Cuti::with('Jenis_cuti')->first();
+        $data['jumlah_hari'] = Pengajuan_Cuti::select('id')->where('user_id', auth()->user()->id)->sum('num_days');
+
+        $data['rekap_cuti'] = Pengajuan_Cuti::with('Jenis_cuti')->get();
+        $data['rekap_absen'] = Pengajuan_Absen::get();
+        $data['rekap_izin'] = SuratIzin::with('Jenis_Izin')->get();
         return view('pages.dashboard', compact('pengajuan_cuti', 'report', 'jenis_cuti_id'), $data);
     }
 
