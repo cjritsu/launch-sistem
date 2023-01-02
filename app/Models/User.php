@@ -24,9 +24,10 @@ class User extends Authenticatable
     public $timestamps = false;
     protected $fillable = [
         'name',
-        'email',
         'nip',
+        'email',
         'password',
+        'roles_id'
     ];
 
     /**
@@ -61,5 +62,15 @@ class User extends Authenticatable
     public function Pengajuan_Cuti()
     {
         return $this->hasMany('App\Models\Pengajuan_Cuti');
+    }
+
+    public function Pengajuan_Absen()
+    {
+        return $this->hasMany('App\Models\Pengajuan_Absen');
+    }
+
+    public function Role()
+    {
+        return $this->belongsTo('Spatie\Permission\Models\Role', 'roles_id', 'id');
     }
 }

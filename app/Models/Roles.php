@@ -10,6 +10,6 @@ class Roles extends Model
     protected $table = 'roles';
     use HasFactory;
     public function User() {
-        return $this->hasMany('App\Models\User');
+        return $this->hasMany('App\Models\User', 'id', 'roles_id');
     }
 }

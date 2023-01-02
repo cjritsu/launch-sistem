@@ -14,9 +14,9 @@ return new class extends Migration
     public function up()
     {
         Schema::disableForeignKeyConstraints();
-        Schema::dropIfExists('status_cutis');
+        Schema::dropIfExists('status_surat');
         Schema::enableForeignKeyConstraints();
-        Schema::create('status_cutis', function (Blueprint $table) {
+        Schema::create('status_surat', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->timestamps();

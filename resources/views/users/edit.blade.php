@@ -10,14 +10,14 @@
                 <div class="card demo-icons">
                     <div class="card-header">
                         <h5 class="card-title">Users Management</h5>
-                        <p class="card-category">Silakan edit user</p>
+                        <p class="card-category">Perhatikan kembali pada bagian role</p>
                     </div>
                     <div class="card-body ">
                         <form method="POST" action="/user/{{ $user->id }}" class="form-horizontal">
                         @method('put')
                         @csrf
                             <div class="input-group{{ $errors->has('nip') ? ' has-danger' : '' }} col-md-4">
-                                <input name="nip" type="text" class="form-control" placeholder="NIP" required value="{{ $user->nip }}">
+                                <input name="nip" type="text" class="form-control" placeholder="NIP" value="{{ $user->nip }}">
                                 @if ($errors->has('nip'))
                                     <span class="invalid-feedback" style="display: block;" role="alert">
                                         <strong>{{ $errors->first('nip') }}</strong>
@@ -33,15 +33,15 @@
                                 @endif
                             </div>
                             <div class="input-group{{ $errors->has('email') ? ' has-danger' : '' }} col-md-4">
-                                <input name="email" type="email" class="form-control" placeholder="Email" required value="{{ $user->email }}">
+                                <input name="email" type="email" class="form-control" placeholder="Email" value="{{ $user->email }}">
                                 @if ($errors->has('email'))
                                     <span class="invalid-feedback" style="display: block;" role="alert">
                                         <strong>{{ $errors->first('email') }}</strong>
                                     </span>
                                 @endif
                             </div>
-                            {{-- <div class="input-group{{ $errors->has('password') ? ' has-danger' : '' }} col-md-4">
-                                <input name="password" type="password" class="form-control" placeholder="Password" required value="{{ $user->password }}">
+                            <div class="input-group{{ $errors->has('password') ? ' has-danger' : '' }} col-md-4">
+                                <input name="password" type="password" class="form-control" placeholder="Password">
                                 @if ($errors->has('password'))
                                     <span class="invalid-feedback" style="display: block;" role="alert">
                                         <strong>{{ $errors->first('password') }}</strong>
@@ -49,13 +49,13 @@
                                 @endif
                             </div>
                             <div class="input-group col-md-4">
-                                <input name="password_confirmation" type="password" class="form-control" placeholder="Password confirmation" required value="{{ $user->password }}">
+                                <input name="password_confirmation" type="password" class="form-control" placeholder="Password confirmation">
                                 @if ($errors->has('password_confirmation'))
                                     <span class="invalid-feedback" style="display: block;" role="alert">
                                         <strong>{{ $errors->first('password_confirmation') }}</strong>
                                     </span>
                                 @endif
-                            </div> --}}
+                            </div>
                             <div class="input-group col-md-4">
                                 {!! Form::select('roles', $roles, $user->roles ?? old('roles'), ['class'=>'form-control']) !!}
                             </div>

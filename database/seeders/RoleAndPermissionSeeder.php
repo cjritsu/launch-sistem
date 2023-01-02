@@ -6,6 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use App\Models\User;
 
 class RoleAndPermissionSeeder extends Seeder
 {
@@ -34,6 +35,11 @@ class RoleAndPermissionSeeder extends Seeder
         Permission::create(['name' => 'edit-surat']);
         Permission::create(['name' => 'delete-surat']);
         Permission::create(['name' => 'validasi-surat']);
+        Permission::create(['name' => 'validasi-kp']);
+        Permission::create(['name' => 'validasi-hrd']);
+        Permission::create(['name' => 'validasi-rek']);
+
+        Permission::create(['name' => 'full-access']);
 
         $adminRole->givePermissionTo([
             'create-users',
@@ -46,6 +52,10 @@ class RoleAndPermissionSeeder extends Seeder
             'edit-surat',
             'delete-surat',
             'validasi-surat',
+            'validasi-kp',
+            'validasi-hrd',
+            'validasi-rek',
+            'full-access'
         ]);
 
         $staffRole->givePermissionTo([
@@ -57,12 +67,14 @@ class RoleAndPermissionSeeder extends Seeder
         $headRole->givePermissionTo([
             'create-surat',
             'edit-surat',
+            'validasi-kp',
             'validasi-surat',
         ]);
 
         $rektorRole->givePermissionTo([
             'create-surat',
             'edit-surat',
+            'validasi-rek',
             'validasi-surat',
         ]);
 
@@ -71,7 +83,8 @@ class RoleAndPermissionSeeder extends Seeder
             'edit-profile',
             'create-surat',
             'edit-surat',
-            'validasi-surat',
+            'validasi-hrd',
+            'validasi-surat'
         ]);
     }
 }

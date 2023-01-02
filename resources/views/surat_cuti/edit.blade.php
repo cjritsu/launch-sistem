@@ -13,74 +13,74 @@
                         <p class="card-category">Silakan mengubah bagian yang dibutuhkan!</p>
                     </div>
                     <div class="card-body">
-                        <form method="POST" action="/surat_cuti/{{ $pengajuan_cuti[0]->id }}" class="form-horizontal">
+                        <form method="POST" action="/surat_cuti/{{ $pengajuan_cuti->id }}" class="form-horizontal">
                             @method('put')
                             @csrf
                             @if (auth()->user()->HasRole('Admin'))
-                            <div class="form-group">
-                                {{ Form::label('user_id', 'Nama Pegawai &nbsp;', ['class'=>'control-label col-md-2']) }}
-                                <div class="col-md-4">
-                                        {!! Form::select('user_id', $user_id, $pengajuan_cuti[0]->user_id ?? old('user_id'), ['class'=>'form-control']) !!}
+                                <div class="form-group">
+                                    {{ Form::label('user_id', 'Nama Pegawai &nbsp;', ['class'=>'control-label col-md-2']) }}
+                                    <div class="col-md-4">
+                                            {!! Form::select('user_id', $user_id, $pengajuan_cuti->user_id ?? old('user_id'), ['class'=>'form-control']) !!}
+                                    </div>
                                 </div>
-                            </div>
+                            @else
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                            {!! Form::select('user_id', $user_id, $pengajuan_cuti->user_id ?? old('user_id'), ['class'=>'form-control', 'hidden']) !!}
+                                    </div>
+                                </div>
                             @endif
                             <div class="form-group">
                                 {{ Form::label('jenis_cuti', 'Jenis Cuti &nbsp;', ['class'=>'control-label col-md-2']) }}
                                 <div class="col-md-4">
-                                    {!! Form::select('jenis_cuti_id', $jenis_cuti_id, $pengajuan_cuti[0]->jenis_cuti_id ?? old('jenis_cuti_id'), ['class'=>'form-control']) !!}
+                                    {!! Form::select('jenis_cuti_id', $jenis_cuti_id, $pengajuan_cuti->jenis_cuti_id ?? old('jenis_cuti_id'), ['class'=>'form-control']) !!}
                                 </div>
                             </div>
                             <div class="form-group">
                                 {{ Form::label('tanggal_mulai', 'Tanggal Mulai &nbsp;', ['class'=>'control-label col-md-2']) }}
                                 <div class="col-md-4">
-                                    {{ Form::date('tanggal_mulai', $pengajuan_cuti[0]->tanggal_mulai ?? null, ['class'=>'form-control']) }}
+                                    {{ Form::date('tanggal_mulai', $pengajuan_cuti->tanggal_mulai ?? null, ['class'=>'form-control']) }}
                                 </div>
                             </div>
                             <div class="form-group">
                                 {{ Form::label('tanggal_akhir', 'Tanggal Selesai &nbsp;', ['class'=>'control-label col-md-2']) }}
                                 <div class="col-md-4">
-                                    {{ Form::date('tanggal_akhir', $pengajuan_cuti[0]->tanggal_akhir ?? null, ['class'=>'form-control']) }}
+                                    {{ Form::date('tanggal_akhir', $pengajuan_cuti->tanggal_akhir ?? null, ['class'=>'form-control']) }}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                {{ Form::label('tanggal_masuk', 'Tanggal Masuk Kembali &nbsp;', ['class'=>'control-label col-md-2']) }}
+                                <div class="col-md-4">
+                                    {{ Form::date('tanggal_masuk', $pengajuan_cuti->tanggal_masuk ?? null, ['placeholder'=>now(),'class'=>'form-control']) }}
                                 </div>
                             </div>
                             <div class="form-group">
                                 {{ Form::label('keterangan', 'Keterangan &nbsp;', ['class'=>'control-label col-md-2']) }}
                                 <div class="col-md-4">
-                                    {{ Form::text('keterangan', $pengajuan_cuti[0]->keterangan ?? null, ['class'=>'form-control']) }}
+                                    {{ Form::text('keterangan', $pengajuan_cuti->keterangan ?? null, ['class'=>'form-control']) }}
                                 </div>
                             </div>
-                            @can('validasi-surat')
-                                <div class="form-group">
-                                    <label class="form-check-label col-md-2" style="font-size: 15px;">
-                                        <span class="form-check-sign"></span>
-                                            {{ __('Kepala Unit') }}
-                                    </label>
-                                    <input class="form-check-input col-md-2" name="valid_kp" type="checkbox" id="valid_kp" onclick="checkBoxEvent()">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-check-label col-md-2" style="font-size: 15px;">
-                                        <span class="form-check-sign"></span>
-                                            {{ __('HRD') }}
-                                    </label>
-                                    <input class="form-check-input col-md-2" name="valid_hrd" type="checkbox" id="valid_hrd" onclick="checkBoxEvent()">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-check-label col-md-2" style="font-size: 15px;">
-                                        <span class="form-check-sign"></span>
-                                            {{ __('Rektorat') }}
-                                    </label>
-                                    <input class="form-check-input col-md-2" name="valid_rektorat" type="checkbox" id="valid_rektorat" onclick="checkBoxEvent()">
-                                </div>
-                                <div class="form-group">
-                                    {{ Form::label('status_cuti', 'Status Cuti &nbsp;', ['class'=>'control-label col-md-2']) }}
-                                    @if ($pengajuan_cuti[0]->valid_kp == 1 && $pengajuan_cuti[0]->valid_hrd == 1 && $pengajuan_cuti[0]->valid_rek == 1)
-
-                                    @elseif ()
-                                    <div class="col-md-4">
-                                        {!! Form::select('status_id', $status_id, $pengajuan_cuti[0]->status_id ?? old('status_id'), ['class'=>'form-control', 'disabled', 'id'=>'status_id']) !!}
+                            <div class="form-row" style="padding-left: 15px">
+                                @can('validasi-kp')
+                                    <div class="form-group col-md-2">
+                                        {{ Form::label('status_kp', 'Validasi Kepala Unit &nbsp;', ['class'=>'control-label']) }}
+                                        {!! Form::select('status_kp', $status_id, $pengajuan_cuti->status_kp ?? old('status_kp'), ['class'=>'form-control']) !!}
                                     </div>
+                                @endcan
+                                @can('validasi-hrd')
+                                    <div class="form-group col-md-2">
+                                        {{ Form::label('status_hrd', 'Validasi HRD &nbsp;', ['class'=>'control-label']) }}
+                                        {!! Form::select('status_hrd', $status_id, $pengajuan_cuti->status_hrd ?? old('status_hrd'), ['class'=>'form-control']) !!}
 
-                                </div>
-                            @endcan
+                                    </div>
+                                @endcan
+                                @can('validasi-rek')
+                                    <div class="form-group col-md-2">
+                                        {{ Form::label('status_rek', 'Validasi Rektorat &nbsp;', ['class'=>'control-label']) }}
+                                        {!! Form::select('status_rek', $status_id, $pengajuan_cuti->status_rek ?? old('status_rek'), ['class'=>'form-control']) !!}
+                                    </div>
+                                @endcan
+                            </div>
                             @include('validation_error')
                             <div class="form-group">
                                 <div class="col-sm-offset-2 col-sm-10">
@@ -97,17 +97,6 @@
 
 @push('scripts')
     <script>
-        function checkBoxEvent() {
-            document.getElementById('status_id').setAttribute('disabled', 'disabled');
-            var kp = document.getElementById('valid_kp');
-            var hrd = document.getElementById('valid_hrd');
-            var rektor = document.getElementById('valid_rektorat');
-            if (kp.checked == true && hrd.checked == true && rektor.checked == true) {
-                document.getElementById('status_id').removeAttribute('disabled');
-            } else {
-
-            }
-        }
         function SelectText(element) {
             var doc = document,
                 text = element,

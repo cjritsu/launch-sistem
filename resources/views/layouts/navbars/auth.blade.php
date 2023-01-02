@@ -5,7 +5,7 @@
                 <img src="{{ asset('paper') }}/img/logo-small-ubd.png">
             </div>
         </a>
-        <a href="{{ route('profile.edit') }}" class="simple-text logo-normal">
+        <a href="{{ route('profile.edit') }}" class="logo-normal simple-text">
             {{ __(auth()->user()->name) }}
         </a>
     </div>
@@ -33,18 +33,22 @@
                                 <span class="sidebar-normal">{{ __(' User Profile ') }}</span>
                             </a>
                         </li>
-                        <li class="{{ $elementActive == 'user' ? 'active' : '' }}">
-                            <a href="{{ route('page.index', 'user') }}">
-                                <span class="sidebar-mini-icon">{{ __('U') }}</span>
-                                <span class="sidebar-normal">{{ __(' User Management ') }}</span>
-                            </a>
-                        </li>
-                        <li class="{{ $elementActive == 'karyawan' ? 'active' : '' }}">
-                            <a href="{{ route('page.index', 'karyawan') }}">
-                                <span class="sidebar-mini-icon">{{ __('P') }}</span>
-                                <span class="sidebar-normal">{{ __(' Profile Management ') }}</span>
-                            </a>
-                        </li>
+                        @can('create-users')
+                            <li class="{{ $elementActive == 'user' ? 'active' : '' }}">
+                                <a href="{{ route('page.index', 'user') }}">
+                                    <span class="sidebar-mini-icon">{{ __('U') }}</span>
+                                    <span class="sidebar-normal">{{ __(' User Management ') }}</span>
+                                </a>
+                            </li>
+                        @endcan
+                        @can('create-profile')
+                            <li class="{{ $elementActive == 'karyawan' ? 'active' : '' }}">
+                                <a href="{{ route('page.index', 'karyawan') }}">
+                                    <span class="sidebar-mini-icon">{{ __('P') }}</span>
+                                    <span class="sidebar-normal">{{ __(' Profile Management ') }}</span>
+                                </a>
+                            </li>
+                        @endcan
                     </ul>
                 </div>
             </li>
@@ -58,45 +62,84 @@
                 </a>
                 <div class="collapse" id="PengajuanSurat">
                     <ul class="nav">
+                        @can('validasi-surat')
+                            <li class="{{ $elementActive == 'history' ? 'active' : '' }}">
+                                <a href="{{ route('page.index', 'history') }}">
+                                    <span class="sidebar-mini-icon nc-icon nc-paper"></span>
+                                    <span class="sidebar-normal">{{ __(' Riwayat Surat ') }}</span>
+                                </a>
+                            </li>
+                        @endcan
                         <li class="{{ $elementActive == 'cuti' ? 'active' : '' }}">
                             <a href="{{ route('page.index', 'surat_cuti') }}">
                                 <span class="sidebar-mini-icon nc-icon nc-paper"></span>
                                 <span class="sidebar-normal">{{ __(' Surat Cuti ') }}</span>
                             </a>
                         </li>
+                        <li class="{{ $elementActive == 'izin' ? 'active' : '' }}">
+                            <a href="{{ route('page.index', 'surat_izin') }}">
+                                <span class="sidebar-mini-icon nc-icon nc-paper"></span>
+                                <span class="sidebar-normal">{{ __(' Surat Izin ') }}</span>
+                            </a>
+                        </li>
+                        <li class="{{ $elementActive == 'absen' ? 'active' : '' }}">
+                            <a href="{{ route('page.index', 'surat_absen') }}">
+                                <span class="sidebar-mini-icon nc-icon nc-paper"></span>
+                                <span class="sidebar-normal">{{ __(' Surat Absen ') }}</span>
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </li>
-            {{-- <li class="{{ $elementActive == 'history' ? 'active' : '' }}">
-                <a href="{{ route('page.index', 'history') }}">
-                    <i class="nc-icon nc-bell-55"></i>
-                    <p>{{ __('History') }}</p>
-                </a>
-            </li> --}}
-            {{-- <li class="{{ $elementActive == 'map' ? 'active' : '' }}">
-                <a href="{{ route('page.index', 'map') }}">
-                    <i class="nc-icon nc-pin-3"></i>
-                    <p>{{ __('Maps') }}</p>
-                </a>
-            </li>
-            <li class="{{ $elementActive == 'tables' ? 'active' : '' }}">
-                <a href="{{ route('page.index', 'tables') }}">
-                    <i class="nc-icon nc-tile-56"></i>
-                    <p>{{ __('Table List') }}</p>
-                </a>
-            </li>
-            <li class="{{ $elementActive == 'typography' ? 'active' : '' }}">
-                <a href="{{ route('page.index', 'typography') }}">
-                    <i class="nc-icon nc-caps-small"></i>
-                    <p>{{ __('Typography') }}</p>
-                </a>
-            </li>
-            <li class="active-pro {{ $elementActive == 'upgrade' ? 'active' : '' }}">
-                <a href="{{ route('page.index', 'upgrade') }}" class="bg-danger">
-                    <i class="nc-icon nc-spaceship text-white"></i>
-                    <p class="text-white">{{ __('Upgrade to PRO') }}</p>
-                </a>
-            </li> --}}
+            @can('full-access')
+                <li class="{{ $elementActive == 'admin' ? 'active' : '' }}">
+                    <a data-toggle="collapse" aria-expanded="false" href="#SistemAdmin">
+                        <i class="nc-icon nc-bell-55"></i>
+                        <p>{{ __('Sistem Admin') }}</p>
+                        <b class="caret"></b>
+                    </a>
+                    <div class="collapse" id="SistemAdmin">
+                        <ul class="nav">
+                            <li class="{{ $elementActive == 'jenis_cuti' ? 'active' : '' }}">
+                                <a href="{{ route('page.index', 'jenis_cuti') }}">
+                                    <span class="sidebar-mini-icon nc-icon nc-settings-gear-65"></span>
+                                    <span class="sidebar-normal">{{ __(' Jenis Cuti ') }}</span>
+                                </a>
+                            </li>
+                            <li class="{{ $elementActive == 'jenis_izin' ? 'active' : '' }}">
+                                <a href="{{ route('page.index', 'jenis_izin') }}">
+                                    <span class="sidebar-mini-icon nc-icon nc-settings-gear-65"></span>
+                                    <span class="sidebar-normal">{{ __(' Jenis Izin ') }}</span>
+                                </a>
+                            </li>
+                            <li class="{{ $elementActive == 'unit_kerja' ? 'active' : '' }}">
+                                <a href="{{ route('page.index', 'unit') }}">
+                                    <span class="sidebar-mini-icon nc-icon nc-settings-gear-65"></span>
+                                    <span class="sidebar-normal">{{ __(' Unit Kerja ') }}</span>
+                                </a>
+                            </li>
+                            <li class="{{ $elementActive == 'jabatan' ? 'active' : '' }}">
+                                <a href="{{ route('page.index', 'jabatan') }}">
+                                    <span class="sidebar-mini-icon nc-icon nc-settings-gear-65"></span>
+                                    <span class="sidebar-normal">{{ __(' Jabatan ') }}</span>
+                                </a>
+                            </li>
+                            <li class="{{ $elementActive == 'status_karyawan' ? 'active' : '' }}">
+                                <a href="{{ route('page.index', 'status_karyawan') }}">
+                                    <span class="sidebar-mini-icon nc-icon nc-settings-gear-65"></span>
+                                    <span class="sidebar-normal">{{ __(' Status Karyawan ') }}</span>
+                                </a>
+                            </li>
+                            <li class="{{ $elementActive == 'roles_permission' ? 'active' : '' }}">
+                                <a href="{{ route('page.index', 'roles_and_permission') }}">
+                                    <span class="sidebar-mini-icon nc-icon nc-settings-gear-65"></span>
+                                    <span class="sidebar-normal">{{ __(' Roles and Permission ') }}</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            @endcan
         </ul>
     </div>
 </div>

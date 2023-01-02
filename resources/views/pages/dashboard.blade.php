@@ -17,10 +17,15 @@
                             </div>
                             <div class="col-7 col-md-8">
                                 <div class="numbers">
-                                    <p class="card-category">Total Pegawai</p>
-                                    <p class="card-title">
-                                        {{ $User_Count }}
-                                    </p>
+                                    @if (auth()->user()->HasRole('HRD') || auth()->user()->HasRole('Admin'))
+                                        <p class="card-category">Total Pegawai</p>
+                                        <p class="card-title">
+                                            {{ $User_Count }}
+                                        </p>
+                                    @else
+                                        <p class="card-category">Jatah Cuti</p>
+                                        <p class="card-title"> {{ auth()->user()->jatah_cuti }}</p>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -28,7 +33,11 @@
                     <div class="card-footer ">
                         <hr>
                         <div class="stats">
-                            <i class="fa fa-refresh"></i> <a href="{{ route('page.index', 'user') }}">Update Now</a>
+                            @if (auth()->user()->HasRole('HRD') || auth()->user()->HasRole('Admin'))
+                                <i class="fa fa-refresh"></i> <a href="{{ route('page.index', 'user') }}">{{'Updated '}}{{ Carbon\Carbon::parse($updated_user->created_at)->diffForHumans() }}</a>
+                            @else
+                                <i class="fa fa-refresh"></i> <a href="{{ route('page.index', 'user') }}">{{'Updated '}}{{ Carbon\Carbon::parse(auth()->user()->updated_at)->diffForHumans() }}</a>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -44,9 +53,13 @@
                             </div>
                             <div class="col-7 col-md-8">
                                 <div class="numbers">
-                                    <p class="card-category">Total Surat</p>
-                                    <p class="card-title">{{ $Cuti_Count }}
-                                        <p>
+                                    @if (auth()->user()->HasRole('HRD') || auth()->user()->HasRole('Admin'))
+                                        <p class="card-category">Pengajuan Surat</p>
+                                        <p class="card-title">{{ $Surat_Count }}</p>
+                                    @else
+                                        <p class="card-category">Hari Cuti Terpakai</p>
+                                        <p class="card-title">{{ $jumlah_hari }}</p>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -54,7 +67,7 @@
                     <div class="card-footer ">
                         <hr>
                         <div class="stats">
-                            <i class="fa fa-calendar-o"></i> Last day
+                            <i class="fa fa-calendar-o"></i>{{'Updated '}}{{ Carbon\Carbon::parse($updated_cuti->created_at)->diffForHumans() }}
                         </div>
                     </div>
                 </div>
@@ -71,8 +84,11 @@
                             <div class="col-7 col-md-8">
                                 <div class="numbers">
                                     <p class="card-category">Surat Diterima</p>
-                                    <p class="card-title">{{ $Terima_Count }}
-                                        <p>
+                                    @if (auth()->user()->HasRole('HRD') || auth()->user()->HasRole('Admin'))
+                                        {{ $Terima_Count }}
+                                    @else
+                                        {{ $self_terima }}
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -80,7 +96,7 @@
                     <div class="card-footer ">
                         <hr>
                         <div class="stats">
-                            <i class="fa fa-refresh"></i> Update now
+                            <i class="fa fa-refresh"></i> {{'Updated Timeless'}}
                         </div>
                     </div>
                 </div>
@@ -97,8 +113,11 @@
                             <div class="col-7 col-md-8">
                                 <div class="numbers">
                                     <p class="card-category">Surat Ditolak</p>
-                                    <p class="card-title">{{ $Tolak_Count }}
-                                        <p>
+                                    @if (auth()->user()->HasRole('HRD') || auth()->user()->HasRole('Admin'))
+                                        {{ $Tolak_Count }}
+                                    @else
+                                        {{ $self_tolak }}
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -106,7 +125,7 @@
                     <div class="card-footer ">
                         <hr>
                         <div class="stats">
-                            <i class="fa fa-refresh"></i> Update now
+                            <i class="fa fa-refresh"></i> {{'Updated Timeless'}}
                         </div>
                     </div>
                 </div>
@@ -115,65 +134,130 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="card ">
-                    <div class="card-header ">
-                        <h5 class="card-title">Users Behavior</h5>
-                        <p class="card-category">24 Hours performance</p>
-                    </div>
-                    <div class="card-body ">
-                        <canvas id=chartHours width="400" height="100"></canvas>
-                    </div>
-                    <div class="card-footer ">
-                        <hr>
-                        <div class="stats">
-                            <i class="fa fa-history"></i> Updated 3 minutes ago
+                    @if (auth()->user()->HasRole('HRD') || auth()->user()->HasRole('Admin'))
+                        <div class="card-header ">
+                            <h5 class="card-title">Rekapitulasi Jumlah Karyawan Cuti</h5>
+                            <div class="form-group">
+                                {!! Form::label('periode_tahun', 'Periode Tahun : ', ['class'=>'card-category']) !!}
+                                {!! Form::select('tahun', $bulan, '2022', ['class'=>'card-category']) !!}
+                            </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-4">
-                <div class="card ">
-                    <div class="card-header ">
-                        <h5 class="card-title">Email Statistics</h5>
-                        <p class="card-category">Last Campaign Performance</p>
-                    </div>
-                    <div class="card-body ">
-                        <canvas id="chartEmail"></canvas>
-                    </div>
-                    <div class="card-footer ">
-                        <div class="legend">
-                            <i class="fa fa-circle text-primary"></i> Opened
-                            <i class="fa fa-circle text-warning"></i> Read
-                            <i class="fa fa-circle text-danger"></i> Deleted
-                            <i class="fa fa-circle text-gray"></i> Unopened
+                        <div class="card-body ">
+                            <table class="table table-hover" id="filterTable">
+                                <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">Bulan</th>
+                                    <th scope="col">Tahunan</th>
+                                    <th scope="col">Khusus</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($report as $month => $values)
+                                    <tr>
+                                        <td>{{\Carbon\Carbon::parse($month)->format('F Y')}}</td>
+                                        @foreach ($jenis_cuti_id as $jenis_cuti_ide)
+                                            <td>{{ $report[$month][$jenis_cuti_ide]['count'] ?? '0' }}</td>
+                                        @endforeach
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
                         </div>
-                        <hr>
-                        <div class="stats">
-                            <i class="fa fa-calendar"></i> Number of emails sent
+                        <div class="card-footer ">
+                            <hr>
+                            <div class="stats">
+                                <i class="fa fa-history"></i>{{'Updated '}}{{ Carbon\Carbon::parse($updated_cuti->created_at)->diffForHumans() }}
+                            </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-8">
-                <div class="card card-chart">
-                    <div class="card-header">
-                        <h5 class="card-title">NASDAQ: AAPL</h5>
-                        <p class="card-category">Line Chart with Points</p>
-                    </div>
-                    <div class="card-body">
-                        <canvas id="speedChart" width="400" height="100"></canvas>
-                    </div>
-                    <div class="card-footer">
-                        <div class="chart-legend">
-                            <i class="fa fa-circle text-info"></i> Tesla Model S
-                            <i class="fa fa-circle text-warning"></i> BMW 5 Series
+                    @else
+                        <div class="card-header ">
+                            <h5 class="card-title">Rekapitulasi Pengajuan Surat</h5>
+                            <div class="form-group">
+                                {!! Form::label('periode_tahun', 'Periode Tahun : ', ['class'=>'card-category']) !!}
+                                {!! Form::select('tahun', $bulan, '2022', ['class'=>'card-category']) !!}
+                            </div>
                         </div>
-                        <hr />
-                        <div class="card-stats">
-                            <i class="fa fa-check"></i> Data information certified
+                        <div class="card-body ">
+                            <table class="table table-hover" id="filterTable">
+                                <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">Tanggal Pengajuan</th>
+                                    <th scope="col">Jenis Surat</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Detail</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        @foreach ($rekap_cuti as $cuti)
+                                            @if ($cuti->user_id == auth()->user()->id)
+                                                <td>{{ Carbon\Carbon::parse($cuti->created_at)->isoFormat('D MMMM Y') }}</td>
+                                                <td>{{ $cuti->Jenis_cuti->name }}</td>
+                                                <td>
+                                                    @if ($cuti->status_rek == '2')
+                                                        <span class="badge badge-success">{{ 'Diterima' }}</span>
+                                                    @elseif ($cuti->status_kp == '3' || $cuti->status_rek == '3' || $cuti->status_hrd == '3')
+                                                        <span class="badge badge-danger">{{ 'Ditolak' }}</span>
+                                                    @else
+                                                        <span class="badge badge-warning">{{ 'Pending' }}</span>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    <a href="surat_cuti/{{ $cuti->id }}" type="button" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a> &nbsp;
+                                                </td>
+                                            @endif
+                                        @endforeach
+                                    </tr>
+                                    <tr>
+                                        @foreach ($rekap_izin as $izin)
+                                            @if ($izin->user_id == auth()->user()->id)
+                                                <td>{{ Carbon\Carbon::parse($izin->created_at)->isoFormat('D MMMM Y') }}</td>
+                                                <td>{{'Izin '}}{{ $izin->Jenis_Izin->name }}</td>
+                                                <td>
+                                                    @if ($izin->status_rek == '2')
+                                                        <span class="badge badge-success">{{ 'Diterima' }}</span>
+                                                    @elseif ($izin->status_kp == '3' || $izin->status_rek == '3' || $izin->status_hrd == '3')
+                                                        <span class="badge badge-danger">{{ 'Ditolak' }}</span>
+                                                    @else
+                                                        <span class="badge badge-warning">{{ 'Pending' }}</span>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    <a href="surat_cuti/{{ $izin->id }}" type="button" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a> &nbsp;
+                                                </td>
+                                            @endif
+                                        @endforeach
+                                    </tr>
+                                    <tr>
+                                        @foreach ($rekap_absen as $absen)
+                                            @if ($absen->user_id == auth()->user()->id)
+                                                <td>{{ Carbon\Carbon::parse($absen->created_at)->isoFormat('D MMMM Y') }}</td>
+                                                <td>{{ 'Tidak Masuk' }}</td>
+                                                <td>
+                                                    @if ($absen->status_rek == '2')
+                                                        <span class="badge badge-success">{{ 'Diterima' }}</span>
+                                                    @elseif ($absen->status_kp == '3' || $absen->status_rek == '3' || $absen->status_hrd == '3')
+                                                        <span class="badge badge-danger">{{ 'Ditolak' }}</span>
+                                                    @else
+                                                        <span class="badge badge-warning">{{ 'Pending' }}</span>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    <a href="surat_cuti/{{ $absen->id }}" type="button" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a> &nbsp;
+                                                </td>
+                                            @endif
+                                        @endforeach
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
-                    </div>
+                        <div class="card-footer ">
+                            <hr>
+                            <div class="stats">
+                                <i class="fa fa-history"></i>{{'Updated Timeless'}}
+                            </div>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
@@ -181,10 +265,11 @@
 @endsection
 
 @push('scripts')
+    <script src="{{ asset('plugins/DataTables/datatables.min.js') }}"></script>
+    <script src="{{ asset('js/datatables.js') }}"></script>
     <script>
         $(document).ready(function() {
-            // Javascript method's body can be found in assets/assets-for-demo/js/demo.js
-            demo.initChartsPages();
+
         });
     </script>
 @endpush

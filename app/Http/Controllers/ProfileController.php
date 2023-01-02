@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileRequest;
 use App\Http\Requests\PasswordRequest;
-use App\Models\Departemen;
 use App\Models\Unit_Kerja;
 use App\Models\Karyawan;
 use App\Models\Pengajuan_Cuti;
+use App\Models\User;
 use DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -27,7 +27,7 @@ class ProfileController extends Controller
 
     public function edit()
     {
-        $data['Karyawans'] = Karyawan::with('Departemen', 'Unit_Kerja')->get();
+        $data['karyawans'] = Karyawan::with('User', 'Unit_Kerja')->where('user_id', auth()->user()->id)->get();
         return view('profile.edit', $data);
     }
 
@@ -40,6 +40,13 @@ class ProfileController extends Controller
     public function update(ProfileRequest $request)
     {
         auth()->user()->update($request->all());
+        $agama = $request->input('agama');
+        $tmpt_lahir = $request->input('tmpt_l');
+        $tgl_lahir = $request->input('tgl_l');
+        $no_telp = $request->input('no_hp');
+        $alamat = $request->input('alamat');
+        $user_id = auth()->user()->id;
+        DB::update('update karyawans set agama = ?, tempat_lahir = ?, tanggal_lahir = ?, no_telp = ?, alamat = ? where id = ?', [$agama, $tmpt_lahir, $tgl_lahir, $no_telp, $alamat, $user_id]);
         return back()->withStatus(__('Profile successfully updated.'));
     }
 

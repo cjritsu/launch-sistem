@@ -7,10 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Departemen extends Model
 {
-    protected $table = 'departemens';
+    protected $table = 'jabatan';
     use HasFactory;
-
     public function User() {
-        return $this->hasMany('App\Models\User', 'id', 'departemen_id');
+        return $this->hasMany('App\Models\Karyawan', 'id', 'jabatan_id');
     }
 }
