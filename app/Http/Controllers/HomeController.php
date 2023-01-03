@@ -74,6 +74,7 @@ class HomeController extends Controller
 
         $data['updated_cuti'] = Pengajuan_Cuti::with('Jenis_cuti')->first();
         $data['jumlah_hari'] = Pengajuan_Cuti::select('id')->where('user_id', auth()->user()->id)->sum('num_days');
+        $data['created_At'] = Pengajuan_Cuti::select('created_at')->first();
 
         $data['rekap_cuti'] = Pengajuan_Cuti::with('Jenis_cuti')->get();
         $data['rekap_absen'] = Pengajuan_Absen::get();
