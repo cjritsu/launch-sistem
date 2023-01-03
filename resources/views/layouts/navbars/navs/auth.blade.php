@@ -34,6 +34,12 @@
                         @if ($notification->data['surat'] == 'Absen')
                             <a class="dropdown-item" href="surat_absen/{{ $notification->data['id'] }}"><i class="fa fa-envelope mr-2>"></i>{{ ' Ada Surat ' }}<b class="text-uppercase">{{ $notification->data['surat'] }}</b> {{ ' Baru!'}}</a>
                         @endif
+                        @if ($notification->data['surat'] == 'Cuti Tahunan')
+                            <a class="dropdown-item" href="surat_cuti/{{ $notification->data['id'] }}"><i class="fa fa-envelope mr-2>"></i>{{ ' Ada Surat ' }}<b class="text-uppercase">{{ $notification->data['surat'] }}</b> {{ ' Baru!'}}</a>
+                        @endif
+                        @if ($notification->data['surat'] == 'Cuti Khusus')
+                            <a class="dropdown-item" href="surat_cuti/{{ $notification->data['id'] }}"><i class="fa fa-envelope mr-2>"></i>{{ ' Ada Surat ' }}<b class="text-uppercase">{{ $notification->data['surat'] }}</b> {{ ' Baru!'}}</a>
+                        @endif
                         @endforeach
                     </div>
                 </li>

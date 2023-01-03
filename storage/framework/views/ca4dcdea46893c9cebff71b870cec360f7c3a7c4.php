@@ -34,6 +34,12 @@
                         <?php if($notification->data['surat'] == 'Absen'): ?>
                             <a class="dropdown-item" href="surat_absen/<?php echo e($notification->data['id']); ?>"><i class="fa fa-envelope mr-2>"></i><?php echo e(' Ada Surat '); ?><b class="text-uppercase"><?php echo e($notification->data['surat']); ?></b> <?php echo e(' Baru!'); ?></a>
                         <?php endif; ?>
+                        <?php if($notification->data['surat'] == 'Cuti Tahunan'): ?>
+                            <a class="dropdown-item" href="surat_cuti/<?php echo e($notification->data['id']); ?>"><i class="fa fa-envelope mr-2>"></i><?php echo e(' Ada Surat '); ?><b class="text-uppercase"><?php echo e($notification->data['surat']); ?></b> <?php echo e(' Baru!'); ?></a>
+                        <?php endif; ?>
+                        <?php if($notification->data['surat'] == 'Cuti Khusus'): ?>
+                            <a class="dropdown-item" href="surat_cuti/<?php echo e($notification->data['id']); ?>"><i class="fa fa-envelope mr-2>"></i><?php echo e(' Ada Surat '); ?><b class="text-uppercase"><?php echo e($notification->data['surat']); ?></b> <?php echo e(' Baru!'); ?></a>
+                        <?php endif; ?>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </div>
                 </li>
