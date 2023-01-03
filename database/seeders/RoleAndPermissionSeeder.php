@@ -40,6 +40,7 @@ class RoleAndPermissionSeeder extends Seeder
         Permission::create(['name' => 'validasi-rek']);
 
         Permission::create(['name' => 'full-access']);
+        Permission::create(['name' => 'reset_jatah_cuti']);
 
         $adminRole->givePermissionTo([
             'create-users',
@@ -55,7 +56,8 @@ class RoleAndPermissionSeeder extends Seeder
             'validasi-kp',
             'validasi-hrd',
             'validasi-rek',
-            'full-access'
+            'full-access',
+            'reset_jatah_cuti'
         ]);
 
         $staffRole->givePermissionTo([
@@ -84,7 +86,8 @@ class RoleAndPermissionSeeder extends Seeder
             'create-surat',
             'edit-surat',
             'validasi-hrd',
-            'validasi-surat'
+            'validasi-surat',
+            'reset_jatah_cuti'
         ]);
     }
 }

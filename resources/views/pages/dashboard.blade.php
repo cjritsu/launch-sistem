@@ -166,7 +166,7 @@
                         <div class="card-footer ">
                             <hr>
                             <div class="stats">
-                                <i class="fa fa-history"></i>{{'Updated '}}{{ Carbon\Carbon::parse($updated_cuti->created_at)->diffForHumans() }}
+                                <i class="fa fa-history"></i>{{'Updated '}}{{ Carbon\Carbon::parse($created_At)->diffForHumans() }}
                             </div>
                         </div>
                     @else

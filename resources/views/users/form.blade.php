@@ -28,7 +28,7 @@
             {!! Form::select('unit_kerja_id', $unit_kerja, $karyawan->unit_kerja_id ?? old('unit_kerja_id'), ['class'=>'form-control']) !!}
         </div>
         <div class="input-group col-md-4">
-            {!! Form::select('jabatan_id', $jabatan, $karyawan->jabatan_id ?? old('jabatan_id'), ['class'=>'form-control']) !!}
+            {!! Form::select('jabatan_id', $jabatan, $karyawan->jabatan_id ?? old('jabatan_id'), ['class'=>'form-control jabatan_id']) !!}
         </div>
         <div class="input-group{{ $errors->has('password') ? ' has-danger' : '' }} col-md-4">
             <input name="password" type="password" class="form-control" placeholder="Password" required>
@@ -70,3 +70,13 @@
         </div>
     </form>
 </div>
+
+@push('scripts')
+    <script>
+        $(document).ready(function(){
+            $(".jabatan_id").select2({
+                width: 'resolve'
+            });
+        });
+    </script>
+@endpush
