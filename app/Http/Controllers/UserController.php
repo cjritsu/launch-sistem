@@ -24,7 +24,7 @@ class UserController extends Controller
      */
     public function index(User $model)
     {
-        $users = User::orderBy('name', 'ASC')->paginate(10);
+        $users = User::orderBy('name', 'ASC')->where('roles_id', '!=', '1')->paginate(10);
         $karyawan = Karyawan::with('User', 'Unit_Kerja', 'Departemen', 'status_karyawan')->get();
         return view('users.index', compact('users', 'karyawan'));
     }
@@ -88,7 +88,7 @@ class UserController extends Controller
 
     public function search(Request $request) {
         $search = $request->search;
-        $users = User::where('name', 'like', "%" . $search . "%")->orWhere('nip', 'like', "%".$search."%")->paginate();
+        $users = User::where('name', 'like', "%" . $search . "%")->where('name', '!=', 'Admin Admin')->orWhere('nip', 'like', "%".$search."%")->where('nip', '!=', 'admin')->paginate();
         return view('users.index', compact('users'))->with('i', (request()->input('page', 1) - 1) * 5);
     }
 }

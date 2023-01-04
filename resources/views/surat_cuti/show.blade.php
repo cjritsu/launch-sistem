@@ -264,7 +264,11 @@
                         </table>
                     </div>
                     <div class="modal-footer">
-                        <a href="{{ $pengajuan_cuti->id }}/edit" type="button" class="btn btn-primary">Edit</a>
+                        @if (auth()->user()->HasRole('Staff') && $pengajuan_cuti->status_kp != '1')
+                        @elseif ($pengajuan_cuti->status_kp == 3 || $pengajuan_cuti->status_hrd == 3 || $pengajuan_cuti->status_rek == 3)
+                        @else
+                            <a href="{{ $pengajuan_cuti->id }}/edit" type="button" class="btn btn-primary">Edit</a>
+                        @endif
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
                 </div>

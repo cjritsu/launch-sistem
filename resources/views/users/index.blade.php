@@ -292,13 +292,25 @@ The above copyright notice and this permission notice shall be included in all c
                     <ul class="navbar-nav">
                         <li class="nav-item btn-rotate dropdown">
                             <a class="nav-link dropdown-toggle" href="#notif" id="navbarDropdownMenuLink2"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="nc-icon nc-bell-55"></i><span class="badge badge-light">{{ auth()->user()->unreadNotifications->count() }}</span>
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="nc-icon nc-bell-55"></i><span class="badge badge-warning navbar-badge">{{ auth()->user()->unreadNotifications->count() }}</span>
                             </a>
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink2">
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink2" style="left: inherit; right: 0px;">
+                                <span class="dropdown-item dropdown-header text-center badge-light">{{ auth()->user()->unreadNotifications->count() }} {{'Notifications'}}</span>
                                 @foreach (auth()->user()->unreadNotifications as $notification)
                                 <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="surat_izin/{{ $notification->data['id'] }}">{{ 'Pengajuan izin ' }}<b class="text-uppercase">{{ $notification->data['surat'] }}</b> {{ ' telah diperbarui!'}}</a>
+                                @if ($notification->data['surat'] == 'Tidak Masuk')
+                                    <a class="dropdown-item" href="surat_izin/{{ $notification->data['id'] }}"><i class="fa fa-envelope mr-2>"></i>{{ ' Ada Surat ' }}<b class="text-uppercase">{{ $notification->data['surat'] }}</b> {{ ' Baru!'}}</a>
+                                @endif
+                                @if ($notification->data['surat'] == 'Absen')
+                                    <a class="dropdown-item" href="surat_absen/{{ $notification->data['id'] }}"><i class="fa fa-envelope mr-2>"></i>{{ ' Ada Surat ' }}<b class="text-uppercase">{{ $notification->data['surat'] }}</b> {{ ' Baru!'}}</a>
+                                @endif
+                                @if ($notification->data['surat'] == 'Cuti Tahunan')
+                                    <a class="dropdown-item" href="surat_cuti/{{ $notification->data['id'] }}"><i class="fa fa-envelope mr-2>"></i>{{ ' Ada Surat ' }}<b class="text-uppercase">{{ $notification->data['surat'] }}</b> {{ ' Baru!'}}</a>
+                                @endif
+                                @if ($notification->data['surat'] == 'Cuti Khusus')
+                                    <a class="dropdown-item" href="surat_cuti/{{ $notification->data['id'] }}"><i class="fa fa-envelope mr-2>"></i>{{ ' Ada Surat ' }}<b class="text-uppercase">{{ $notification->data['surat'] }}</b> {{ ' Baru!'}}</a>
+                                @endif
                                 @endforeach
                             </div>
                         </li>

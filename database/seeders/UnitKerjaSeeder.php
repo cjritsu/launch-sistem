@@ -34,6 +34,7 @@ class UnitKerjaSeeder extends Seeder
         $unit_kerja = new Unit_Kerja(['name'=>'Satpam']);$unit_kerja->save();
         $unit_kerja = new Unit_Kerja(['name'=>'Training center']);$unit_kerja->save();
         $unit_kerja = new Unit_Kerja(['name'=>'Umum']);$unit_kerja->save();
-        $unit_kerja = new Unit_Kerja(['name'=>'Wakil Rektorat III']);$unit_kerja->save();
+        $unit_kerja = new Unit_Kerja(['name'=>'Warek III']);$unit_kerja->save();
+        $unit_kerja = new Unit_Kerja(['name'=>'Digital Creative']);$unit_kerja->save();
     }
 }

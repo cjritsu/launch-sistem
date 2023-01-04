@@ -13,7 +13,7 @@ use DB;
 class KaryawanController extends Controller
 {
     public function index() {
-        $karyawan = Karyawan::select('*')->join('users', 'karyawans.user_id', '=', 'users.id')->orderBy('users.name', 'ASC')->paginate(10);
+        $karyawan = Karyawan::select('*')->join('users', 'karyawans.user_id', '=', 'users.id')->where('user_id', '!=', 1)->orderBy('users.name', 'ASC')->paginate(10);
         $data['karyawan'] = Karyawan::with('User', 'Unit_Kerja', 'Departemen', 'status_karyawan')->get();
         return view('karyawan.index', compact('karyawan'), $data);
     }
@@ -51,7 +51,7 @@ class KaryawanController extends Controller
     public function search(Request $request) {
         $search = $request->search;
         $karyawan = Karyawan::whereHas('User', function($q) use($search) {
-            $q->where('name', 'like', "%".$search."%")->orWhere('nip', 'like', "%".$search."%");
+            $q->where('name', 'like', "%".$search."%")->where('name', '!=', 'Admin Admin')->orWhere('nip', 'like', "%".$search."%")->where('nip', '!=', 'admin');
         })->paginate();
         return view('karyawan.index', compact('karyawan'))->with('i', (request()->input('page', 1) - 1) * 5);
     }

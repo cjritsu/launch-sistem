@@ -63,7 +63,7 @@
                     <div class="card-footer ">
                         <hr>
                         <div class="stats">
-                            <i class="fa fa-calendar-o"></i><?php echo e('Updated '); ?><?php echo e(Carbon\Carbon::parse($updated_cuti->created_at)->diffForHumans()); ?>
+                            <i class="fa fa-calendar-o"></i><?php echo e('Updated Timeless'); ?>
 
                         </div>
                     </div>
@@ -171,7 +171,7 @@
                         <div class="card-footer ">
                             <hr>
                             <div class="stats">
-                                <i class="fa fa-history"></i><?php echo e('Updated '); ?><?php echo e(Carbon\Carbon::parse($updated_cuti->created_at)->diffForHumans()); ?>
+                                <i class="fa fa-history"></i><?php echo e('Updated Timeless'); ?>
 
                             </div>
                         </div>

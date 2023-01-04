@@ -227,6 +227,11 @@
                         </table>
                     </div>
                     <div class="modal-footer">
+                        @if (auth()->user()->HasRole('Staff') && $suratizin->status_kp != '1')
+                        @elseif ($suratizin->status_kp == 3 || $suratizin->status_hrd == 3 || $suratizin->status_rek == 3)
+                        @else
+                            <a href="{{ $suratizin->id }}/edit" type="button" class="btn btn-primary">Edit</a>
+                        @endif
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
                 </div>
