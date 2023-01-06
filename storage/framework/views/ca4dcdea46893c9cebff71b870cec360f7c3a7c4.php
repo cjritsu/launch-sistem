@@ -29,18 +29,22 @@
                         <?php $__currentLoopData = auth()->user()->unreadNotifications; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $notification): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <div class="dropdown-divider"></div>
                         <?php if($notification->data['surat'] == 'Tidak Masuk'): ?>
-                            <a class="dropdown-item" href="surat_izin/<?php echo e($notification->data['id']); ?>"><i class="fa fa-envelope mr-2>"></i><?php echo e(' Ada Surat '); ?><b class="text-uppercase"><?php echo e($notification->data['surat']); ?></b> <?php echo e(' Baru!'); ?></a>
+                            <a class="dropdown-item" href="<?php echo e(route('surat_izin.show', $notification->data['id'])); ?>"><i class="fa fa-envelope mr-2>"></i><?php echo e(' Ada Surat '); ?><b class="text-uppercase"><?php echo e($notification->data['surat']); ?></b> <?php echo e(' Baru!'); ?></a>
                         <?php endif; ?>
                         <?php if($notification->data['surat'] == 'Absen'): ?>
-                            <a class="dropdown-item" href="surat_absen/<?php echo e($notification->data['id']); ?>"><i class="fa fa-envelope mr-2>"></i><?php echo e(' Ada Surat '); ?><b class="text-uppercase"><?php echo e($notification->data['surat']); ?></b> <?php echo e(' Baru!'); ?></a>
+                            <a class="dropdown-item" href="<?php echo e(route('surat_absen.show', $notification->data['id'])); ?>"><i class="fa fa-envelope mr-2>"></i><?php echo e(' Ada Surat '); ?><b class="text-uppercase"><?php echo e($notification->data['surat']); ?></b> <?php echo e(' Baru!'); ?></a>
                         <?php endif; ?>
                         <?php if($notification->data['surat'] == 'Cuti Tahunan'): ?>
-                            <a class="dropdown-item" href="surat_cuti/<?php echo e($notification->data['id']); ?>"><i class="fa fa-envelope mr-2>"></i><?php echo e(' Ada Surat '); ?><b class="text-uppercase"><?php echo e($notification->data['surat']); ?></b> <?php echo e(' Baru!'); ?></a>
+                            <a class="dropdown-item" href="<?php echo e(route('surat_cuti.show', $notification->data['id'])); ?>"><i class="fa fa-envelope mr-2>"></i><?php echo e(' Ada Surat '); ?><b class="text-uppercase"><?php echo e($notification->data['surat']); ?></b> <?php echo e(' Baru!'); ?></a>
                         <?php endif; ?>
                         <?php if($notification->data['surat'] == 'Cuti Khusus'): ?>
-                            <a class="dropdown-item" href="surat_cuti/<?php echo e($notification->data['id']); ?>"><i class="fa fa-envelope mr-2>"></i><?php echo e(' Ada Surat '); ?><b class="text-uppercase"><?php echo e($notification->data['surat']); ?></b> <?php echo e(' Baru!'); ?></a>
+                            <a class="dropdown-item" href="<?php echo e(route('surat_cuti.show', $notification->data['id'] )); ?>"><i class="fa fa-envelope mr-2>"></i><?php echo e(' Ada Surat '); ?><b class="text-uppercase"><?php echo e($notification->data['surat']); ?></b> <?php echo e(' Baru!'); ?></a>
                         <?php endif; ?>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+
+                        <?php if(auth()->user()->unreadNotifications->count() > 0): ?>
+                            <a href="<?php echo e(route('markRead')); ?>"><span class="dropdown-item dropdown-header text-center badge-light"><?php echo e('Mark All Read'); ?></span></a>
+                        <?php endif; ?>
                     </div>
                 </li>
                 <li class="nav-item btn-rotate dropdown">

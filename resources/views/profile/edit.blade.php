@@ -65,7 +65,7 @@
                                 <label class="col-md-3 col-form-label">{{ __('Name') }}</label>
                                 <div class="col-md-9">
                                     <div class="form-group">
-                                        <input type="text" name="name" class="form-control" placeholder="Name" value="{{ auth()->user()->name }}">
+                                        <input type="text" name="name" class="form-control" placeholder="Name" value="{{ auth()->user()->name }}" disabled>
                                     </div>
                                     @if ($errors->has('name'))
                                         <span class="invalid-feedback" style="display: block;" role="alert">

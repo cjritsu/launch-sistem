@@ -29,10 +29,12 @@
                     <div class="card-footer ">
                         <hr>
                         <div class="stats">
-                            <?php if(auth()->user()->HasRole('HRD') || auth()->user()->HasRole('Admin')): ?>
+                            <?php if(auth()->user()->HasRole('Admin')): ?>
                                 <i class="fa fa-refresh"></i> <a href="<?php echo e(route('page.index', 'user')); ?>"><?php echo e('Updated '); ?><?php echo e(Carbon\Carbon::parse($updated_user->created_at)->diffForHumans()); ?></a>
+                            <?php elseif(auth()->user()->HasRole('HRD')): ?>
+                                <i class="fa fa-refresh"></i> <a href="<?php echo e(route('karyawan.index')); ?>"><?php echo e('Updated '); ?><?php echo e(Carbon\Carbon::parse($updated_user->created_at)->diffForHumans()); ?></a>
                             <?php else: ?>
-                                <i class="fa fa-refresh"></i> <a href="<?php echo e(route('page.index', 'user')); ?>"><?php echo e('Updated '); ?><?php echo e(Carbon\Carbon::parse(auth()->user()->updated_at)->diffForHumans()); ?></a>
+                                <i class="fa fa-refresh"></i> <a href="<?php echo e(route('profile.edit')); ?>"><?php echo e('Updated '); ?><?php echo e(Carbon\Carbon::parse(auth()->user()->updated_at)->diffForHumans()); ?></a>
                             <?php endif; ?>
                         </div>
                     </div>

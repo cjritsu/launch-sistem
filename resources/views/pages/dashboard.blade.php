@@ -33,10 +33,12 @@
                     <div class="card-footer ">
                         <hr>
                         <div class="stats">
-                            @if (auth()->user()->HasRole('HRD') || auth()->user()->HasRole('Admin'))
+                            @if (auth()->user()->HasRole('Admin'))
                                 <i class="fa fa-refresh"></i> <a href="{{ route('page.index', 'user') }}">{{'Updated '}}{{ Carbon\Carbon::parse($updated_user->created_at)->diffForHumans() }}</a>
+                            @elseif (auth()->user()->HasRole('HRD'))
+                                <i class="fa fa-refresh"></i> <a href="{{ route('karyawan.index') }}">{{'Updated '}}{{ Carbon\Carbon::parse($updated_user->created_at)->diffForHumans() }}</a>
                             @else
-                                <i class="fa fa-refresh"></i> <a href="{{ route('page.index', 'user') }}">{{'Updated '}}{{ Carbon\Carbon::parse(auth()->user()->updated_at)->diffForHumans() }}</a>
+                                <i class="fa fa-refresh"></i> <a href="{{ route('profile.edit') }}">{{'Updated '}}{{ Carbon\Carbon::parse(auth()->user()->updated_at)->diffForHumans() }}</a>
                             @endif
                         </div>
                     </div>

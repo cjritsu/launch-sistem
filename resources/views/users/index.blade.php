@@ -131,19 +131,19 @@ The above copyright notice and this permission notice shall be included in all c
                                 <img src="{{ asset('paper') }}/img/logo-small-ubd.png">
                             </div>
                         </a>
-                        <a href="{{ route('profile.edit') }}" class="simple-text logo-normal">
+                        <a href="{{ route('profile.edit') }}" class="simple-text logo-normal font-weight-bold">
                             {{ __(auth()->user()->name) }}
                         </a>
                     </div>
                     <div class="sidebar-wrapper">
                         <ul class="nav">
-                            <li>
+                            <li class="font-weight-bold">
                                 <a href="{{ route('page.index', 'dashboard') }}">
                                     <i class="nc-icon nc-bank"></i>
                                     <p>{{ __('Dashboard') }}</p>
                                 </a>
                             </li>
-                            <li >
+                            <li class="font-weight-bold">
                                 <a data-toggle="collapse" aria-expanded="false" href="#DataPegawai">
                                     <i class="nc-icon nc-single-02"></i>
                                     <p>
@@ -178,7 +178,7 @@ The above copyright notice and this permission notice shall be included in all c
                                     </ul>
                                 </div>
                             </li>
-                            <li >
+                            <li class="font-weight-bold">
                                 <a data-toggle="collapse" aria-expanded="false" href="#PengajuanSurat">
                                     <i class="nc-icon nc-email-85"></i>
                                     <p>
@@ -211,14 +211,14 @@ The above copyright notice and this permission notice shall be included in all c
                                         <li>
                                             <a href="{{ route('page.index', 'surat_absen') }}">
                                                 <span class="sidebar-mini-icon nc-icon nc-paper"></span>
-                                                <span class="sidebar-normal">{{ __(' Surat Absen ') }}</span>
+                                                <span class="sidebar-normal">{{ __(' Surat Sakit ') }}</span>
                                             </a>
                                         </li>
                                     </ul>
                                 </div>
                             </li>
                             @can('full-access')
-                                <li>
+                                <li class="font-weight-bold">
                                     <a data-toggle="collapse" aria-expanded="false" href="#SistemAdmin">
                                         <i class="nc-icon nc-bell-55"></i>
                                         <p>{{ __('Sistem Admin') }}</p>
@@ -300,18 +300,22 @@ The above copyright notice and this permission notice shall be included in all c
                                 @foreach (auth()->user()->unreadNotifications as $notification)
                                 <div class="dropdown-divider"></div>
                                 @if ($notification->data['surat'] == 'Tidak Masuk')
-                                    <a class="dropdown-item" href="surat_izin/{{ $notification->data['id'] }}"><i class="fa fa-envelope mr-2>"></i>{{ ' Ada Surat ' }}<b class="text-uppercase">{{ $notification->data['surat'] }}</b> {{ ' Baru!'}}</a>
+                                    <a class="dropdown-item" href="{{ route('surat_izin.show', $notification->data['id']) }}"><i class="fa fa-envelope mr-2>"></i>{{ ' Ada Surat ' }}<b class="text-uppercase">{{ $notification->data['surat'] }}</b> {{ ' Baru!'}}</a>
                                 @endif
                                 @if ($notification->data['surat'] == 'Absen')
-                                    <a class="dropdown-item" href="surat_absen/{{ $notification->data['id'] }}"><i class="fa fa-envelope mr-2>"></i>{{ ' Ada Surat ' }}<b class="text-uppercase">{{ $notification->data['surat'] }}</b> {{ ' Baru!'}}</a>
+                                    <a class="dropdown-item" href="{{ route('surat_absen.show', $notification->data['id']) }}"><i class="fa fa-envelope mr-2>"></i>{{ ' Ada Surat ' }}<b class="text-uppercase">{{ $notification->data['surat'] }}</b> {{ ' Baru!'}}</a>
                                 @endif
                                 @if ($notification->data['surat'] == 'Cuti Tahunan')
-                                    <a class="dropdown-item" href="surat_cuti/{{ $notification->data['id'] }}"><i class="fa fa-envelope mr-2>"></i>{{ ' Ada Surat ' }}<b class="text-uppercase">{{ $notification->data['surat'] }}</b> {{ ' Baru!'}}</a>
+                                    <a class="dropdown-item" href="{{ route('surat_cuti.show', $notification->data['id']) }}"><i class="fa fa-envelope mr-2>"></i>{{ ' Ada Surat ' }}<b class="text-uppercase">{{ $notification->data['surat'] }}</b> {{ ' Baru!'}}</a>
                                 @endif
                                 @if ($notification->data['surat'] == 'Cuti Khusus')
-                                    <a class="dropdown-item" href="surat_cuti/{{ $notification->data['id'] }}"><i class="fa fa-envelope mr-2>"></i>{{ ' Ada Surat ' }}<b class="text-uppercase">{{ $notification->data['surat'] }}</b> {{ ' Baru!'}}</a>
+                                    <a class="dropdown-item" href="{{ route('surat_cuti.show', $notification->data['id']) }}"><i class="fa fa-envelope mr-2>"></i>{{ ' Ada Surat ' }}<b class="text-uppercase">{{ $notification->data['surat'] }}</b> {{ ' Baru!'}}</a>
                                 @endif
                                 @endforeach
+
+                                @if (auth()->user()->unreadNotifications->count() > 0)
+                                    <a href="{{ route('markRead') }}"><span class="dropdown-item dropdown-header text-center badge-light">{{'Mark All Read'}}</span></a>
+                                @endif
                             </div>
                         </li>
                     <ul class="navbar-nav">

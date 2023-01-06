@@ -29,18 +29,22 @@
                         @foreach (auth()->user()->unreadNotifications as $notification)
                         <div class="dropdown-divider"></div>
                         @if ($notification->data['surat'] == 'Tidak Masuk')
-                            <a class="dropdown-item" href="surat_izin/{{ $notification->data['id'] }}"><i class="fa fa-envelope mr-2>"></i>{{ ' Ada Surat ' }}<b class="text-uppercase">{{ $notification->data['surat'] }}</b> {{ ' Baru!'}}</a>
+                            <a class="dropdown-item" href="{{ route('surat_izin.show', $notification->data['id']) }}"><i class="fa fa-envelope mr-2>"></i>{{ ' Ada Surat ' }}<b class="text-uppercase">{{ $notification->data['surat'] }}</b> {{ ' Baru!'}}</a>
                         @endif
                         @if ($notification->data['surat'] == 'Absen')
-                            <a class="dropdown-item" href="surat_absen/{{ $notification->data['id'] }}"><i class="fa fa-envelope mr-2>"></i>{{ ' Ada Surat ' }}<b class="text-uppercase">{{ $notification->data['surat'] }}</b> {{ ' Baru!'}}</a>
+                            <a class="dropdown-item" href="{{ route('surat_absen.show', $notification->data['id']) }}"><i class="fa fa-envelope mr-2>"></i>{{ ' Ada Surat ' }}<b class="text-uppercase">{{ $notification->data['surat'] }}</b> {{ ' Baru!'}}</a>
                         @endif
                         @if ($notification->data['surat'] == 'Cuti Tahunan')
-                            <a class="dropdown-item" href="surat_cuti/{{ $notification->data['id'] }}"><i class="fa fa-envelope mr-2>"></i>{{ ' Ada Surat ' }}<b class="text-uppercase">{{ $notification->data['surat'] }}</b> {{ ' Baru!'}}</a>
+                            <a class="dropdown-item" href="{{ route('surat_cuti.show', $notification->data['id']) }}"><i class="fa fa-envelope mr-2>"></i>{{ ' Ada Surat ' }}<b class="text-uppercase">{{ $notification->data['surat'] }}</b> {{ ' Baru!'}}</a>
                         @endif
                         @if ($notification->data['surat'] == 'Cuti Khusus')
-                            <a class="dropdown-item" href="surat_cuti/{{ $notification->data['id'] }}"><i class="fa fa-envelope mr-2>"></i>{{ ' Ada Surat ' }}<b class="text-uppercase">{{ $notification->data['surat'] }}</b> {{ ' Baru!'}}</a>
+                            <a class="dropdown-item" href="{{ route('surat_cuti.show', $notification->data['id'] )}}"><i class="fa fa-envelope mr-2>"></i>{{ ' Ada Surat ' }}<b class="text-uppercase">{{ $notification->data['surat'] }}</b> {{ ' Baru!'}}</a>
                         @endif
                         @endforeach
+
+                        @if (auth()->user()->unreadNotifications->count() > 0)
+                            <a href="{{ route('markRead') }}"><span class="dropdown-item dropdown-header text-center badge-light">{{'Mark All Read'}}</span></a>
+                        @endif
                     </div>
                 </li>
                 <li class="nav-item btn-rotate dropdown">

@@ -5,20 +5,20 @@
                 <img src="<?php echo e(asset('paper')); ?>/img/logo-small-ubd.png">
             </div>
         </a>
-        <a href="<?php echo e(route('profile.edit')); ?>" class="logo-normal simple-text">
+        <a href="<?php echo e(route('profile.edit')); ?>" class="logo-normal simple-text font-weight-bold">
             <?php echo e(__(auth()->user()->name)); ?>
 
         </a>
     </div>
     <div class="sidebar-wrapper">
         <ul class="nav">
-            <li class="<?php echo e($elementActive == 'dashboard' ? 'active' : ''); ?>">
+            <li class="<?php echo e($elementActive == 'dashboard' ? 'active' : ''); ?> font-weight-bold">
                 <a href="<?php echo e(route('page.index', 'dashboard')); ?>">
                     <i class="nc-icon nc-bank"></i>
                     <p><?php echo e(__('Dashboard')); ?></p>
                 </a>
             </li>
-            <li class="<?php echo e($elementActive == 'user' || $elementActive == 'profile' ? 'active' : ''); ?>">
+            <li class="<?php echo e($elementActive == 'user' || $elementActive == 'profile' ? 'active' : ''); ?> font-weight-bold">
                 <a data-toggle="collapse" aria-expanded="false" href="#DataPegawai">
                     <i class="nc-icon nc-single-02"></i>
                     <p>
@@ -54,7 +54,7 @@
                     </ul>
                 </div>
             </li>
-            <li class="<?php echo e($elementActive == 'cuti' ? 'active' : ''); ?>">
+            <li class="<?php echo e($elementActive == 'cuti' ? 'active' : ''); ?> font-weight-bold">
                 <a data-toggle="collapse" aria-expanded="false" href="#PengajuanSurat">
                     <i class="nc-icon nc-email-85"></i>
                     <p>
@@ -88,14 +88,14 @@
                         <li class="<?php echo e($elementActive == 'absen' ? 'active' : ''); ?>">
                             <a href="<?php echo e(route('page.index', 'surat_absen')); ?>">
                                 <span class="sidebar-mini-icon nc-icon nc-paper"></span>
-                                <span class="sidebar-normal"><?php echo e(__(' Surat Absen ')); ?></span>
+                                <span class="sidebar-normal"><?php echo e(__(' Surat Sakit ')); ?></span>
                             </a>
                         </li>
                     </ul>
                 </div>
             </li>
             <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('full-access')): ?>
-                <li class="<?php echo e($elementActive == 'admin' ? 'active' : ''); ?>">
+                <li class="<?php echo e($elementActive == 'admin' ? 'active' : ''); ?> font-weight-bold">
                     <a data-toggle="collapse" aria-expanded="false" href="#SistemAdmin">
                         <i class="nc-icon nc-bell-55"></i>
                         <p><?php echo e(__('Sistem Admin')); ?></p>

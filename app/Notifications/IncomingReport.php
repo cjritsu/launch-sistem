@@ -59,7 +59,7 @@ class IncomingReport extends Notification
             'id' => $this->notify_izin['id'],
             'user_id' => $this->notify_izin['user_id'],
             'name' => $this->notify_izin->User['name'],
-            'surat' => $this->notify_izin->Jenis_Izin['name'],
+            'surat' => $this->notify_izin->Jenis_Izin['name']
         ];
     }
 }

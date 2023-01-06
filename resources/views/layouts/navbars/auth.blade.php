@@ -5,19 +5,19 @@
                 <img src="{{ asset('paper') }}/img/logo-small-ubd.png">
             </div>
         </a>
-        <a href="{{ route('profile.edit') }}" class="logo-normal simple-text">
+        <a href="{{ route('profile.edit') }}" class="logo-normal simple-text font-weight-bold">
             {{ __(auth()->user()->name) }}
         </a>
     </div>
     <div class="sidebar-wrapper">
         <ul class="nav">
-            <li class="{{ $elementActive == 'dashboard' ? 'active' : '' }}">
+            <li class="{{ $elementActive == 'dashboard' ? 'active' : '' }} font-weight-bold">
                 <a href="{{ route('page.index', 'dashboard') }}">
                     <i class="nc-icon nc-bank"></i>
                     <p>{{ __('Dashboard') }}</p>
                 </a>
             </li>
-            <li class="{{ $elementActive == 'user' || $elementActive == 'profile' ? 'active' : '' }}">
+            <li class="{{ $elementActive == 'user' || $elementActive == 'profile' ? 'active' : '' }} font-weight-bold">
                 <a data-toggle="collapse" aria-expanded="false" href="#DataPegawai">
                     <i class="nc-icon nc-single-02"></i>
                     <p>
@@ -52,7 +52,7 @@
                     </ul>
                 </div>
             </li>
-            <li class="{{ $elementActive == 'cuti' ? 'active' : '' }}">
+            <li class="{{ $elementActive == 'cuti' ? 'active' : '' }} font-weight-bold">
                 <a data-toggle="collapse" aria-expanded="false" href="#PengajuanSurat">
                     <i class="nc-icon nc-email-85"></i>
                     <p>
@@ -85,14 +85,14 @@
                         <li class="{{ $elementActive == 'absen' ? 'active' : '' }}">
                             <a href="{{ route('page.index', 'surat_absen') }}">
                                 <span class="sidebar-mini-icon nc-icon nc-paper"></span>
-                                <span class="sidebar-normal">{{ __(' Surat Absen ') }}</span>
+                                <span class="sidebar-normal">{{ __(' Surat Sakit ') }}</span>
                             </a>
                         </li>
                     </ul>
                 </div>
             </li>
             @can('full-access')
-                <li class="{{ $elementActive == 'admin' ? 'active' : '' }}">
+                <li class="{{ $elementActive == 'admin' ? 'active' : '' }} font-weight-bold">
                     <a data-toggle="collapse" aria-expanded="false" href="#SistemAdmin">
                         <i class="nc-icon nc-bell-55"></i>
                         <p>{{ __('Sistem Admin') }}</p>

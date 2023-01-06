@@ -12,6 +12,7 @@ use App\Models\SuratIzin;
 use App\Models\Pengajuan_Absen;
 use App\Notifications\IncomingReport;
 use DateTime;
+use App\Models\Karyawan;
 
 class HomeController extends Controller
 {
@@ -32,6 +33,7 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
+        $data['karyawans'] = Karyawan::where('user_id', auth()->user()->id)->first();
         $pengajuan_cuti = Pengajuan_Cuti::with('User', 'Karyawan','Jenis_cuti', 'status_cuti')->get();
         $data['User_Count'] = User::select('id')->count();
         $surat_cuti = Pengajuan_Cuti::select('id')->count();
@@ -79,13 +81,5 @@ class HomeController extends Controller
         $data['rekap_absen'] = Pengajuan_Absen::get();
         $data['rekap_izin'] = SuratIzin::with('Jenis_Izin')->get();
         return view('pages.dashboard', compact('pengajuan_cuti', 'report', 'jenis_cuti_id'), $data);
-    }
-
-    public function notify()
-    {
-        if(auth()->user()) {
-            $notify_izin = SuratIzin::with('User')->first();
-            auth()->user()->notify(new IncomingReport($notify_izin));
-        }
     }
 }
