@@ -159,14 +159,14 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                    <?php $__currentLoopData = $report; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $month => $values): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                     <tr>
-                                        <td><?php echo e(\Carbon\Carbon::parse($month)->format('F Y')); ?></td>
-                                        <?php $__currentLoopData = $jenis_cuti_id; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $jenis_cuti_ide): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                            <td><?php echo e($report[$month][$jenis_cuti_ide]['count'] ?? '0'); ?></td>
+                                        <?php $__currentLoopData = $report; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $month => $values): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <td><?php echo e(\Carbon\Carbon::parse($month)->format ('F Y')); ?></td>
+                                            <?php $__currentLoopData = $jenis_cuti_id; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $jenis_cuti): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <td><?php echo e($report[$month][$jenis_cuti]['count'] ?? '0'); ?></td>
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </tr>
-                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </tbody>
                             </table>
                         </div>
@@ -199,82 +199,73 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <?php $__currentLoopData = $rekap_cuti; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cuti): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                            <?php if($cuti->user_id == auth()->user()->id && $cuti->jenis_cuti_id == 2): ?>
-                                                <td><?php echo e(Carbon\Carbon::parse($cuti->created_at)->isoFormat('D MMMM Y')); ?></td>
-                                                <td><?php echo e('Cuti Khusus'); ?></td>
-                                                <td>
-                                                    <?php if($cuti->status_rek == '2'): ?>
-                                                        <span class="badge badge-success"><?php echo e('Diterima'); ?></span>
-                                                    <?php elseif($cuti->status_kp == '3' || $cuti->status_rek == '3' || $cuti->status_hrd == '3'): ?>
-                                                        <span class="badge badge-danger"><?php echo e('Ditolak'); ?></span>
-                                                    <?php else: ?>
-                                                        <span class="badge badge-warning"><?php echo e('Pending'); ?></span>
+                                        <?php $__currentLoopData = $rekap_cuti; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cutis): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <?php if(auth()->user()->id == $cutis->user_id): ?>
+                                                <tr>
+                                                    <td><?php echo e(\Carbon\Carbon::parse($cutis->created_at)->isoFormat('D MMMM Y')); ?></td>
+                                                    <?php if($cutis->jenis_cuti_id): ?>
+                                                        <td><?php echo e($cutis->Jenis_cuti->name); ?></td>
                                                     <?php endif; ?>
-                                                </td>
-                                                <td>
-                                                    <a href="surat_cuti/<?php echo e($cuti->id); ?>" type="button" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a> &nbsp;
-                                                </td>
+                                                    <?php if($cutis->status_rek == '2'): ?>
+                                                        <td><span class="badge badge-success"><?php echo e('Diterima'); ?></span></td>
+                                                    <?php elseif($cutis->status_kp == '3' || $cutis->status_rek == '3' || $cutis->status_hrd == '3'): ?>
+                                                        <td><span class="badge badge-danger"><?php echo e('Ditolak'); ?></span></td>
+                                                    <?php else: ?>
+                                                        <td><span class="badge badge-warning"><?php echo e('Pending'); ?></span></td>
+                                                    <?php endif; ?>
+                                                    <td>
+                                                        <div class="btn-group btn-group-sm" role="group">
+                                                            <a href="<?php echo e(route('surat_cuti.show', $cutis->id )); ?>" type="button" class="btn btn-info"><i class="fa fa-eye"></i></a> &nbsp;
+                                                        </div>
+                                                    </td>
+                                                </tr>
                                             <?php endif; ?>
                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </tr>
                                     <tr>
-                                        <?php $__currentLoopData = $rekap_cuti; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cuti): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                            <?php if($cuti->user_id == auth()->user()->id && $cuti->jenis_cuti_id == 1): ?>
-                                                <td><?php echo e(Carbon\Carbon::parse($cuti->created_at)->isoFormat('D MMMM Y')); ?></td>
-                                                <td><?php echo e('Cuti Tahunan'); ?></td>
-                                                <td>
-                                                    <?php if($cuti->status_rek == '2'): ?>
-                                                        <span class="badge badge-success"><?php echo e('Diterima'); ?></span>
-                                                    <?php elseif($cuti->status_kp == '3' || $cuti->status_rek == '3' || $cuti->status_hrd == '3'): ?>
-                                                        <span class="badge badge-danger"><?php echo e('Ditolak'); ?></span>
-                                                    <?php else: ?>
-                                                        <span class="badge badge-warning"><?php echo e('Pending'); ?></span>
+                                        <?php $__currentLoopData = $rekap_izin; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $izins): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <?php if(auth()->user()->id == $izins->user_id): ?>
+                                                <tr>
+                                                    <td><?php echo e(\Carbon\Carbon::parse($izins->created_at)->isoFormat('D MMMM Y')); ?></td>
+                                                    <?php if($izins->jenis_izin_id): ?>
+                                                        <td><?php echo e('Izin '); ?> <?php echo e($izins->Jenis_Izin->name); ?></td>
                                                     <?php endif; ?>
-                                                </td>
-                                                <td>
-                                                    <a href="surat_cuti/<?php echo e($cuti->id); ?>" type="button" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a> &nbsp;
-                                                </td>
+                                                    <?php if($izins->status_rek == '2'): ?>
+                                                        <td><span class="badge badge-success"><?php echo e('Diterima'); ?></span></td>
+                                                    <?php elseif($izins->status_kp == '3' || $izins->status_rek == '3' || $izins->status_hrd == '3'): ?>
+                                                        <td><span class="badge badge-danger"><?php echo e('Ditolak'); ?></span></td>
+                                                    <?php else: ?>
+                                                        <td><span class="badge badge-warning"><?php echo e('Pending'); ?></span></td>
+                                                    <?php endif; ?>
+                                                    <td>
+                                                        <div class="btn-group btn-group-sm" role="group">
+                                                            <a href="<?php echo e(route('surat_izin.show', $izins->id )); ?>" type="button" class="btn btn-info"><i class="fa fa-eye"></i></a> &nbsp;
+                                                        </div>
+                                                    </td>
+                                                </tr>
                                             <?php endif; ?>
                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </tr>
                                     <tr>
-                                        <?php $__currentLoopData = $rekap_izin; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $izin): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                            <?php if($izin->user_id == auth()->user()->id): ?>
-                                                <td><?php echo e(Carbon\Carbon::parse($izin->created_at)->isoFormat('D MMMM Y')); ?></td>
-                                                <td><?php echo e('Izin '); ?><?php echo e($izin->Jenis_Izin->name); ?></td>
-                                                <td>
-                                                    <?php if($izin->status_rek == '2'): ?>
-                                                        <span class="badge badge-success"><?php echo e('Diterima'); ?></span>
-                                                    <?php elseif($izin->status_kp == '3' || $izin->status_rek == '3' || $izin->status_hrd == '3'): ?>
-                                                        <span class="badge badge-danger"><?php echo e('Ditolak'); ?></span>
+                                        <?php $__currentLoopData = $rekap_absen; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $absens): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <?php if(auth()->user()->id == $absens->user_id): ?>
+                                                <tr>
+                                                    <td><?php echo e(\Carbon\Carbon::parse($absens->created_at)->isoFormat('D MMMM Y')); ?></td>
+                                                    <td><?php echo e('Tidak Masuk'); ?>
+
+                                                    <?php if($absens->status_rek == '2'): ?>
+                                                        <td><span class="badge badge-success"><?php echo e('Diterima'); ?></span></td>
+                                                    <?php elseif($absens->status_kp == '3' || $absens->status_rek == '3' || $absens->status_hrd == '3'): ?>
+                                                        <td><span class="badge badge-danger"><?php echo e('Ditolak'); ?></span></td>
                                                     <?php else: ?>
-                                                        <span class="badge badge-warning"><?php echo e('Pending'); ?></span>
+                                                        <td><span class="badge badge-warning"><?php echo e('Pending'); ?></span></td>
                                                     <?php endif; ?>
-                                                </td>
-                                                <td>
-                                                    <a href="surat_cuti/<?php echo e($izin->id); ?>" type="button" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a> &nbsp;
-                                                </td>
-                                            <?php endif; ?>
-                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                    </tr>
-                                    <tr>
-                                        <?php $__currentLoopData = $rekap_absen; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $absen): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                            <?php if($absen->user_id == auth()->user()->id): ?>
-                                                <td><?php echo e(Carbon\Carbon::parse($absen->created_at)->isoFormat('D MMMM Y')); ?></td>
-                                                <td><?php echo e('Tidak Masuk'); ?></td>
-                                                <td>
-                                                    <?php if($absen->status_rek == '2'): ?>
-                                                        <span class="badge badge-success"><?php echo e('Diterima'); ?></span>
-                                                    <?php elseif($absen->status_kp == '3' || $absen->status_rek == '3' || $absen->status_hrd == '3'): ?>
-                                                        <span class="badge badge-danger"><?php echo e('Ditolak'); ?></span>
-                                                    <?php else: ?>
-                                                        <span class="badge badge-warning"><?php echo e('Pending'); ?></span>
-                                                    <?php endif; ?>
-                                                </td>
-                                                <td>
-                                                    <a href="surat_cuti/<?php echo e($absen->id); ?>" type="button" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a> &nbsp;
-                                                </td>
+                                                    <td>
+                                                        <div class="btn-group btn-group-sm" role="group">
+                                                            <a href="<?php echo e(route('surat_absen.show', $absens->id )); ?>" type="button" class="btn btn-info"><i class="fa fa-eye"></i></a> &nbsp;
+                                                        </div>
+                                                    </td>
+                                                </tr>
                                             <?php endif; ?>
                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </tr>

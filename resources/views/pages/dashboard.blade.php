@@ -154,14 +154,14 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($report as $month => $values)
                                     <tr>
-                                        <td>{{\Carbon\Carbon::parse($month)->format('F Y')}}</td>
-                                        @foreach ($jenis_cuti_id as $jenis_cuti_ide)
-                                            <td>{{ $report[$month][$jenis_cuti_ide]['count'] ?? '0' }}</td>
+                                        @foreach ($report as $month => $values)
+                                            <td>{{ \Carbon\Carbon::parse($month)->format ('F Y') }}</td>
+                                            @foreach ($jenis_cuti_id as $jenis_cuti)
+                                                <td>{{ $report[$month][$jenis_cuti]['count'] ?? '0' }}</td>
+                                            @endforeach
                                         @endforeach
                                     </tr>
-                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -191,82 +191,72 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        @foreach ($rekap_cuti as $cuti)
-                                            @if ($cuti->user_id == auth()->user()->id && $cuti->jenis_cuti_id == 2)
-                                                <td>{{ Carbon\Carbon::parse($cuti->created_at)->isoFormat('D MMMM Y') }}</td>
-                                                <td>{{ 'Cuti Khusus' }}</td>
-                                                <td>
-                                                    @if ($cuti->status_rek == '2')
-                                                        <span class="badge badge-success">{{ 'Diterima' }}</span>
-                                                    @elseif ($cuti->status_kp == '3' || $cuti->status_rek == '3' || $cuti->status_hrd == '3')
-                                                        <span class="badge badge-danger">{{ 'Ditolak' }}</span>
-                                                    @else
-                                                        <span class="badge badge-warning">{{ 'Pending' }}</span>
+                                        @foreach ($rekap_cuti as $cutis)
+                                            @if (auth()->user()->id == $cutis->user_id)
+                                                <tr>
+                                                    <td>{{ \Carbon\Carbon::parse($cutis->created_at)->isoFormat('D MMMM Y') }}</td>
+                                                    @if ($cutis->jenis_cuti_id)
+                                                        <td>{{$cutis->Jenis_cuti->name}}</td>
                                                     @endif
-                                                </td>
-                                                <td>
-                                                    <a href="surat_cuti/{{ $cuti->id }}" type="button" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a> &nbsp;
-                                                </td>
+                                                    @if ($cutis->status_rek == '2')
+                                                        <td><span class="badge badge-success">{{ 'Diterima' }}</span></td>
+                                                    @elseif ($cutis->status_kp == '3' || $cutis->status_rek == '3' || $cutis->status_hrd == '3')
+                                                        <td><span class="badge badge-danger">{{ 'Ditolak' }}</span></td>
+                                                    @else
+                                                        <td><span class="badge badge-warning">{{ 'Pending' }}</span></td>
+                                                    @endif
+                                                    <td>
+                                                        <div class="btn-group btn-group-sm" role="group">
+                                                            <a href="{{ route('surat_cuti.show', $cutis->id )}}" type="button" class="btn btn-info"><i class="fa fa-eye"></i></a> &nbsp;
+                                                        </div>
+                                                    </td>
+                                                </tr>
                                             @endif
                                         @endforeach
                                     </tr>
                                     <tr>
-                                        @foreach ($rekap_cuti as $cuti)
-                                            @if ($cuti->user_id == auth()->user()->id && $cuti->jenis_cuti_id == 1)
-                                                <td>{{ Carbon\Carbon::parse($cuti->created_at)->isoFormat('D MMMM Y') }}</td>
-                                                <td>{{ 'Cuti Tahunan' }}</td>
-                                                <td>
-                                                    @if ($cuti->status_rek == '2')
-                                                        <span class="badge badge-success">{{ 'Diterima' }}</span>
-                                                    @elseif ($cuti->status_kp == '3' || $cuti->status_rek == '3' || $cuti->status_hrd == '3')
-                                                        <span class="badge badge-danger">{{ 'Ditolak' }}</span>
-                                                    @else
-                                                        <span class="badge badge-warning">{{ 'Pending' }}</span>
+                                        @foreach ($rekap_izin as $izins)
+                                            @if (auth()->user()->id == $izins->user_id)
+                                                <tr>
+                                                    <td>{{ \Carbon\Carbon::parse($izins->created_at)->isoFormat('D MMMM Y') }}</td>
+                                                    @if ($izins->jenis_izin_id)
+                                                        <td>{{ 'Izin ' }} {{$izins->Jenis_Izin->name}}</td>
                                                     @endif
-                                                </td>
-                                                <td>
-                                                    <a href="surat_cuti/{{ $cuti->id }}" type="button" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a> &nbsp;
-                                                </td>
+                                                    @if ($izins->status_rek == '2')
+                                                        <td><span class="badge badge-success">{{ 'Diterima' }}</span></td>
+                                                    @elseif ($izins->status_kp == '3' || $izins->status_rek == '3' || $izins->status_hrd == '3')
+                                                        <td><span class="badge badge-danger">{{ 'Ditolak' }}</span></td>
+                                                    @else
+                                                        <td><span class="badge badge-warning">{{ 'Pending' }}</span></td>
+                                                    @endif
+                                                    <td>
+                                                        <div class="btn-group btn-group-sm" role="group">
+                                                            <a href="{{ route('surat_izin.show', $izins->id )}}" type="button" class="btn btn-info"><i class="fa fa-eye"></i></a> &nbsp;
+                                                        </div>
+                                                    </td>
+                                                </tr>
                                             @endif
                                         @endforeach
                                     </tr>
                                     <tr>
-                                        @foreach ($rekap_izin as $izin)
-                                            @if ($izin->user_id == auth()->user()->id)
-                                                <td>{{ Carbon\Carbon::parse($izin->created_at)->isoFormat('D MMMM Y') }}</td>
-                                                <td>{{'Izin '}}{{ $izin->Jenis_Izin->name }}</td>
-                                                <td>
-                                                    @if ($izin->status_rek == '2')
-                                                        <span class="badge badge-success">{{ 'Diterima' }}</span>
-                                                    @elseif ($izin->status_kp == '3' || $izin->status_rek == '3' || $izin->status_hrd == '3')
-                                                        <span class="badge badge-danger">{{ 'Ditolak' }}</span>
+                                        @foreach ($rekap_absen as $absens)
+                                            @if (auth()->user()->id == $absens->user_id)
+                                                <tr>
+                                                    <td>{{ \Carbon\Carbon::parse($absens->created_at)->isoFormat('D MMMM Y') }}</td>
+                                                    <td>{{ 'Tidak Masuk' }}
+                                                    @if ($absens->status_rek == '2')
+                                                        <td><span class="badge badge-success">{{ 'Diterima' }}</span></td>
+                                                    @elseif ($absens->status_kp == '3' || $absens->status_rek == '3' || $absens->status_hrd == '3')
+                                                        <td><span class="badge badge-danger">{{ 'Ditolak' }}</span></td>
                                                     @else
-                                                        <span class="badge badge-warning">{{ 'Pending' }}</span>
+                                                        <td><span class="badge badge-warning">{{ 'Pending' }}</span></td>
                                                     @endif
-                                                </td>
-                                                <td>
-                                                    <a href="surat_cuti/{{ $izin->id }}" type="button" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a> &nbsp;
-                                                </td>
-                                            @endif
-                                        @endforeach
-                                    </tr>
-                                    <tr>
-                                        @foreach ($rekap_absen as $absen)
-                                            @if ($absen->user_id == auth()->user()->id)
-                                                <td>{{ Carbon\Carbon::parse($absen->created_at)->isoFormat('D MMMM Y') }}</td>
-                                                <td>{{ 'Tidak Masuk' }}</td>
-                                                <td>
-                                                    @if ($absen->status_rek == '2')
-                                                        <span class="badge badge-success">{{ 'Diterima' }}</span>
-                                                    @elseif ($absen->status_kp == '3' || $absen->status_rek == '3' || $absen->status_hrd == '3')
-                                                        <span class="badge badge-danger">{{ 'Ditolak' }}</span>
-                                                    @else
-                                                        <span class="badge badge-warning">{{ 'Pending' }}</span>
-                                                    @endif
-                                                </td>
-                                                <td>
-                                                    <a href="surat_cuti/{{ $absen->id }}" type="button" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a> &nbsp;
-                                                </td>
+                                                    <td>
+                                                        <div class="btn-group btn-group-sm" role="group">
+                                                            <a href="{{ route('surat_absen.show', $absens->id )}}" type="button" class="btn btn-info"><i class="fa fa-eye"></i></a> &nbsp;
+                                                        </div>
+                                                    </td>
+                                                </tr>
                                             @endif
                                         @endforeach
                                     </tr>

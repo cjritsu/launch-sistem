@@ -68,7 +68,7 @@ class AdminController extends Controller
 
     // Jabatan
     public function index_jabatan(){
-        $Jabatan = Departemen::latest()->paginate(5);
+        $Jabatan = Departemen::latest()->paginate(15);
         $data['Jabatan'] = Departemen::get();
         return view('pages.jabatan', compact('Jabatan'), $data);
     }
