@@ -23,8 +23,8 @@ class KaryawanController extends Controller
         $karyawans = Karyawan::with('Departemen')->find($id);
         $data['user'] = User::where('id', $karyawans->user_id)->first();
         $data['karyawans'] = Karyawan::with('User', 'Unit_Kerja', 'Departemen', 'status_karyawan')->where('id', $id)->first();
-        $data['unit_kerja_id'] = Unit_Kerja::pluck('name', 'id');
-        $data['jabatan_id'] = Departemen::pluck('name', 'id');
+        $data['unit_kerja_id'] = Unit_Kerja::where('name', '!=', 'Admin')->pluck('name', 'id');
+        $data['jabatan_id'] = Departemen::where('name', '!=', 'Admin')->pluck('name', 'id');
         $data['status_karyawan'] = status_karyawan::pluck('name', 'id');
         return view('karyawan.edit', compact('karyawans'), $data);
     }
@@ -52,6 +52,10 @@ class KaryawanController extends Controller
         $search = $request->search;
         $karyawan = Karyawan::whereHas('User', function($q) use($search) {
             $q->where('name', 'like', "%".$search."%")->where('name', '!=', 'Admin Admin')->orWhere('nip', 'like', "%".$search."%")->where('nip', '!=', 'admin');
+        })->orwhereHas('Departemen', function($d) use($search) {
+            $d->where('name', 'like', "%".$search."%")->where('name', '!=', 'Admin');
+        })->orwhereHas('Unit_Kerja', function($u) use($search) {
+            $u->where('name', 'like', "%".$search."%")->where('name', '!=', 'Admin');
         })->paginate();
         return view('karyawan.index', compact('karyawan'))->with('i', (request()->input('page', 1) - 1) * 5);
     }

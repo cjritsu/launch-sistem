@@ -26,7 +26,7 @@ class ProfileRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'min:3'],
+            'name' => ['min:3'],
             // 'nip' => ['required', 'nip', Rule::unique((new User)->getTable())->ignore(auth()->id())],
         ];
     }

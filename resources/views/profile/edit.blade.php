@@ -19,14 +19,12 @@
             <div class="col-md-4">
                 <div class="card card-user">
                     <div class="image">
-                        <img src="{{ asset('paper/img/damir-bosnjak.jpg') }}" alt="...">
+                        <img src="{{ asset('header/' . auth()->user()->header) }}" alt="{{ auth()->user()->header }}" class="header">
                     </div>
                     <div class="card-body">
                         <div class="author">
-                            <a href="#">
-                                <img class="avatar border-gray" src="{{ asset('paper/img/default-avatar.png') }}" alt="...">
-                                <h5 class="title">{{ __(auth()->user()->name)}}</h5>
-                            </a>
+                            <img class="avatar border-gray" src="{{ asset('avatar/' . auth()->user()->avatar) }}" alt="{{ auth()->user()->avatar }}">
+                            <h5 class="title text-primary">{{ __(auth()->user()->name)}}</h5>
                         </div>
                         <p class="description text-center">
                             NIP : {{ __(auth()->user()->nip) }}
@@ -48,6 +46,14 @@
                             <h5 class="title">{{ __('Edit Profile') }}</h5>
                         </div>
                         <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <input type="file" name="avatar" class="form-control" value="old({{auth()->user()->avatar}})" id="avatar" hidden>
+                                        <input type="file" name="header" class="form-control" value="{{ auth()->user()->header }}" id="header" hidden>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="row">
                                 <label class="col-md-3 col-form-label">{{ __('NIP') }}</label>
                                 <div class="col-md-9">
@@ -193,3 +199,48 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script>
+        var cropper;
+        var reader;
+        var file;
+        var url;
+
+        $('.avatar').click(function(){
+            $('#avatar').trigger('click');
+        });
+
+        $('#avatar').change(function(){
+            let reader = new FileReader();
+            reader.onload = (e) => {
+                $('.avatar').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(this.files[0]);
+        });
+
+        $('#Croppable').on('shown.bs.modal', function(){
+            cropper = new Cropper(image, {
+                aspectRatio: 1,
+                viewMode: 3,
+                preview: '.preview'
+            });
+        }).on('hidden.bs.modal', function(){
+            cropper.destroy();
+            cropper = null;
+        });
+
+        $('.header').click(function(){
+            $('#header').trigger('click');
+        });
+
+        $('#header').change(function(){
+            let reader = new FileReader();
+            reader.onload = (e) => {
+                $('.header').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(this.files[0]);
+        });
+
+    </script>
+@endpush

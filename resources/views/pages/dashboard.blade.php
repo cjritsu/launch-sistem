@@ -192,9 +192,29 @@
                                 <tbody>
                                     <tr>
                                         @foreach ($rekap_cuti as $cuti)
-                                            @if ($cuti->user_id == auth()->user()->id)
+                                            @if ($cuti->user_id == auth()->user()->id && $cuti->jenis_cuti_id == 2)
                                                 <td>{{ Carbon\Carbon::parse($cuti->created_at)->isoFormat('D MMMM Y') }}</td>
-                                                <td>{{ $cuti->Jenis_cuti->name }}</td>
+                                                <td>{{ 'Cuti Khusus' }}</td>
+                                                <td>
+                                                    @if ($cuti->status_rek == '2')
+                                                        <span class="badge badge-success">{{ 'Diterima' }}</span>
+                                                    @elseif ($cuti->status_kp == '3' || $cuti->status_rek == '3' || $cuti->status_hrd == '3')
+                                                        <span class="badge badge-danger">{{ 'Ditolak' }}</span>
+                                                    @else
+                                                        <span class="badge badge-warning">{{ 'Pending' }}</span>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    <a href="surat_cuti/{{ $cuti->id }}" type="button" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a> &nbsp;
+                                                </td>
+                                            @endif
+                                        @endforeach
+                                    </tr>
+                                    <tr>
+                                        @foreach ($rekap_cuti as $cuti)
+                                            @if ($cuti->user_id == auth()->user()->id && $cuti->jenis_cuti_id == 1)
+                                                <td>{{ Carbon\Carbon::parse($cuti->created_at)->isoFormat('D MMMM Y') }}</td>
+                                                <td>{{ 'Cuti Tahunan' }}</td>
                                                 <td>
                                                     @if ($cuti->status_rek == '2')
                                                         <span class="badge badge-success">{{ 'Diterima' }}</span>

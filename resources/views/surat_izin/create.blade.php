@@ -10,7 +10,7 @@
                 <div class="card demo-icons">
                     <div class="card-header">
                         <h5 class="card-title">Pengajuan Surat Permohonan Izin</h5>
-                        <p class="card-category">Maksimal izin hanya 3 hari. Melebihi 3 hari, akan adanya pemotongan.</p>
+                        <p class="card-category">Maksimal izin hanya 3 hari.</p>
                     </div>
                     <div class="card-body">
                         {{ Form::open(['url' => route('surat_izin.store'),'class'=>'form-horizontal']) }}

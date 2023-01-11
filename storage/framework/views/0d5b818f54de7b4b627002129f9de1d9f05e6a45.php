@@ -76,5 +76,5 @@
 
 <?php echo $__env->make('layouts.app', [
     'class' => 'login-page',
-    'backgroundImagePath' => 'public/paper/img/bg/universitas-buddhi-dharma.jpg'
+    'backgroundImagePath' => 'img/bg/universitas-buddhi-dharma.jpg'
 ], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Users\jenny\cjritsu\launch-sistem\resources\views/auth/login.blade.php ENDPATH**/ ?>

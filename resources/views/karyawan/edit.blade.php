@@ -19,14 +19,12 @@
             <div class="col-md-4">
                 <div class="card card-user">
                     <div class="image">
-                        <img src="{{ asset('paper/img/damir-bosnjak.jpg') }}" alt="...">
+                        <img src="{{ asset('header/' . $karyawans->User->header ) }}" alt="...">
                     </div>
                     <div class="card-body">
                         <div class="author">
-                            <a href="#">
-                                <img class="avatar border-gray" src="{{ asset('paper/img/default-avatar.png') }}" alt="...">
-                                <h5 class="title">{{ __($karyawans->User->name)}}</h5>
-                            </a>
+                            <img class="avatar border-gray" src="{{ asset('avatar/' . $karyawans->User->avatar) }}" alt="{{ $karyawans->User->avatar }}">
+                            <h5 class="title">{{ __($karyawans->User->name)}}</h5>
                         </div>
                             <div class="descriptiion text-center">
                                 <a href="{{ route('karyawan.index') }}" type="button" class="btn btn-success btn-sm"><i class="glyphicon glyphicon-plus"></i> Return</a>

@@ -200,9 +200,29 @@
                                 <tbody>
                                     <tr>
                                         <?php $__currentLoopData = $rekap_cuti; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cuti): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                            <?php if($cuti->user_id == auth()->user()->id): ?>
+                                            <?php if($cuti->user_id == auth()->user()->id && $cuti->jenis_cuti_id == 2): ?>
                                                 <td><?php echo e(Carbon\Carbon::parse($cuti->created_at)->isoFormat('D MMMM Y')); ?></td>
-                                                <td><?php echo e($cuti->Jenis_cuti->name); ?></td>
+                                                <td><?php echo e('Cuti Khusus'); ?></td>
+                                                <td>
+                                                    <?php if($cuti->status_rek == '2'): ?>
+                                                        <span class="badge badge-success"><?php echo e('Diterima'); ?></span>
+                                                    <?php elseif($cuti->status_kp == '3' || $cuti->status_rek == '3' || $cuti->status_hrd == '3'): ?>
+                                                        <span class="badge badge-danger"><?php echo e('Ditolak'); ?></span>
+                                                    <?php else: ?>
+                                                        <span class="badge badge-warning"><?php echo e('Pending'); ?></span>
+                                                    <?php endif; ?>
+                                                </td>
+                                                <td>
+                                                    <a href="surat_cuti/<?php echo e($cuti->id); ?>" type="button" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a> &nbsp;
+                                                </td>
+                                            <?php endif; ?>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                    </tr>
+                                    <tr>
+                                        <?php $__currentLoopData = $rekap_cuti; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cuti): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <?php if($cuti->user_id == auth()->user()->id && $cuti->jenis_cuti_id == 1): ?>
+                                                <td><?php echo e(Carbon\Carbon::parse($cuti->created_at)->isoFormat('D MMMM Y')); ?></td>
+                                                <td><?php echo e('Cuti Tahunan'); ?></td>
                                                 <td>
                                                     <?php if($cuti->status_rek == '2'): ?>
                                                         <span class="badge badge-success"><?php echo e('Diterima'); ?></span>

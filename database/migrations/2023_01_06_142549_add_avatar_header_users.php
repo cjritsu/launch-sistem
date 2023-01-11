@@ -14,7 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->integer('jatah_cuti')->default('12');
+            $table->string('avatar')->default('default-avatar.png')->nullable();
+            $table->string('header')->default('damir-bosnjak.jpg')->nullable();
         });
     }
 

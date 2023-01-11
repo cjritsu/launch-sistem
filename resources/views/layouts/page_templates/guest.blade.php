@@ -1,7 +1,7 @@
 @include('layouts.navbars.navs.guest')
 
 <div class="wrapper wrapper-full-page ">
-    <div class="full-page section-image" filter-color="black" data-image="{{ asset('paper') . '/' . ($backgroundImagePath ?? "img/bg/universitas-buddhi-dharma.jpg") }}">
+    <div class="full-page section-image" data-image="{{ asset('paper') . '/' . ($backgroundImagePath ?? "img/bg/buniversitas-buddhi-dharma.jpg") }}">
         @yield('content')
         @include('layouts.footer')
     </div>
